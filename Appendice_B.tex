@@ -1,0 +1,182 @@
+\clearpage
+
+\section*{Appendice B. Distribuzioni discrete} \label{appendice-discrete} %%%Chiunque tocchi: attenzione all'indentaturaaaa!!!!
+\markboth{Appendice B. Distribuzioni discrete}{}
+\addtocounter{section}{1}
+\setcounter{subsection}{0}
+\setcounter{teo}{0}
+\addcontentsline{toc}{section}{Appendice B. Distribuzioni discrete}
+
+%%%Chiunque tocchi: attenzione all'indentaturaaaa!!!!
+Riportiamo qui una lista di alcune distribuzioni discrete notevoli corredate da grafici e formule.
+
+\needspace{7\baselineskip}
+\subsection{Uniforme discreta}
+
+	$$ U_{disc}(a,b) $$
+
+	Chiamata così\footnote{Non è solo una divisa che tende a non dare nell'occhio; è anche una distribuzione a tutti gli effetti.} in quanto distribuisce la probabilità in ugual quantità su $n$ elementi, ovvero ciascuno di essi ha la stessa probabilità di realizzarsi.\\
+
+	\input{img/UniformeDisc}
+
+	\def\arraystretch{1.5} %che è sta roba??????
+	\begin{tabular*}{1\textwidth}{l l l}
+		\textbf{Supporto:} &  $\{ a, \dots , a+\dfrac{k-1}{n-1}(b-a), \dots, b   \}$& \CS{0.40}\\ \hline
+		\textbf{Funzione di densità:}    &  $\PP(X=x)=\dfrac{1}{n} \quad \forall x$& \CS[0.6]{0.40}\\ \hline
+		\textbf{Funzione di ripartizione:}  & $F(k)=\dfrac{k}{n}$ per $a+ \dfrac{k-1}{n-1}(b-a)$& \CS[0.6]{0.40}\\ \hline
+		\textbf{Valore atteso:} & $\EE[X]=\dfrac{a+b}{2}$ & \CS[0.6]{0.40}\\ \hline
+		\textbf{Varianza:} & $Var(X)=\dfrac{n^2-1}{12}$ & \CS[0.6]{0.40}\\
+	\end{tabular*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\needspace{7\baselineskip}
+\subsection{Bernoulli}
+
+	$$Be(p)$$
+
+	Misura l'esito di un singolo esperimento il cui esito può essere vero ($1$) o falso ($0$), con proporzione $ p \in [   0,1  ]   $. \\
+
+	\input{img/Bernoulli}
+
+	\def\arraystretch{1.5}
+	\begin{tabular*}{1\textwidth}{l l l}
+		\textbf{Supporto:} &  $\{ 0,1 \}$& \CS{0.40} \\ \hline
+		\textbf{Funzione di densità:}   & \makecell[l]{ $\PP(X=1)=p$ \\  $\PP(X=0)=1-p$ } & \CS[0.6]{0.4} \\ \hline
+		\textbf{Funzione di ripartizione:}  &    $F(k) = \begin{cases} 0 & \text{per } k < 0 \\ 1-p & \text{per }0 \leq k < 1 \\ 1 & \text{per } k \geq 1 \end{cases}$  & \CS[0.9]{0.8}\\ \hline
+		\textbf{Funzione caratteristica:} & $\varphi(u) = p e^{iu} + 1 - p$ & \CS[0.60]{0.40} \\ \hline
+		\textbf{Valore atteso:} & $\EE[X]=p$ &\CS[0.60]{0.40} \\ \hline
+		\textbf{Varianza:} & $Var(X)=p(1-p)$ &\CS[0.60]{0.40} \\
+	\end{tabular*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\needspace{7\baselineskip}
+\clearpage
+\subsection{Binomiale}
+
+	$$Bi(n,p) = \sum_{i=1}^{n} Be(p)$$
+
+	Misura la somma di successi in $n \in \NN$ esperimenti di Bernoulli di identica proporzione $p \in [0,1]$. Coincide quindi con la somma di $n$ bernoulliane.\\
+
+	\input{img/Binomiale}
+
+	\def\arraystretch{1.5}
+	\begin{tabular*}{1\textwidth}{l l l}
+		\textbf{Supporto:} &  $\{ 0,1,2, \dots , n \}$& \CS{0.40} \\ \hline
+		\textbf{Funzione di densità:}    &$P (X=x) = {n \choose x} p^x(1-p)^{n-x}$& \CS[0.60]{0.40} \\ \hline
+		\textbf{Funzione di ripartizione:}  & Tu, in realtà, non la vuoi sapere. & \CS[0.60]{0.40} \\ \hline
+		\textbf{Funzione caratteristica:} & $\varphi(u) = (p e^{iu} + 1 - p)^n$& \CS[0.60]{0.40} \\ \hline
+		\textbf{Valore atteso:} & $\EE[X]=np$ & \CS[0.60]{0.40} \\ \hline
+		\textbf{Varianza:} & $Var(X)=np(1-p)$ & \CS[0.60]{0.40} \\
+	\end{tabular*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\needspace{7\baselineskip}
+\clearpage
+\subsection{Poisson}
+
+	$$ Po(\lambda) $$
+
+	Chiamata anche legge degli eventi rari, esprime le probabilità per il numero di eventi che si verificano successivamente ed indipendentemente in un dato intervallo di tempo, sapendo che mediamente se ne verifica un numero  $\lambda > 0$. È il limite delle serie di distribuzioni binomiali con $\lambda=np$ (si ha convergenza in legge).\\
+
+	\input{img/Poisson}
+
+	\def\arraystretch{1.5}
+	\begin{tabular*}{1\textwidth}{l l l}
+		\textbf{Supporto:} &  $\NN$ & \CS{0.40} \\ \hline
+		\textbf{Funzione di densità:}    &  $\PP(X=x)=e^{-\lambda}\dfrac{\lambda^x}{x!} $& \CS[0.6]{0.40}\\ \hline
+		\textbf{Funzione di ripartizione:}  & Tù ne quaèsierìs. & \CS[0.60]{0.40} \\ \hline
+		\textbf{Funzione caratteristica:} & $\varphi(u)=\exp \{ \lambda (e^{i u}-1)\}$& \CS[0.60]{0.40} \\ \hline
+		\textbf{Valore atteso:} & $\EE[X]=\lambda$ &\CS[0.60]{0.40} \\ \hline
+		\textbf{Varianza:} & $Var(X)=\lambda$ & \CS[0.60]{0.40} \\
+	\end{tabular*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\needspace{7\baselineskip}
+\clearpage
+\subsection{Geometrica}
+
+	$$ \Gc(p) $$
+
+	Misura il numero di fallimenti prima di un successo in un processo di Bernoulli di proporzione $p \in [0,1]$. È priva di memoria. \\
+
+	\input{img/Geometrica}
+
+	\def\arraystretch{1.5}
+	\begin{tabular*}{1\textwidth}{l l l}
+		\textbf{Supporto:} &  $\NN^+$& \CS{0.40}\\ \hline
+		\textbf{Funzione di densità:}    &  $\PP(X=x)= p(1-p)^{x-1} $& \CS[0.60]{0.40}\\ \hline
+		\textbf{Funzione di ripartizione:}  &  $F(k)= 1-(1-p)^k$& \CS[0.60]{0.40}\\ \hline
+		\textbf{Funzione caratteristica:} & $\varphi(u) = \dfrac{p e^{iu}}{1-e^{iu}(1-p)}$& \CS[0.6]{0.40}\\ \hline
+		\textbf{Valore atteso:} & $\EE[X]=\dfrac{1}{p}$ & \CS[0.6]{0.40}\\ \hline
+		\textbf{Varianza:} & $Var(X)= \dfrac{1-p}{p^2}$ & \CS[0.6]{0.40}\\
+	\end{tabular*}
+
+	Si può definire anche la distribuzione \textbf{geometrica traslata}:
+	$$\PP(X=x)=p(1-p)^x, \qquad F(k)= 1-(1-p)^{(k+1)}	$$
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\needspace{7\baselineskip}
+\subsection{Ipergeometrica}
+
+	$$ \Hc(n,h,r) $$
+
+%	Descrive l'estrazione senza reimmissione di palline da un'urna con $n$ palline di cui $r$ del tipo 'X'  e $n-r$ del tipo 'Y'. Misura la probabilità di ottenere $k$ palline del tipo 'X' estraendone $h$ dall'urna.
+
+	Descrive l'estrazione senza reimmissione di palline da un'urna con $n$ palline di cui $h$ del tipo A e $n-h$ del tipo B (per esempio, le prime verdi e le seconde gialle). Misura la probabilità di ottenere $k$ palline del tipo A estraendone $r$ dall'urna.
+
+	\input{img/Ipergeometrica}
+
+	\def\arraystretch{1.5}
+	\begin{tabular*}{1\textwidth}{l l l}
+		\textbf{Supporto:} &  $k \in \big\{\max\{0,r + h - n\}, \dots, \min\{r,h\} \, \big\}$ & \CS{0.40} \\ \hline
+		\textbf{Funzione di densità:}    &  $\PP(X=x) = \dfrac{ {h \choose x} {n-h \choose r-x} }{ {n \choose r} }$&  \CS[0.7]{0.5}\\ \hline
+		\textbf{Funzione di ripartizione:}  &  Scìre nefàs. & \CS[0.60]{0.40}\\ \hline
+		\textbf{Valore atteso:} & $\EE[X]= \dfrac{rh}{n} $ & \CS[0.6]{0.40}\\ \hline
+		\textbf{Varianza:} & $Var(X)= \dfrac{h(n-h)r(n-r)}{n^2(n-1)}$ & \CS[0.6]{0.40}\\
+	\end{tabular*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\needspace{7\baselineskip}
+\clearpage
+\subsection{Pascal}
+
+	$$ NB(p,n) $$
+
+	Nota anche come \textbf{distribuzione binomiale negativa} o \textbf{distribuzione di Polya}, misura il numero di fallimenti precedenti il successo $n$-esimo in un processo di Bernoulli di proporzione $p$.\\
+
+	\input{img/Pascal}
+
+	\def\arraystretch{1.5}
+	\begin{tabular*}{1\textwidth}{l l l}
+		\textbf{Supporto:} &  $\NN$& \CS{0.40}\\ \hline
+		\textbf{Funzione di densità:}    &  $\PP(X=x)= \binom{x+n-1}{x}p^n(1-p)^x=\binom{-n}{x}p^n(p-1)^x$& \CS[0.60]{0.40}\\ \hline
+		\textbf{Funzione di ripartizione:}  & Hahahah, rassegnati caro. & \CS[0.60]{0.40}\\ \hline
+		\textbf{Funzione caratteristica:} & $\varphi(u) = \left(\dfrac{p}{1-e^{iu}(1-p)} \right)^n$& \CS[0.65]{0.45}\\ \hline
+		\textbf{Valore atteso:} & $\EE[X]=\dfrac{n}{p}$ & \CS[0.60]{0.40}\\ \hline
+		\textbf{Varianza:} & $Va[X]=n \dfrac{1-p}{p^2}$ & \CS[0.60]{0.40}\\
+	\end{tabular*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\needspace{7\baselineskip}
+\subsection{Delta di Dirac} %Da spostare sio pera!! %Spostata! %Bravi!
+
+	$$\delta (n) $$
+
+	Chiamata anche \textbf{massa} o \textbf{distribuzione degenere}, concentra tutta la probabilità nel punto $n$. Ciò significa che vale zero in ogni punto fuorché $n$, mentre l'integrale sull'intero dominio vale $1$. A causa della discontinuità della $F$, questa distribuzione non ammette densità.
+
+	\input{img/DelDDir}
+
+	\begin{tabular*}{1\textwidth}{l l l}
+		\textbf{Supporto:} & $\{n\}$ & \CS{0.40}\\ \hline
+		\textbf{Funzione di ripartizione:}    &  $F(x) = \begin{cases} 1 & \text{per } x \geq n \\ 0 & \text{per } x < n \end{cases}$ \CS[0.70]{0.50}\\ \hline
+		\textbf{Funzione caratteristica:} & $\varphi(u) = e^{inu}$ &\CS[0.60]{0.40}\\ \hline
+		\textbf{Valore atteso:} & $\Ex{X} = n$ &\CS[0.60]{0.40} \\ \hline
+		\textbf{Varianza:} & $Var(X) = 0$ &\CS[0.60]{0.40} \\
+	\end{tabular*}

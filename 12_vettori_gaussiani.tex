@@ -1,0 +1,537 @@
+\section{Variabili e vettori aleatori gaussiani}\label{variabli-vettori-gaussiani}
+Le \emph{variabili aleatorie gaussiane} e, più in generale, i \emph{vettori aleatori gaussiani} sono una parte fondamentale della teoria della probabilità, sia per la loro grande versatilità modellistica (possono essere utilizzate in innumerevoli ambiti), che per le particolari proprietà di cui essi godono.
+In questo capitolo sarà introdotta una nuova e migliore definizione di \emph{gaussianità}, basata sulla funzione caratteristica recentemente illustrata, e ne saranno analizzate le peculiarità, in particolare le forti relazioni biunivoche tra proprietà del vettore e proprietà delle componenti (generalmente non valide per vettori continui arbitrari).
+La trattazione delle variabili gaussiane permetterà inoltre di definire due utili distribuzioni ad esse correlate, la \emph{\emph t di Student} e la \emph{chi-quadro}, e due nuovi indicatori statistici, la \emph{media campionaria} e la \emph{varianza campionaria}.
+
+\subsection{Definizioni}
+ Sappiamo che una VA $X$ è gaussiana, ovvero $X \sim \Nc(\mu, \sigma^2),$ con $\mu \in \RR, \sigma^2 > 0$ se e solo se:
+\begin{enumerate}
+  \item $X$ è una VAR continua con $f_X(t) = \dfrac{1}{\sqrt{2\pi\sigma^2}}\exp\left\{-\frac{(t-\mu)^2}{2\sigma^2}\right\}, \ \mu \in \RR, \ \sigma^2 > 0$ per definizione di gaussiana; oppure
+  \item $X$ è una VAR continua con $\varphi(u) = \exp\{iu\mu-\frac{1}{2}\sigma^2u^2\}, \ \mu \in \RR, \ \sigma^2 > 0$, come visto nel paragrafo \ref{caratt-normale}.
+\end{enumerate}
+Sappiamo anche, dal teorema \ref{phi-trasf-aff}, che le trasformazioni affini di VAR gaussiane rimangono gaussiane:
+$$ Y = aX + b \implies Y \sim \Nc(a\mu+b,a^2\sigma^2)$$
+Tuttavia, nel caso $a = 0$, la coimplicazione (1) non funziona: infatti in questo caso $\sigma_Y^2 = 0$ e, poiché questo valore compare al denominatore nella densità $f_X$, la distribuzione diventa priva di significato. La coimplicazione (2) non comporta questo problema: quando $a = 0$ si ha semplicemente che:
+$$ \varphi_X(t) = \Ex{e^{iuX}} = e^{iu\mu}, \text{  ovvero } X \sim \delta_\mu \quad (X \aceq \mu)$$
+In questo modo si è ottenuta una VA perfettamente sensata e ben definita.
+
+D'ora in avanti utilizzeremo dunque questa definizione per una VAR normale:
+  $$ \mu \in \RR, \sigma^2 \geq 0, X \sim \Nc(\mu, \sigma^2) \iff \varphi(u) = \exp\left\{iu\mu-\frac{1}{2}\sigma^2u^2\right\}. $$
+
+Generalizziamo ora la definizione al caso multidimensionale.
+
+\begin{defn}\label{def-vett-gauss}
+  \index{vettore aleatorio!gaussiano}
+  \index{variabile aleatoria!congiuntamente normale}
+  Sia $X  = (X_1, \, \dots, \, X_n):\DoCo[n]$ è un \textbf{vettore aleatorio gaussiano}\footnote{Nello J-P questa definizione è trattata come un teorema (il 16.1).} (o \textbf{normale}) di parametri $\mu \in \RR^n$, $C \in \RR^{n \times n}$ con $C \geq 0$ se:
+  $$\varphi_X (u) = \exp\left\{i \langle u |  \mu \rangle -\frac{1}{2} \langle u |  Cu \rangle\right\} \quad \forall u \in \RR^n$$
+  Scriveremo $X \sim \Nc(\mu, C)$. \\
+  Le componenti $X_1,X_2, \dots X_n$ di un vettore aleatorio gaussiano vengono dette \textbf{congiuntamente normali}.
+\end{defn}
+
+\medskip
+\begin{oss}
+  Questa nuova definizione è valida anche per $n \geq 2$ perché il prodotto di esponenziali è la somma degli esponenti:
+  $$ e^{\frac{-\norm{u}^2}{2}} = \varphi_{(Z_1, \, \dots, \, Z_n)} (u_1, \, \dots, \, u_n) \quad Z_k \sim \Nc(0,1) \; \ \ \forall k, Z_k \text{ indipendenti} $$
+  Inoltre, una distribuzione gaussiana $n$-dimensionale può essere normalizzata nel seguente modo:
+  \begin{align*}
+  	\varphi_X (u)
+  	&= \exp\left\{i\langle u | \mu \rangle  -\frac{1}{2}\langle u | Cu \rangle \right\} \\ 
+  	&= \exp\left\{i\langle u | \mu \rangle-\frac{1}{2}\sum_k (\sqrt{C}u)_k^2\right\} \\
+  	&= \exp\left\{i\langle u | \mu \rangle-\frac{1}{2}  \abs{\sqrt{C}u}^2\right\} \\
+  	&= \exp\left\{i\langle u | \mu \rangle-\frac{1}{2}  \langle\sqrt{C}u | \sqrt{C}u \rangle \right\} \\
+  	&= \exp\left\{i\langle u | \mu \rangle\right\} \ \varphi_Z(\sqrt{C}u) \\
+  	&=\varphi_{\sqrt{C}Z + \mu}
+  \end{align*}
+
+\end{oss}
+Rimandiamo all'appendice A (pagina \pageref{sqrt-C}) per una breve trattazione sul significato di radice di matrice.
+\medskip
+\begin{nb}
+  $X \sim \Nc(\mu, C)$ ha come supporto tutto il sottospazio $\im(C)+\mu = \operatorname{range}(C)+\mu$, con cui si intende lo spazio colonna di $C$ traslato rispetto all'origine mediante il vettore $\mu$.
+  %immagine è correttamente abbreviato con la lettera minuscola!!! Im con i maiuscola sta per immaginario
+  Inoltre $\im \left( \sqrt{C} \right)+\mu=\im(C)+\mu$.
+\end{nb}
+
+\subsection{Media e varianza}
+
+\begin{prop}\label{prop-vett-normale-lp}
+  Sia il vettore aleatorio $X \sim \Nc(\mu, C)$. Allora:
+  $$X_k \in L^p \quad \forall k = 1, \, \dots, \, n \quad \forall p \geq 1$$
+  Inoltre $\mu = \EE[X]$, e $C$ è la matrice varianza di $X$.
+\end{prop}
+\begin{dimo}
+  Visto che $ (X_1, \, \dots, \, X_n) \sim \sqrt{C} (Z_1, \, \dots, \, Z_n) + \mu$  e $Z_k \in L^p \ \forall k$, essendo $L^p$ uno spazio vettoriale, è possibile applicare la trasformazione $\sum_{j}(\sqrt{C})_{kj} Z_j + \mu_k$ rimanendo all'interno di esso.
+  Dunque $X_k \in L^p \enspace \forall k$. \\*
+  Il valore atteso è quindi $\mu$ perché:
+  $$\EE[\sqrt{C} (Z_1, \, \dots, \, Z_n) + \mu] = \EE[\mu] = \mu$$
+  Invece, la varianza è $C$ perché:
+  \begin{align*}
+  	C_{\sqrt{C}(Z_1\, \, \dots, \, Z_n) + \mu} &= C_{\sqrt{C}(Z_1, \, \dots, \, Z_n)} = \sqrt{C}C_{(Z_1, \, \dots, \, Z_n)}\sqrt{C}^T\\
+  	&= \sqrt{C}I\sqrt{C}^T = C
+  \end{align*}
+Questo conclude la dimostrazione. \qedhere
+  %argh. Qui in realtà non riesco a metterlo in fondo e ho messo la frase sotto. Se riesci a metterlo vuoi PLZ HALP perché ci ho sfollato un bel po' (Br1)
+  % Vai tra (AW)
+  % E INVECE (Br1)
+\end{dimo}
+
+%\begin{defn}\label{def-caratteristica-momenti}
+% Definiamo la \textit{funzione generatrice dei momenti} $M_X: \RR^n \to \RR$ $M_X(u) = \EE[e^{\langle u | X \rangle}] = \bigintsss_{\RR^n} e^{\langle u | X \rangle} P^X(\dx)$. \\
+%   Le derivate parziali di $M_X$ in $0$ forniscono i vari momenti della VA:
+% $$\frac{\partial^m}{\partial{u_{k_1}} \dots \partial{u_{k_n}}} M_X(0) = \EE[X_1 \dots X_n]$$
+%\end{defn}
+%Perché è stata scritta una seconda volta??????????????????????????? (Br1)
+
+\medskip
+
+\begin{ese}
+  % Nel caso di una normale $N \sim \Nc(\mu, C)$, ricordando la definizione \ref{funz-gen-mom}, della funzione generatrice dei momenti, abbiamo:
+  % $$-i\frac{\partial}{\partial u_k} \varphi  (0) = \mu_k,\qquad -\frac{\partial^2}{\partial u_k \partial u_l} \varphi(0) = c_{kl} + \mu_k \mu_l$$
+  % Il valore atteso può essere facilmente verificato: si comincia definendo $Z=(Z_1, \, \dots, \, Z_n)$ con $Z_k \sim \Nc(0,1)$ indipendenti, ovvero $Z \sim \Nc( (0, \, \dots, \, 0), I_n )$; si può inoltre affermare che $Z \in L^p \ \forall p \geq 1$ per la proposizione \ref{prop-vett-normale-lp}.\\
+  % La funzione caratteristica è definita come
+  % \begin{align*}
+  % \varphi(u) &= \EE \left[ e^{iuX} \right] = \int_{\RR} e^{iut}\frac{e^{-t^2/2}}{\sqrt{2*\pi}} \; \de t \\
+  % &= \int_{\RR} \cos(ut) \frac{e^{-t^2/2}}{\sqrt{2\pi}} \de t + i\cdot \int_{\RR} \sin(ut) \frac{e^{-t^2/2}}{\sqrt{2\pi}} \de t & (\text{per def. di esponenziale})\\
+  % &= \int_{\RR} \cos(ut) \frac{e^{-t^2/2}}{\sqrt{2\pi}} \de t & (\text{perché il seno è dispari})
+  % \end{align*}
+  % Derivando si ottiene:
+  % $$ \varphi'(u) = i \cdot \EE \left[ Xe^{iuX} \right] = i \cdot \int_{\RR} te^{iut} \frac{e^{-t^2/2}}{\sqrt{2\pi}} \de t = i \cdot \int_{\RR} t\sin(iu) \frac{e^{-t^2/2}}{\sqrt{2\pi}} \de t$$
+  % Integrando per parti:
+  % $$= -\frac{1}{\sqrt{2\pi}} \left\{ \underbrace{\left[ -e^{-t^2/2} \sin(ut) \right]_{-\infty}^{+\infty}}_{ = 0 } + \int_{-\infty}^{+\infty} u \cdot e^{-t^2/2} \cos(ut) \de t \right\} = -u \varphi(u)$$
+  % Come si può vedere la funzione caratteristica rispecchia le proprietà enunciate: $\varphi(0) = 1$, $\varphi'(0) = 0$.
+  Riprendiamo l'esempio di pagina \pageref{caratt-normale}, applicandolo al caso vettoriale $Z \sim \Nc(0, I)$.
+  Per la definizione \ref{funz-gen-mom} di funzione generatrice dei momenti abbiamo:
+  $$-i\frac{\partial}{\partial u_k} \varphi  (0) = \mu_k,\qquad -\frac{\partial^2}{\partial u_k \partial u_l} \varphi(0) = c_{kl} + \mu_k \mu_l$$
+  La funzione caratteristica della normale standard multidimensionale risulta essere:
+  $$\varphi(u)=\exp \left\{-\frac{\langle u | u \rangle}{2}\right\} = \exp \left\{-\frac{u_1^2 + \cdots + u_n^2}{2}\right\}$$
+  Si può innanzitutto mostrare che rispecchia le proprietà della funzione caratteristica, ovvero continuità, $\abs{\varphi} \leq 1$ e $\varphi(0) = 1$, in quanto è un esponenziale.
+
+  Si verifica immediatamente che il valore atteso è il vettore nullo, derivando in $0$ lungo qualsiasi $u_k$ si ottiene $0$:
+  $$-i\frac{\partial}{\partial u_k} \varphi  (u) = u_k \exp \left\{-\frac{u_1^2 + \cdots + u_n^2}{2}\right\} \implies -i\frac{\partial}{\partial u_k} \varphi (0) = 0 \cdot \exp \left\{-\frac{0}{2}\right\} = 0$$
+  Nel caso della varianza, derivo innanzitutto lungo $u_k$ e $u_l$ diversi:
+  $$-\frac{\partial^2}{\partial u_k \partial u_l} \varphi(u) = -u_k u_l \exp \left\{-\frac{u_1^2 + \cdots + u_n^2}{2}\right\} \implies -\frac{\partial^2}{\partial u_k \partial u_l} \varphi(0) = 0$$
+  Quando $u_k = u_l$ si deve impiegare la regola del prodotto:
+  $$-\frac{\partial^2}{\partial u_k^2} \varphi(u) = -u_k^2 \exp \left\{-\frac{u_1^2 + \cdots + u_n^2}{2}\right\} + \exp \left\{-\frac{u_1^2 + \cdots + u_n^2}{2}\right\}$$
+  Sostituendo i valori numerici:
+  $$-\frac{\partial^2}{\partial u_k^2} \varphi(0) = -0^2 \cdot \exp \left\{-\frac{0}{2}\right\}+ \exp \left\{-\frac{0}{2}\right\} = 0+1 = 1$$
+  ottenendo così la matrice identità.
+\end{ese}
+
+\subsection{Vettori gaussiani e componenti}
+
+\begin{teo}\label{teo-vett-normali}
+  Sia $X:\DoCo[n]$ vettore aleatorio\footnote{Nello J-P questo teorema è trattato come la definizione di vettore gaussiano; poiché la definizione \ref{def-vett-gauss} utilizzata in questo testo coimplica il presente teorema, entrambi gli approcci sono coerenti.}. Allora:
+  $$X \sim \Nc \iff \langle a|X \rangle \sim \Nc \quad \forall a \in \RR^n$$
+\end{teo}
+
+\begin{dimo}
+  \Fixvmode
+  \begin{itemize}
+    \item ($\implies$):\\
+      Sostituendo $\langle a | X \rangle$ nella funzione caratteristica di $\Nc(\mu, C)$:
+      $$\varphi_{\langle a | X \rangle} (u) = \EE[e^{i \langle a | X \rangle u}] = \exp\left\{i\langle a | \mu \rangle u - \frac{1}{2}\langle a | Ca \rangle u^2\right\}$$
+      Si ottiene così una trasformazione affine:
+      $$\langle a | X \rangle \sim \Nc(\langle a | \mu \rangle, \langle a | Ca \rangle )$$
+    \item ($\impliedby$): \\
+      Per la proposizione \ref{prop-vett-normale-lp}:
+      $$\langle a|X \rangle \sim \Nc \enspace \forall a \in \RR^n \implies X_k \sim \Nc \enspace \forall k, \enspace X_k \in L^p \enspace \forall k \enspace \forall p \geq 1$$
+      Per ipotesi siano $\mu = \EE[X]$, $C=C_X$, $Y = \langle a | X \rangle$ e $Y \sim \Nc$. Ne consegue che:
+      $$\varphi_Y = \exp \left\{i\mu_Yu -\frac{1}{2}\sigma_Y^2u^2 \right\} = \exp \left\{ iu\langle a |  \mu \rangle -\frac{1}{2}\langle a | Ca \rangle \, u^2 \right\}$$
+      $$\implies \varphi_X (a) = \varphi_Y(1) \implies X \sim \Nc(\mu, C) \qedhere$$
+  \end{itemize}
+\end{dimo}
+
+\medskip
+\begin{teo}
+  Se $X = (X_1, \, \dots, \, X_n) \sim \Nc$, allora $X_k \sim \Nc \enspace \forall k$.
+\end{teo}
+Questo risultato non è sorprendente: abbiamo infatti già visto che un vettore continuo ha componenti continue.
+\begin{nb}
+  Il contrario \emph{non} è vero in generale: $X_k \sim \Nc \enspace \forall k \centernot \implies X \sim \Nc$.
+\end{nb}
+
+\medskip
+\begin{prop}[trasformazioni affini]
+\label{prop-linearita-normali}
+\index{trasformazione affine!per vettori normali}
+  Siano $X \sim \Nc(\mu, C)$, $\mu \in \RR^n$, $C = C^T \geq 0$, $C \in \RR^{n \times n}$. Allora:
+  $$Y = AX+b, A \in \RR^{m \times n}, b \in \RR^m \implies Y \sim \Nc(A\mu+b, \, ACA^T)$$
+  ovvero trasformazioni affini dei vettori normali sono normali.
+\end{prop}
+
+\begin{dimo}
+\Fixvmode
+  \begin{align*}
+  \varphi_Y(u) &  = \EE\left[e^{i(AX+b)u}\right] = \EE \left[e^{iAXu}e^{ibu} \right] & (\text{per definizione}) \\
+  &= \EE\left[e^{iAXu}\right]e^{ibu} = \varphi_X(Au)e^{ibu} & (\text{linearità di } \EE)\\
+  &= \exp \left\{i \langle Au |  \mu \rangle  - \frac{1}{2} \langle Au | CAu \rangle  + biu \right\} & (\text{proprietà di exp})\\
+  &= \exp \left\{i(A\mu + b)u - \frac{1}{2}AC^TA^Tu^2\right\} & (\text{raccogliendo }u) \\
+  &= \exp \left\{i(A \mu + b)u -\frac{1}{2}ACA^Tu^2\right\} & (\text{simmetria di } C)
+  \end{align*}
+  In questo modo ci si è ricondotti alla funzione caratteristica di una gaussiana:
+  $$Y \sim \Nc(A\mu+b,\, ACA^T) \qedhere$$
+\end{dimo}
+
+\lezione{20}{18.05.17}
+\medskip
+\begin{prop}
+  L’indipendenza delle componenti gaussiane è necessaria e sufficiente per la gaussianità del vettore:
+  $$\begin{cases}X_k \sim \Nc \quad \forall k=1, \, \dots, \,  n \\ X_k \text{ indipendenti} \end{cases}
+  \iff
+  \begin{cases} X= \begin{bmatrix} X_1 & \cdots & X_n \end{bmatrix} \sim \Nc \\ X_k \text{ indipendenti} \end{cases}$$
+  In tal caso, dati $X_k \sim \Nc( \mu_k, \sigma_k^2)$, allora: 
+  $$X \sim \Nc \left(\begin{bmatrix} \mu_1 \\ \vdots \\ \mu_n \end{bmatrix}, \begin{bmatrix} \sigma_1^2 & \  &  \  \\  \  & \ddots &  \  \\ \ & \  & \sigma_n^2 \end{bmatrix}\right)$$
+\end{prop}
+\begin{dimo}
+  Della dimostrazione ($\Longleftarrow$) siamo già a conoscenza. \\
+  Per ($\Longrightarrow$) sfruttiamo la funzione caratteristica della normale:
+  \begin{align*}
+  \varphi_{X_k}(u) &= \prod_{k=1}^n \varphi_{X_k}(u_k)  & (\text{VA indipendenti})\\
+  &=  \prod_{k=1}^n  \exp \left \{i \mu_k u_k - \frac{1}{2} \sigma_k^2 u_k^2 \right \} & (X_k \sim \Nc)\\
+  &=  \exp \left \{i \, \langle \, \mu|u \rangle - \frac{1}{2} \left \langle u \, \left| \begin{bmatrix} \sigma_1^2 & \  &  0  \\  \  & \ddots &  \  \\ 0 & \  & \sigma_n \end{bmatrix} u \right. \right \rangle \right \} & \qedhere
+  \end{align*}
+\end{dimo}
+
+\begin{nb}
+  Su alcuni testi si può trovare \textit{univariato} al posto di ``scalare'' e \textit{multivariato} al posto di ``vettoriale''.
+\end{nb}
+\needspace{3\baselineskip}
+\medskip
+\begin{propb}[\JPTh{16.3}]
+  Siano i vettori aleatori gaussiani $X_1: \Omega \to \RR^n \sim\Nc(\mu_1, C_1)$ e $ X_2: \Omega \to \RR^m \sim \Nc(\mu_2, C_2)$. Allora:
+  $$X_1 \indep X_2 \iff X= \begin{bmatrix}  X_1 \\ X_2  \end{bmatrix} \sim \Nc \left(\begin{bmatrix}  \mu_1 \\ \mu_2 \end{bmatrix}, \begin{bmatrix}  C_1 & 0 \\ 0 & C_2   \end{bmatrix} \right)$$
+  con $X: \Omega \to \RR^{n+m}$.
+\end{propb}
+
+\bigskip
+\begin{teob}[\JPTh{16.4}]
+  Sia il vettore aleatorio $X=\begin{bmatrix}  X_1 & \cdots & X_n  \end{bmatrix} \sim \Nc$. \\
+  $X_1, \, \dots, \,  X_n$ sono indipendenti se e solo se sono scorrelate a coppie, ovvero la matrice varianza è diagonale:
+  $$C_X= \begin{bmatrix} \sigma_1^2 &  & 0 \\   & \ddots &  \\ 0 &   & \sigma_n^2\end{bmatrix}$$
+\end{teob}
+
+Dunque, per le variabili congiuntamente normali, \textit{scorrelazione} e \textit{indipendenza} sono equivalenti.
+
+\smallskip
+\begin{dimo}\belowdisplayskip=-21pt
+  La dimostrazione ($\implies$) è ovvia perché vale a prescindere dalla natura del vettore.\\
+  Nel caso ($\impliedby$), data $C_X$ diagonale:
+  \begin{align*}
+  \varphi_X(u) &= \exp \left \{ i<u|\mu> - \frac{1}{2} <u|C_X u> \right \} & (\text{per definizione}) \\
+  &= \exp \left \{ i \sum_{k=1}^{n} u_k \mu_k - \frac{1}{2} \sum_{k=1}^{n} \sigma_k^2 u_k^2 \right \} & (\text{def. di prodotto scalare}) \\
+  &= \prod_{k=1}^{n} \varphi_{x_k}(u_k) & (\text{proprietà di exp})
+  \end{align*}\qedhere
+\end{dimo}
+
+\subsection{Normalizzazione}
+Nel caso unidimensionale una gaussiana è normalizzata tramite:
+ $$X \sim \Nc(\mu, \sigma^2), \ \sigma^2>0 \ \to Z = \frac{X-\mu}{\sigma} \sim \Nc(0,1) $$
+$X= \mu + \sigma Z$, ovvero $X$ è una trasformazione affine di $Z$, inoltre $X$ e $Z$ convivono in $(\Omega, \Ac, \PP)$.
+
+Nel caso multidimensionale $X\sim \Nc(\mu, C)$ si normalizza tramite $X \sim \mu + \sqrt{C}Z$ con  $Z \sim \Nc(0, I_n)$, ovvero $X$ e $Z$ rispettano la stessa legge.
+Purtroppo con quest'espressione non si ha l'uguaglianza tra i due membri, che può ora essere definita prestando attenzione ai casi degeneri.
+
+\medskip
+\begin{teob}[\JPTh{16.2}]
+  Sia un vettore aleatorio gaussiano $X: (\Omega, \Ac, \PP) \to (\RR^n, \BB^n), \ X \sim \Nc(\mu, C), \; \mu \in \RR^n, \; C \in \RR^{n \times n}, \ C \ge 0$. Allora:
+  $$\begin{cases}
+  \exists Y: \Omega \to \RR^n, \enspace Y \sim \Nc(0, \ \operatorname{diag}(\lambda_1, \, \dots, \, \lambda_n)) \quad \lambda_k \ge 0 \enspace \forall k\\
+  \exists U \in \RR^{n \times n} \text{ ortogonale tale che } X=\mu +UY
+  \end{cases}$$
+  \Fixvmode
+\end{teob}
+Il teorema, enunciato in questa forma, vale a prescindere da $Y$.
+
+\begin{dimo}
+  Per ipotesi, $X \sim \Nc(\mu, C), \; C \ge 0$. Poiché $C$ è simmetrica e definita positiva, possiamo scomporla così:
+  $$C=U \Lambda U^T \text{ con } U^{-1}=U^T \text{ (ortogonale), } \enspace \Lambda= \begin{bmatrix} \lambda_1 &  &  \\  & \ddots &  \\ &  & \lambda_n \end{bmatrix}, \enspace \lambda_k \ge 0$$ \\
+  Ponendo $Y=U^T(X-\mu)$, allora si ha $Y \sim \Nc(0, \, \underbrace{U^TCU}_{\Lambda})=\Nc(0, \Lambda)$ e dunque vale $X=\mu + UY$.
+\end{dimo}
+
+\medskip
+\begin{nb}
+  $\mu + UY$ e $\mu + \sqrt{C}Z$ sono normalizzazioni diverse: mentre la prima è esattamente identica, la seconda presenta solamente la stessa distribuzione di $X$, quindi ha più gradi di libertà.
+\end{nb}
+
+Ripassiamo le condizioni equivalenti all'invertibilità per una generica matrice $A$:
+\Fixvmode
+\begin{align*}
+  A \text{ invertibile} \iff \ker(A)=\left \{0 \right \} \iff \im(A)=\RR^n \iff \det(A) \ne 0
+\end{align*}
+Considerando ora una matrice $C \ge 0$, oltre alle condizioni precedenti abbiamo:
+\Fixvmode
+\begin{align*}
+  C \text{ invertibile} &\iff \exists \, \Lambda^{-1} \iff \ker(\Lambda)= \left \{0 \right \} \iff \im(\Lambda)=\RR^n \iff \\
+  &\iff \lambda_k>0 \enspace \forall k \iff \det(C)>0 \iff C>0
+\end{align*}
+
+\medskip
+\begin{teo}
+  Sia $X \sim \Nc(\mu, C), \mu \in \RR^n, C \in \RR^{n \times n}, C \ge 0$. \\
+  Allora $X$ è continuo se e solo se $C$ è invertibile. In tal caso si ha:
+  $$f_X(x)=\frac{1}{ \sqrt { (2 \pi)^n \, \det(C)}} \cdot \exp \left \{ - \frac{1}{2} \, \langle \, x-\mu \, | \,C^{-1}(x-\mu) \, \rangle \right \}$$
+\end{teo}
+
+Nel caso particolare $n=1$ valgono i risultati già visti, in quanto $C = \sigma^2 \ne 0$.
+Per $n \ge 2$, quando $C$ è invertibile il relativo vettore può muoversi in tutto lo spazio $n$-dimensionale e ha densità massima quando $X=\mu$.
+
+\medskip
+\begin{ese}[normalizzazione di una gaussiana in due dimensioni]
+  Definiamo quattro diverse gaussiane:
+  \begin{enumerate}
+    \item $Z = \Nc(0, I_2)$;
+    \item $Y = \Lambda Z = \begin{bmatrix}\sqrt{\lambda_1} & 0 \\ 0 & \sqrt{\lambda_2} \end{bmatrix} Z = \Nc \left( 0, \begin{bmatrix}\lambda_1 & 0 \\ 0 & \lambda_2 \end{bmatrix} \right)$;
+    \item $UY$, dove $U \in \RR^{n \times n}$ ortogonale;
+    \item $X = UY + \mu$.
+  \end{enumerate}
+
+  \begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+      \begin{axis}[
+          axis lines = middle,
+          xlabel = $Z_1$,
+          ylabel = $Z_2$,
+          width=0.6\textwidth,
+          yticklabels={,,},
+          xticklabels={,,}
+      ]
+      \draw [line width=0.2mm, color=lightblue] (axis cs:-1,-1) -- (axis cs:1,-1) -- (axis cs:1,1) -- (axis cs:-1,1) -- (axis cs:-1,-1);
+      \addplot [draw=none, forget plot] coordinates {(3,-3)};
+      \addplot [draw=none, forget plot] coordinates {(-3,3)};
+
+      \addplot [draw=none, forget plot] coordinates {(1,0)} node[below right] {$1$};
+      \addplot [draw=none, forget plot] coordinates {(-1,0)} node[above left] {$-1$};
+      \addplot [draw=none, forget plot] coordinates {(0,1)} node[above right] {$1$};
+      \addplot [draw=none, forget plot] coordinates {(0,-1)} node[below left] {$-1$};
+
+      \end{axis}
+    \end{tikzpicture}
+    \hskip 5pt
+    \begin{tikzpicture}
+      \begin{axis}[
+          axis lines = middle,
+          xlabel = $Y_1$,
+          ylabel = $Y_2$,
+          width=0.6\textwidth,
+          yticklabels={,,},
+          xticklabels={,,}
+      ]
+      \draw [line width=0.2mm, color=lightblue] (axis cs:-2,-0.8) -- (axis cs:2,-0.8) -- (axis cs:2,0.8) -- (axis cs:-2,0.8) -- (axis cs:-2,-0.8);
+
+      \addplot [draw=none, forget plot] coordinates {(2,0)} node[below right] {$\sqrt{\lambda_1}$};
+      \addplot [draw=none, forget plot] coordinates {(-2,0)} node[above left] {$-\sqrt{\lambda_1}$};
+      \addplot [draw=none, forget plot] coordinates {(0,0.8)} node[above right] {$\sqrt{\lambda_2}$};
+      \addplot [draw=none, forget plot] coordinates {(0,-0.8)} node[below left] {$-\sqrt{\lambda_2}$};
+
+      \addplot [draw=none, forget plot] coordinates {(3,-3)};
+      \addplot [draw=none, forget plot] coordinates {(-3,3)};
+      \end{axis}
+    \end{tikzpicture}
+    \bigskip
+
+    \begin{tikzpicture}
+      \begin{axis}[
+          axis lines = middle,
+          xlabel = $(UY)_1$,
+          ylabel = $(UY)_2$,
+          width=0.6\textwidth,
+          yticklabels={,,},
+          xticklabels={,,}
+      ]
+
+      \draw [line width=0.2mm, color=lightblue, rotate around={-35: (axis cs:0,0)}] (axis cs:-2,-0.8) -- (axis cs:2,-0.8) -- (axis cs:2,0.8) -- (axis cs:-2,0.8) -- (axis cs:-2,-0.8);
+
+      \draw [line width=0.2mm, dashed, rotate around={-35: (axis cs:0,0)}] (axis cs:-3,0) -- (axis cs:3,0);
+      \draw [line width=0.2mm, dashed, rotate around={-35: (axis cs:0,0)}] (axis cs:0,-2) -- (axis cs:0,2);
+
+      \addplot [draw=none, forget plot] coordinates {(1.64, -1.15)} node[below right] {$\sqrt{\lambda_1}$};
+      \addplot [draw=none, forget plot] coordinates {(-1.64, 1.15)} node[above left] {$-\sqrt{\lambda_1}$};
+      \addplot [draw=none, forget plot] coordinates {(0.458861, 0.655322)} node[above right] {$\sqrt{\lambda_2}$};
+      \addplot [draw=none, forget plot] coordinates {(-0.458861, -0.655322)} node[below left] {$-\sqrt{\lambda_2}$};
+
+      \addplot [draw=none, forget plot] coordinates {(3,-3)};
+      \addplot [draw=none, forget plot] coordinates {(-3,3)};
+      \end{axis}
+    \end{tikzpicture}
+    \hskip 5pt
+    \begin{tikzpicture}
+      \begin{axis}[
+          axis lines = middle,
+          xlabel = $X_1$,
+          ylabel = $X_2$,
+          width=0.6\textwidth,
+          yticklabels={,,},
+          xticklabels={,,}
+      ]
+      \def\trasl{(0.5pt, 0.5pt)}
+      \def\traslc{0.8, 0.8}
+      \begin{scope}[shift={(-0.5cm,0.7cm)}, rotate around={-35: (axis cs:0,0)}]
+        \draw [line width=0.2mm, color=lightblue] (axis cs:-2,-0.8) -- (axis cs:2,-0.8) -- (axis cs:2,0.8) -- (axis cs:-2,0.8) -- (axis cs:-2,-0.8);
+
+        \draw [line width=0.2mm, dashed] (axis cs:-3,0) -- (axis cs:3,0);
+        \draw [line width=0.2mm, dashed] (axis cs:0,-2) -- (axis cs:0,2);
+      \end{scope}
+      \draw  [->, line width=0.20mm, red] (axis cs:0,0) -- (axis cs:-0.51,0.87);
+      \addplot [red, draw=none, forget plot] coordinates {(-0.4,0.5)} node[below] {$\mu$};.
+
+      \addplot [draw=none, forget plot] coordinates {(3,-3)};
+      \addplot [draw=none, forget plot] coordinates {(-3,3)};
+      \end{axis}
+    \end{tikzpicture}
+
+    \caption{procedura per la normalizzazione nel caso bidimensionale}
+    \label{Z-bidimensionale}
+  \end{figure}
+
+  Com'è possibile osservare dalla figura \ref{Z-bidimensionale} mentre $Y$ è una rototraslazione di $X$, $Z$ è una VA che ha la stessa distribuzione ma non è simile a $X$.
+
+  Nella figura sono stati disegnati dei quadrati per evidenziare le aree, ma operando una sezione della gaussiana bidimensionale, ovvero delle curve di livello, si otterranno delle ellissi, anche se le componenti sono tra di loro indipendenti.
+
+  Nel caso la matrice $C$ non sia invertibile questo significa che nella normalizzazione, per ottenere $Y$, saranno eliminate le componenti che hanno $\sigma^2 = 0$; si tornerà così in una situazione che ammette densità.
+\end{ese}
+
+\subsection{Leggi correlate alla gaussiana}
+
+\subsubsection{La legge chi-quadro}
+
+ coincide con la distribuzione della somma di variabili aleatorie indipendenti normalizzate al quadrato.
+
+\medskip
+\begin{defn}
+  \index{chi-quadro ($\chi^2$), legge}
+  La legge \textbf{chi-quadro} $\chi^2(n)$, con $n \in \NN$, è la legge di $Q=Z_1^2+ \dots + Z_n^2$ dove $Z \sim \Nc(0, I_n)$, ovvero della somma di $n$ VA indipendenti normalizzate al quadrato.
+\end{defn}
+Dalla definizione si verifica facilmente che:
+$$\EE[Q]=n, \qquad Var(Q)=nVar(Z_1^2)=n(\EE[Z_1^4]-\EE[Z_1^2]^2)=2n$$
+
+\begin{prop}
+  $\chi^2(n)=\Gamma( \frac{n}{2}, \frac{1}{2} )$, ovvero $\chi^2(n)$ è assolutamente continua rispetto alla misura di Lebesgue e ha densità:
+  $$f(x)=\dfrac{1} { \Gamma \left( \frac{n}{2} \right) 2^{ n/2 } } x^{n/2-1} e^{-x/2} \Ind_{(0, +\infty)}(x)$$
+\end{prop}
+
+\subsubsection{La legge $t$ di Student}
+
+\medskip
+\begin{defn}
+	La legge \textbf{$t$ di Student}\footnote{Dove Student è lo pseudonimo di un certo William Gosset. Questi lavorava alla fabbrica di birra ``Guinness'' e gli venne vietato di pubblicare articoli per evitare di profanare i segreti della fabbrica.} a $n$ \textbf{gradi di libertà} $t(n)$, con $n \in \NN$, è la legge della variabile aleatoria così definita:
+	$$T=\frac{Z}{\sqrt{\frac{Q}{n}}} \quad \text{ dove } Z \sim \Nc(0,1), \; Q \sim \chi^2(n), \; Z \indep Q$$
+\end{defn}
+
+\begin{prop}
+  $t(n)$ è assolutamente continua rispetto alla misura di Lebesgue e ha densità:
+  $$f(x)=\frac{\Gamma(\frac{n+1}{2})}{\Gamma(\frac{n}{2})\sqrt{\pi n}} \frac{1}{(1+\frac{x^2}{n})^{\frac{n+1}{2}}}$$
+\end{prop}
+
+\subsection{Media e varianza campionaria}
+\begin{defn}
+  \index{campione casuale}
+  Le VA $X_1, \, \dots, \,  X_n$ costituiscono un \textbf{campione casuale} se sono indipendenti e identicamente distribuite (iid).
+\end{defn}
+
+\begin{defn}
+  \index{media!campionaria}
+  \index{varianza!campionaria}
+  Per una successione di VA iid $X_1, \, \dots, \,  X_n$, definiamo le seguenti due grandezze:
+  \begin{align*}
+    \text{\textbf{media campionaria}:}& \ \widebar X=\frac{1}{n} \sum_{k=1}^{n}X_k \\
+    \text{\textbf{varianza campionaria}:}& \ S^2=\frac{1}{n-1} \sum_{k=1}^{n}(X_k-\widebar X)^2
+  \end{align*}
+\end{defn}
+Queste saranno affrontate più nel dettaglio nel capitolo \ref{applicazioni-statistica} con le loro applicazioni alla statistica.
+
+\begin{prop}
+  Sia $X_1, \, \dots, \,  X_n$ un campione casuale estratto da una popolazione $\Nc( \mu, \sigma^2)$. \\
+  Se $X_1, \, \dots, \,  X_n$ sono indipendenti allora:
+  $$X_k \sim \Nc(\mu, \sigma^2) \ \forall k \ \iff \begin{bmatrix} X_1 \\ \vdots \\ X_n \end{bmatrix} \sim \Nc \left(\begin{bmatrix} \mu \\ \vdots \\ \mu \end{bmatrix}, \begin{bmatrix}\sigma^2 & & \\ & \ddots & \\ & & \sigma^2 \end{bmatrix} \right)$$
+\end{prop}
+
+\medskip
+\begin{teo}
+  Sia $X_1, \, \dots, \,  X_n$ un campione casuale estratto da una popolazione $\Nc(\mu, \sigma^2), \ \sigma^2>0, \ n \ge 2$. Allora:
+  \begin{enumerate}
+    \item $\widebar X \sim \Nc\left(\mu, \dfrac{\sigma^2}{n}\right)$.
+
+    (Grazie al teorema centrale del limite, che vedremo più avanti, questo risulterà approssimativamente vero anche se la VA non è normale.)
+    \item $S^2 \sim \dfrac{\sigma^2}{n-1} \chi^2(n-1), \enspace$ ovvero $\, \dfrac{n-1}{\sigma^2}S^2 \sim \chi^2(n-1)$.\\
+    Di conseguenza si può affermare che:
+    $$\EE[S^2]=\sigma^2 \quad \text{e} \quad Var\left(S^2\right)=\dfrac{2\sigma^4}{n-1}$$
+    In particolare, la varianza della varianza campionaria tende a 0 al crescere di $n$.
+    \item $\widebar X \indep S^2$.
+    \item $\dfrac{\widebar X-\mu}{\sqrt{\frac{S^2}{n}}} \sim t(n-1)$.
+  \end{enumerate}
+\end{teo}
+\needspace{3\baselineskip}
+\begin{dimo}
+  \Fixvmode
+  \begin{enumerate}
+    \item Dato $X$ normale anche una sua trasformazione affine (lineare) è normale:
+      $$X= \begin{bmatrix} X_1 \\ \vdots \\ X_n \end{bmatrix} \sim \Nc \left( \begin{bmatrix} \mu \\ \vdots \\ \mu  \end{bmatrix}, \begin{bmatrix}\sigma^2 & & \\ & \ddots & \\ & & \sigma^2 \end{bmatrix} \right)
+      \implies \widebar X= \left[\frac{1}{n} \ \cdots \ \frac{1}{n} \right] \cdot X \sim \Nc$$
+    \item \begin{itemize}
+    \item Siano $\mu=0, \; \sigma^2=1, \; X \sim \Nc(0, I_n),\; U \in \RR^{n \times n}$ ortogonale:
+      $$U=\left[ \begin{array}{c c c} \frac{1}{\sqrt{n}} & \cdots & \frac{1}{\sqrt{n}} \vspace{3pt}\\ \hline \vspace{-8pt} \\ & A & \vspace{8pt}\end{array} \right]$$
+    Solo la prima riga di $U$ è rilevante; $A$ denota un blocco ininfluente.
+
+      Possiamo quindi normalizzare: definendo $Z=UX$, visto che $U$ è ortogonale, si ottiene:
+      $$Z \sim \Nc(0, I_n) \quad \text{e} \quad Z_1= \frac{1}{\sqrt{n}} \sum\limits_{k=1}^{n}x_k=\sqrt{n}\widebar X$$
+      Calcoliamo di conseguenza la somma dei quadrati:
+      $$\sum_{k=1}^{n}Z_k^2=||Z||^2-Z_1^2 \underbrace{=}_{U^T=U^{-1}} ||X||^2-n\widebar X^2=(n-1)S^2$$ \\
+      perché:
+      $$S^2= \frac{1}{n-1} \sum_{k=1}^{n}(X_k-\widebar X)^2= \frac{1}{n-1} \left(\sum\limits_{k=1}^{n}X_k^2-n\widebar X^2\right)$$
+      Concludendo, visto che $\sigma^2 = 1$:
+      $$(n-1)S^2 \sim \chi^2(n-1)$$
+      Inoltre vale la seguente affermazione:
+      $$\widebar X=\frac{z_1}{\sqrt{n}} \indep S^2=h(z_2,\ \dots,\ z_n) \text{ con } z_1 \indep \begin{bmatrix} z_2 & \cdots & z_n \end{bmatrix}$$
+    \item Nel caso non standard, ci possiamo semplicemente ricondurre alla dimostrazione precedente tramite una normalizzazione. Siano $\mu \in \RR $ e $ \sigma^2>0$, si considera:
+      $$Y_k=\frac{X_k-\mu}{\sigma} \implies \widebar{Y}=\frac{\widebar X-\mu}{\sigma}, \; S_Y^2=\frac{S^2}{\sigma^2}, \; S^2 \sim \frac{\sigma^2}{n-1} \chi^2(n-1)$$
+      Quindi $S^2$ risulta:
+      $$S^2=\sigma^2 S_Y^2 \indep \widebar X=\mu + \sigma \widebar{Y}$$
+      \end{itemize}
+  \item Banale corollario del punto (2).
+  \item Sfruttando i risultati del punto (1) e (2):
+    $$\dfrac{\widebar X-\mu}{\sqrt{\dfrac{S^2}{n}}} = \dfrac{
+    \dfrac{\widebar X-\mu}{\nicefrac{\sigma}{\sqrt n}}}
+      {\sqrt{
+        \dfrac{S^2(n-1)}{\sigma^2} \cdot \dfrac 1 {n-1}
+      }} \sim t(n-1)$$
+    Infatti il numeratore ha legge $\Nc(0,1)$ e $\frac{S^2(n-1)}{\sigma^2}$ ha legge $\chi^2(n-1)$: per definizione di $t$ di Student la frazione ha dunque legge $t(n-1)$. \qedhere
+  \end{enumerate}
+\end{dimo}
+
+\esercitazione{15a}{30.05.17}
+\subsection{Considerazioni pratiche}
+Definiamo un vettore normale:
+$$ X = (X_1, \, \dots, \, X_n) \sim \Nc (\mu, C), \ \mu \in \RR^n, \ C \in \RR^{n \times n},\ C \ge 0 $$
+È noto, come visto a pagina \pageref{caratt-normale}, che:
+$$ \iff \varphi_{(X_1, \, \dots, \, X_n)} (u) = \exp \left\{i\langle u| \mu\rangle  - \frac{1}{2} \langle u| Cu\rangle \right\} $$
+Inoltre, secondo il teorema \ref{teo-vett-normali}:
+$$ \iff \langle a | X\rangle  \sim \Nc \quad \forall a \in \RR^n $$
+Le sue principali proprietà sono:
+\begin{enumerate}
+  \item $ X_k \sim N (\mu_k, C_{kk}) $
+  \item $ S_X = \im(C) + \mu = \operatorname{range}(C) + \mu = [\ker(C)]^{\perp} + \mu $
+  \item $ X \text{ vettore aleatorio continuo} \iff \det(C) \neq 0 \iff C > 0 $\\
+    In tal caso la sua legge è:
+    $$f_X(x)= \dfrac{1}{\sqrt{(2 \pi)^n \det(C)}} \exp \left \{ -\dfrac{1}{2} \langle  x- \mu| C^{-1} (x-\mu) \rangle \right \}$$
+  \item $ A \in \RR^{m \times n}, \ b \in \RR^m \implies AX+b \sim N(A\mu+b,\, ACA^T) \quad$ (proposizione \ref{prop-linearita-normali})
+  \item $X_i \indep X_j \iff Cov(X_i, X_j) = 0$
+\end{enumerate}
+
+\paragraph{Caso bidimensionale}
+Sia $(X,Y)$ un vettore gaussiano:
+$$\begin{bmatrix}X\\Y\end{bmatrix} \sim N\left( \begin{bmatrix} \mu_X\\ \mu_Y \end{bmatrix}, \begin{bmatrix} \sigma^2_X & Cov(X,Y)\\Cov(X,Y) & \sigma^2_Y\end{bmatrix}\right)$$
+La sua funzione caratteristica è:
+$$\varphi_{(X,Y)}(u,v) = \exp \left \{ i(\mu_X u + \mu_Y v) - \dfrac{1}{2} (u^2 \sigma^2_X + 2Cov(X,Y)uv + v^2 \sigma^2_Y) \right \}$$
+
+In questo caso la proprietà (3) può anche essere espressa come:
+$$ \begin{bmatrix}X\\Y\end{bmatrix} \iff \det(C) \neq 0 \iff \begin{cases} \sigma_X > 0 \\ \sigma_Y > 0 \\ \abs{\rho_{X,Y}} < 1 \end{cases}$$
+
+La legge in questo caso diventa\footnote{un mostro}:
+\begin{gather*}
+  f_{(X,Y)}(x,y)= \dfrac{1}{2 \pi \sigma_X \sigma_Y \sqrt{1- \rho_{(X,Y)}^2}} \cdot \\
+  \cdot \exp \left \{ - \dfrac{1}{2(1-\rho_{(X,Y)})} \left[ \dfrac{(x - \mu_X)^2}{\sigma_X^2} - 2 \rho_{(X,Y)} \dfrac{(X-\mu_X)(Y-\mu_Y)}{\sigma_X \sigma_Y} + \dfrac{(y - \mu_y)^2}{\sigma_Y^2} \right]  \right \}
+\end{gather*}
+
+\cleardoublepage

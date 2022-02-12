@@ -1,0 +1,392 @@
+\section{Probabilità condizionata e indipendenza}
+La probabilità, che è per definizione il grado di fiducia del verificarsi di un evento, deve essere flessibile a informazioni aggiuntive accumulate nel corso dell'esperimento aleatorio.
+Per questo motivo introduciamo la \emph{probabilità condizionata}, che assimila l'informazione data dal verificarsi di un certo evento.
+Questo consentirà anche di parlare di \emph{eventi indipendenti}, ovvero che non si influenzano tra di loro.
+Infine studieremo le proprietà di questi due nuovi concetti, che permetteranno di enunciare alcuni teoremi e formule molto utili nello studio e nell'applicazione pratica della probabilità.
+
+\subsection{Probabilità condizionata}
+\begin{defn}\label{prob-condizionata}
+  \index{probabilità!condizionata}
+  Sia $\Dom$ uno spazio di probabilità, $A, B \in \Ac$ con $\PP(B) > 0$. \\
+  Definiamo la \textbf{probabilità di $A$ condizionata da $B$} come:
+  $$\PP(A|B) \coloneqq \frac{\PP(A,B)}{\PP(B)}$$
+\end{defn}
+
+Siano due eventi $A$ e $B$ di cui si scoprono gli esiti in tempi separati, prima $B$ poi $A$.
+Come si può ricalcolare la probabilità di $A$ una volta venuto a conoscenza del risultato di $B$?
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|l|l|l|}
+  \hline
+  \textit{A priori} & \textit{In medias res} & \textit{A posteriori} \\ \hline
+   $\PP(B)$ & $B$ & $B$ \\ \hline
+   $\PP(A)$ & $\PP(A|B)$ & $A$ oppure $A^C$ \\ \hline
+  \begin{tabular}[c]{@{}l@{}}All'inizio si può\\ solo predire  l'esito\end{tabular} & \begin{tabular}[c]{@{}l@{}}Se si verifica $B$ si\\aggiornano le probabilità\end{tabular} & Alla fine è noto l'esito \\ \hline
+  \end{tabular}
+  \label{prob-cond}
+\end{table}
+
+\subsubsection{Interpretazioni modellistiche}
+\begin{itemize}
+  \item \textbf{Interpretazione soggettivistica}: \\
+  \textit{A priori} si considera tutto $\Omega$. Considerato un suo punto questo può essere all'interno di $A$, $B$, in $A \cap B$, oppure in $(A \cup B)^C$.
+  $$  \PP(A) = f_r(A) = \frac{\#A}{\#\Omega}  \quad \text{e} \quad
+  \PP(B) = f_r(B) = \frac{\#B}{\#\Omega}$$
+  \needspace{3\baselineskip}
+  Se \textit{in medias res} si viene a conoscenza che si verifica $B$, allora l'insieme $B$ diventa il ``nuovo'' $\Omega$, quindi bisogna \emph{aggiornare} il valore della probabilità di $A$:
+  $$
+  \PP(A|B) = \frac{\#(A \cap B)}{\#B} = \frac{\#(A \cap B)}{\#\Omega} \cdot \frac{\#\Omega}{\#B} = \frac{\PP(A,B)}{\PP(B)}
+  $$
+  \begin{figure}[H]
+    \centering
+    \def\firstcircle{(0,0) circle (1.2cm)}
+    \def\secondcircle{(-35:1.5cm) circle (1.2cm)}
+    \def\drect {(-1.5,-2.5) rectangle (3,1.5)}
+    \begin{tikzpicture}
+      \tikzset{
+        hatch distance/.store in=\hatchdistance,
+        hatch distance=10pt,
+        hatch thickness/.store in=\hatchthickness,
+        hatch thickness=2pt
+      }
+      \begin{scope}[fill opacity=0.5]
+        \fill[lightblue] \firstcircle;
+        \fill[darkgreen] \secondcircle;
+      \end{scope}
+      \draw \drect node[below left] {\huge $\Omega$};
+      \draw[line width=0.50mm] \firstcircle node[above left] {\huge $A$};
+      \draw \secondcircle node [below right] {\huge $B$};
+
+      \begin{scope}[shift={(5cm,0cm)}]
+        \fill[mark=none,
+                domain=-5:1,
+                samples=100,
+                pattern=flexible hatch,
+                hatch distance=5pt,
+                hatch thickness=0.5pt,
+                draw=gray,
+                pattern color=gray] \drect;
+        \fill[white] \secondcircle;
+      \end{scope}
+      \begin{scope}[shift={(5cm,0cm)},  fill opacity=0.5]
+        \fill[lightblue] \firstcircle;
+        \fill[darkgreen] \secondcircle;
+      \end{scope}
+      \begin{scope}[shift={(5cm,0cm)}]
+        \draw \drect node[below left] {\huge $\Omega$};
+        \draw \firstcircle node[above left] {\huge $A$};
+        \draw \secondcircle node [below right] {\huge $B$};
+        \draw [line width=0.50mm, domain=-87.5:17] plot ({1.2*cos(\x)}, {1.2*sin(\x)});
+        \draw [line width=0.50mm, domain=93.5:195] plot ({1.2*cos(\x)+1.229}, {1.2*sin(\x)-0.860});
+      \end{scope}
+    \end{tikzpicture}
+  \end{figure}
+  Scoprendo che è avvenuto $B$ si escludono automaticamente tutti gli eventi che non sono in $A \cap B$. La probabilità condizionata cambia il dominio da $\Omega$ a $B$ e considera possibili solo gli eventi nell'intersezione.
+
+  \item \textbf{Interpretazione frequentista}:\\
+  Ripetendo $n$ volte (con $n \to +\infty$) l'esperimento:
+  $$\PP(A|B) \approx \frac{f_r(A,B)}{f_r(B)} = \frac{\PP(A,B)}{\PP(B)}$$
+  Infatti vale la seguente relazione con le frequenze\footnote{Si ricorda che con $F$ si indica la \emph{frequenza assoluta}, mentre con $f_r$ la \emph{frequenza relativa}.}:
+  $$\PP(A) \approx f_r(A) = \frac{F(A)}{n} \quad \text{e} \quad
+  \PP(A,B) = \frac{F(A,B)}n $$
+\end{itemize}
+
+Analizzando i casi degeneri, quando $A$ e $B$ sono disgiunti o $B$ è un sottoinsieme di $A$:\\[-8pt]
+$$A \cap B = \varnothing \; \implies \PP(A|B) = 0 \quad \text{e} \quad
+B \subseteq A \; \implies \PP(A|B) = 1$$
+
+
+\subsection{Indipendenza di eventi}
+\begin{defn}
+  \index{indipendenza!di eventi}
+  Dati $A, B \in \Ac$, essi si dicono \textbf{eventi indipendenti} (e si scrive $A \indep B$) se $\PP(A,B) = \PP(A) \cdot \PP(B)$.
+\end{defn}
+La definizione è intuitivamente giustificata: dati $A,B$ tali che $\PP(B) > 0, \; \PP(A) > 0$, per la definizione di proprietà condizionata:
+$$\PP(A,B) = \PP(A) \, \PP(B) \iff \begin{cases}\PP(A|B) = \PP(A) \\ \PP(B|A) = \PP(B) \end{cases}$$
+In altre parole, i due insiemi non influenzano le rispettive probabilità condizionate, come ci si aspetta da due eventi indipendenti.
+Si noti inoltre che indipendenza e incompatibilità (intersezione vuota) \textit{non} sono sinonimi.
+
+\textbf{Casi degeneri} ($\PP(A) = 0$ oppure  $\PP(B) = 0$):
+\begin{itemize}
+  \item $A$ improbabile: $A \indep B \quad \forall B \in \Ac \quad (\PP(A) = 0$)
+  \item $A$ quasi certo: $A \indep B \quad \forall B \in \Ac$.
+    Infatti $\PP(B) = \PP(B,A) + \PP(B,A^C)$, ma $\PP(B,A^C) = \PP(A^C) = 0$.
+\end{itemize}
+
+\bigskip
+\begin{ese}
+  Si pesca una carta da un mazzo di salentine\footnote{Mazzo tradizionale composto da 40 carte.
+  I semi sono tarante, zappe, lecci e brocche; le figure sono fante, asino e santo}. Si definiscono quindi gli eventi:
+  $$A = \{\text{esce zappe}\} \quad \text{e} \quad
+  B = \{\text{esce Santo}\}$$
+  In termini probabilistici questo significa che:
+  $\Omega =$ \{Mazzo di salentine\},
+  $\#\Omega = 40$,
+  $\Ac = 2^\Omega$.
+  Se $\PP$ è uniforme su $\Ac$, allora $p_\omega = \frac{1}{40} \ \forall \omega \in \Omega$.\\
+  Quindi, calcolando le probabilità dei due eventi e facendone il prodotto possiamo mostrarne l'indipendenza:
+  \begin{align*}
+    \PP(A) &= \frac{\#A}{\#\Omega} = \frac{10}{40}, \quad \PP(B) = \frac{\#B}{\#\Omega} = \frac{4}{40}, \quad \PP(A,B) = \frac{\#(A \cap B)}{\#\Omega} = \frac{1}{40}\\[6pt]
+    &\implies  \PP(A,B) = \PP(A)\PP(B) \implies A \indep B
+  \end{align*}
+\end{ese}
+
+\medskip
+\begin{ese}[lanciati due dadi, calcolare la probabilità che la somma sia 3] \ \\
+  %E la soma?
+  %Pepperidge farm remembers (Br1)
+  Si definisce lo spazio campionario $\Omega = \{1, \, \dots, \, 6\}^2$ e gli eventi $A$ = \{esce $x$ sul primo dado\} e $B$ = \{esce $y$ sul secondo dado\}. \\
+  Gli eventi $A$ e $B$ sono indipendenti e con probabilità $\frac{1}{6}$, quindi la probabilità dell'atomo è $\frac{1}{36}$. Gli atomi il cui risultato è $3$ sono rispettivamente $(1,2)$ e $(2,1)$; possiamo quindi calcolare la probabilità della somma:
+  $$\PP(\text{somma} = 3) = \frac{\#(\text{somma} = 3)}{\#\Omega} = \frac{2}{36} = \frac{1}{18}$$
+\end{ese}
+
+\medskip
+\begin{teo}[indipendenza e complementarità \JPTh{3.1}]
+  $$A \indep B \iff A \indep B^C \iff A^C \indep B \iff A^C \indep B^C$$
+\end{teo}
+\begin{dimo}\belowdisplayskip=-13pt
+  Si dimostra che $A \indep B \implies A \indep B^C$, poi il resto è una banale applicazione della complementarità.
+  \begin{align*}
+    \PP(A, B^C) &= \PP(A) - \PP(A, B) = \PP(A) - \PP(A)\,\PP(B)\\
+    &=\PP(A)\,(1-\PP(B)) = \PP(A)\, \PP(B^C)
+  \end{align*}
+  \qedhere
+\end{dimo}
+
+\medskip
+\begin{ese}[lancio di due monete] \ \\
+  Definito $\Dom$ spazio di probabilità, $\Omega$ = ``Non ve lo dico''\footnote{Questa brillante provocazione dell'esimio prof. Gregoratti, citata testualmente, ci ricorda che la probabilità non dipende direttamente dall'insieme degli atomi $\Omega$, bensì dalla probabilità sugli eventi della $\sigma$-algebra $\Ac$.
+  Non è dunque necessario avere informazioni sul dominio.
+  Così tanto significato in così poche parole.},
+  $\Ac \subseteq 2^\Omega$, $\Ac = \sigma(T_1, T_2)$ Dove $T_k$ è testa al lancio $k$.
+  Qual è la probabilità su $\Ac$?
+  $$\begin{cases}\PP(T_1) = \PP(T_2) = \frac{1}{2} \\ T_1 \indep T_2 \end{cases}$$
+\end{ese}
+
+\lezione{4}{16.03.17}
+
+\subsubsection{Famiglie di eventi indipendenti}
+\begin{defn}
+  \index{famiglia!di eventi indipendenti}
+  Una famiglia di eventi $\{A_i\}_{i \in I}$ è detta \textbf{mutuamente indipendente} se, $\forall J \subseteq I$ (con $J$ insieme finito):
+  $$\PP \left( \bigcap\limits_{i \in J} A_i \right) = \prod \limits_{i \in J} \PP \left( A_i \right)$$
+\end{defn}
+
+\begin{ese}
+  Sia $I = \{1, 2, 3\}$. Gli insiemi $\{A_1, A_2, A_3\}$ sono mutuamente indipendenti se e solo se:
+  \begin{gather*}
+  \begin{cases}
+    \PP (A_1, A_2) = \PP (A_1) \cdot \PP (A_2) \\
+    \PP (A_2, A_3) = \PP (A_2) \cdot \PP (A_3) \\
+    \PP (A_1, A_3) = \PP (A_1) \cdot \PP (A_3) \\
+    \PP (A_1, A_2, A_3) = \PP (A_1) \cdot \PP (A_2) \cdot \PP (A_3)
+  \end{cases}
+  \end{gather*}
+  La quarta proprietà non è ricavabile dalle altre e comporta, ad esempio, $A_1 \cap A_2 \indep A_3$.
+  Non basta dunque l'indipendenza tra i singoli insiemi per garantire la mutua indipendenza della famiglia.
+  
+  Similmente, l'ultima proprietà non implica necessariamente le prime tre.
+\end{ese}
+
+\subsection{Proprietà della probabilità condizionata}
+
+\begin{teob}[\JPTh{3.2}]
+  Siano $B \in \Ac$ e $\PP$ probabilità su $\Ac$, con $\PP(B) > 0$. \\ Allora la \textit{funzione} $\PP(\, \bigcdot \, | B)$ è una misura di probabilità su $\Ac$:
+   $$\PP(\, \bigcdot \, | B): \Ac \to [0, 1], \qquad A \mapsto \PP(A|B) = \frac{\PP(A,B)}{\PP(B)}$$
+\end{teob}
+
+\begin{dimo}
+  La probabilità dell'intero dominio è:
+  $$\PP(\Omega | B) = \frac {\PP(\Omega , B)} {\PP(B)} =
+  \frac {\PP(B)} {\PP(B)} = 1$$
+  Dimostriamo ora che $\PP(\, \bigcdot \, | B)$ è $\sigma$-additiva.
+  Siano $A_n \in \Ac, \; \enspace n \in \NN,\enspace A_k \cap A_l = \varnothing \enspace \forall k \neq l$. Allora:
+  \begin{align*}
+  \PP \left( \bigcup\limits_{n=1}^{{+\infty}} A_n \>\middle|\> B \right)
+  &= \frac {\PP(\bigcup A_n, B)} {\PP(B)}
+  = \frac {\PP(\bigcup (A_n, B))} {\PP(B)}\\
+  &= \frac {\sum \PP(A_n, B)} {\PP(B)}
+  = \sum\limits_{n=1}^{{+\infty}} \PP(A_n | B)
+  \end{align*}
+$\PP$ rispetta dunque le proprietà di una probabilità, come da tesi. \qedhere
+\end{dimo}
+
+\smallskip
+\begin{nb}
+  Essendo $\PP(\, \bigcdot \, | B)$ una probabilità, vale la proprietà $\PP(A^C | B) = 1 - \PP(A | B)$.
+  Tuttavia, in generale, $\PP(A | B^C) \neq 1 - \PP(A | B)$, perché
+  $\PP(\, \bigcdot \, | B)$ è definito con un $B$ fissato.
+\end{nb}
+
+\medskip
+\begin{coro}
+  \label{dimo-bayes}
+  Se $\PP(A), \PP(B) > 0$, allora si ha:
+  $$
+  \PP(A | B)
+  = \frac {\PP(A, B)} {\PP(B)}
+  = \frac {\PP(A, B)} {\PP(B)} \cdot \frac {\PP(A)} {\PP(A)}
+  = \PP(B | A) \cdot \frac {\PP(A)} {\PP(B)}
+  $$
+\end{coro}
+In questo modo è possibile scambiare l'ordine degli eventi, trasformando $A$ da evento condizionato a evento condizionante.
+\bigskip
+
+\begin{ese}
+Consideriamo un test clinico somministrato a una popolazione
+in cui la malattia ha una probabilità dell'1\% di comparire.
+Il test non è affidabile al 100\%: si ha una probabilità di falsi positivi del
+5\% e del 2\% di falsi negativi.
+Qual è la probabilità che un
+individuo sia malato se il test ha dato esito positivo?
+
+Siano $S$ l'evento ``individuo sano'', $M$ l'evento ``individuo malato'',
+$N$ l'evento ``esito del test negativo'', $P$ l'evento ``esito del test positivo''.
+Considerata la $\sigma$-algebra $\Ac = \sigma(M, P)$, i dati allora si
+scrivono come: $\PP(M) = 0.01$, $\PP(P|S) = 0.05$, $\PP(N|M) = 0.02$,
+da cui $\PP(S) = 0.99$, $\PP(N|S) = 0.95$, $\PP(P|M) = 0.98$.
+Dunque:
+$$
+  \PP(M|P) = \frac {\PP(M, P)} {\PP(P)}
+  = \frac {\PP(M) \cdot \PP(P|M)}
+  {\PP(M) \cdot \PP(P|M) + \PP(S) \cdot \PP(P|S)} = 0.1653 = 16.53\% $$
+\end{ese}
+
+\begin{defn}
+  \index{partizione}
+  Siano $A_k \in \Ac, k \in I$ con $I$ discreto.
+  $(A_k)_{k \in I}$ è detto \textbf{partizione} di $\Omega$ se:
+  \begin{itemize}
+  \item $A_k \cap A_l = \varnothing \enspace\forall k \neq l$;
+  \item $\bigcup\limits_k \, A_k = \Omega$;
+  \item $\PP(A_k) > 0 \enspace\forall k$.
+  \end{itemize}
+\end{defn}
+
+\medskip
+\begin{teob}[\JPTh{3.3}]
+  Siano $A_1, \, \dots, \, A_n \in \Ac$, con $\PP(A_1, \, \dots, \, A_n) > 0$. Allora si ha che:
+  $$\PP(A_1, \, \dots, \, A_n) = \PP(A_n \, | \, A_1, \, \dots, \, A_{n-1})
+  \cdot \PP(A_{n-1} \, | \, A_1, \, \dots, \, A_{n-2}) \cdots
+  \PP(A_2 \, | \, A_1) \cdot \PP(A_1)$$
+\end{teob}
+
+\smallskip
+\begin{dimo}\belowdisplayskip=-13pt
+  \Fixvmode
+  \begin{enumerate}
+  \item $\PP(A_k \, | \, A_{k-1}, \dots, A_1)$ è ben definito
+    $\,\forall k = 1,\dots,n$. \\*
+    Infatti $A_1 \cap \dots \cap A_{k-1} \supseteq A_1 \cap \dots \cap A_n$,
+    e dunque:
+    $$\PP(A_1, \, \dots, \, A_{k-1}) \geq \PP(A_1, \, \dots, \, A_n) > 0$$
+  \item
+    Dimostriamo ora l'uguaglianza.
+    \begin{align*}
+    \PP(&A_n \, | \, A_1, \, \dots, \, A_{n-1})
+    \cdot \PP(A_{n-1} \, | \, A_1, \, \dots, \, A_{n-2}) \cdots
+    \PP(A_2 \, | \, A_1) \cdot \PP(A_1) \\[4pt]
+    &= \frac {\PP(A_n, \, \dots, \, A_1)} {\cancel{\PP(A_{n-1}, \, \dots, \, A_1)}}
+    \cdot \frac {\cancel{\PP(A_{n-1}, \, \dots, \, A_1)}} {\cancel{\PP(A_{n-2}, \, \dots, \, A_1)}}
+    \cdots
+    \frac {\cancel{\PP(A_2, A_1)}} {\cancel{\PP(A_1)}}
+    \cdot \cancel{\PP(A_1)} \\[4pt]
+    &= \PP(A_n, \, \dots, \, A_1)
+    \end{align*}\qedhere
+  \end{enumerate}
+\end{dimo}
+
+\medskip
+\begin{teo}[formula delle probabilità totali \JPTh{3.4}]
+  \index{probabilità totali, formula delle}
+  Siano $\Dom$ spazio di probabilità,
+  $(E_n)_n$ partizione discreta di $\Omega$, $A \in \Ac$. Allora:
+  $$
+  \PP(A) = \sum\limits_n \PP(A, E_n)
+  = \sum\limits_n \PP(A\,|\,E_n) \cdot \PP(E_n)
+  $$
+\end{teo}
+
+\begin{dimo}\belowdisplayskip=-20pt
+  Poiché $(A \cap E_k) \cap (A \cap E_l) = \varnothing \ \forall k \neq l$:
+  \begin{align*}
+  \PP(A) &= \PP(A \cap \Omega)
+  = \PP \left(A \cap \left(\bigcup\limits_n E_n\right) \right)
+  = \PP \left(\bigcup\limits_n \left(A \cap E_n\right) \right)\\
+  &= \sum\limits_n \PP (A \cap E_n)
+  = \sum\limits_n \PP (A \,|\, E_n) \cdot \PP (E_n)
+  \end{align*}\qedhere
+\end{dimo}
+
+\medskip
+\begin{teo}[formula di Bayes \JPTh{3.5}]
+  \index{Bayes, formula di}
+  Siano $\Dom$ spazio di probabilità,
+  $(E_n)_n$ partizione discreta di $\Omega$,
+  $A \in \Ac, \PP(A) > 0$. Allora:
+  $$
+  \PP(E_k \,|\, A)
+  = \frac {\PP(A \,|\, E_k) \cdot \PP(E_k)} {\PP(A)}
+  = \frac
+    {\PP(A \,|\, E_k) \cdot \PP(E_k)}
+    {\sum\limits_n \PP(A \,|\, E_n) \cdot \PP(E_n)}
+  $$
+\end{teo}
+
+La prima uguaglianza è il corollario \ref{dimo-bayes}.
+La seconda uguaglianza è una semplice conseguenza della formula delle probabilità
+totali.
+
+\begin{teo}
+	Sia $(A_n)_n$ una partizione discreta di $\Omega$, e sia $\Ac = \sigma(A_n : n \in I)$, con $I$ insieme arbitrario di indici. \\
+	Allora $\exists! \ \PP $ su $(\Omega,\Ac)$, con $ \PP(A_n) = p_n \enspace \forall n \in I$, tale che $p_n \ge 0$ e $\sum_{n\in I}p_n = 1$;
+	ovvero, una misura di probabilità $\PP$ su $(\Omega,\Ac)$ è \emph{caratterizzata} dai $\PP(A_n)$ con $n \in I$.
+	%Fabrizio, che diavolo è \varphi? Sistema (Br1)
+	%mi sembra ridondante ma magari mi sbaglio, se è ridondante eliminiamo uno dei due punti (SSL)
+	%Vero, la riformulo meglio (Br1)
+\end{teo}
+
+\begin{teo}
+	Siano $(A_n)_n$ e $(B_k)_k$ partizioni discrete di $\Omega$. \\
+	Siano inoltre: 
+	\begin{itemize}
+		\item $p_n$ tale che $p_n \ge 0 \enspace \forall n$ e $\sum_{n}p_n = 1$;
+		\item $q_{k|n}$ tale che, $\forall n \in \NN$ fissato, $q_{k|n} \ge 0 \enspace \forall k$ e $\sum_{k}q_{k|n} = 1$.
+	\end{itemize}
+	Allora $\exists!$ $ \PP$ su $\sigma((A_n)_n,(B_n)_n)$ tale che, $\forall n,k \in \NN$, si ha che:
+	$$\PP(A_n) = p_n \quad \text e \quad \PP(B_k | A_n) = q_{k|n} \enspace $$
+\end{teo}
+
+\begin{ese}
+Tre carte: la carta 1, nera su entrambi i lati, la carta 2,
+bianca su entrambi i lati, e la carta 3, con un lato bianco e uno nero.
+Pesco una carta e la poggio sul tavolo e il lato superiore è nero.
+Qual è la probabilità che il lato inferiore sia nero?
+
+Considero gli eventi $B$ ``lato superiore bianco'', $N = B^C$ ``lato superiore nero'',
+$A_i$ ``esce la carta $i$-esima''. $\{N, B\}$ e $\{A_1, A_2, A_3\}$ sono due partizioni
+di $\Omega$. Definiamo $\Ac = \sigma(A_1, A_2, A_3, N, B)$. Allora:
+\begin{align*}
+  &\PP(A_1) = \frac 1 3 \quad
+  &&\PP(B | A_1) = 0 &&\PP(A_1, B) = 0 \\
+  &&&\PP(N | A_1) = 1 &&\PP(A_1, N) = \frac 1 3 \\
+  &\PP(A_2) = \frac 1 3 \quad
+  &&\PP(B | A_2) = 1 &&\PP(A_2, B) = \frac 1 3 \\
+  &&&\PP(N | A_2) = 0 &&\PP(A_2, N) = 0 \\
+  &\PP(A_3) = \frac 1 3 \quad
+  &&\PP(B | A_3) = \frac 1 2 &&\PP(A_3, B) = \frac 1 6 \\
+  &&&\PP(N | A_3) = \frac 1 2 &&\PP(A_3, N) = \frac 1 6 \\
+\end{align*}
+Quindi possiamo calcolare $\PP(A_1|N)$ come:
+\begin{align*}
+  \PP(A_1|N)
+  &= \frac {\PP(N|A_1) \cdot \PP(A_1)} {\PP(N)}\\
+  &= \frac
+  {\PP(N|A_1) \cdot \PP(A_1)}
+  {\PP(N|A_1) \cdot \PP(A_1)
+  + \PP(N|A_2) \cdot \PP(A_2)
+  + \PP(N|A_3) \cdot \PP(A_3)}
+\end{align*}
+Sostituendo i valori numerici si ottiene ${\frac 1 3}/{\frac 3 6} = \frac 2 3$.
+\end{ese}
+\cleardoublepage

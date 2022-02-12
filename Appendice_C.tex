@@ -1,0 +1,813 @@
+\clearpage
+
+\section*{Appendice C. Distribuzioni continue} \label{appendice-continue} %%%Chiunque tocchi: attenzione all'indentaturaaaa!!!!
+\markboth{Appendice C. Distribuzioni continue}{}
+\addtocounter{section}{1}
+\setcounter{subsection}{0}
+\setcounter{teo}{0}
+\addcontentsline{toc}{section}{Appendice C. Distribuzioni continue}
+
+%%%Chiunque tocchi: attenzione all'indentaturaaaa!!!!
+Riportiamo qui una lista di alcune distribuzioni continue notevoli corredate da grafici e formule.
+
+\needspace{7\baselineskip}
+\subsection{Uniforme continua}
+
+	$$ U_{cont}(a,b) $$
+
+	Probabilità uniforme su un intervallo continuo $[a,b]$, con $a < b$.
+
+	\begin{figure} [H]
+
+		\centering
+
+		\begin{tikzpicture}
+
+			\begin{axis}[
+			axis lines = middle,
+			ylabel = $f(x)$,
+			xlabel = $x$,
+			width=0.57\textwidth,
+			height=0.5\textwidth,
+			xmin=-2,
+			xmax= 5,
+			ymin=-0.3,
+			ymax= 1.5,
+			yticklabels={,,},
+			%xticklabels={,,},
+			%axis equal=true
+			legend style={at={(axis cs: 5,1.1)},anchor=south east, font=\tiny},
+			legend cell align=left
+			]
+
+				\draw [line width=0.3mm] (axis cs:-2,0) -- (axis cs:1,0); %a=1, b=2
+				\draw [line width=0.3mm] (axis cs:1,1) -- (axis cs:2,1);
+				\draw [line width=0.3mm] (axis cs:2,0) -- (axis cs:5,0);
+				\draw [line width=0.1mm, dashed] (axis cs:0,1) -- (axis cs:1,1);
+				\draw [line width=0.1mm, dashed] (axis cs:1,1) -- (axis cs:1,0);
+				\draw [line width=0.1mm, dashed] (axis cs:2,1) -- (axis cs:2,0);
+
+				\addlegendentry{$a=1$, $b=2$}
+
+				\addplot [only marks, mark=*] table {
+				1 1
+				2 1
+				};
+
+				\addplot [draw=none, forget plot] coordinates {(-1,-0.2)};
+				\addplot [draw=none, forget plot] coordinates {(4,1.4)};
+
+				\addplot [draw=none, forget plot] coordinates {(0,1)} node[left] {\small{$\frac{1}{b-a}=1$}};
+				%\addplot [draw=none, forget plot] coordinates {(1,0)} node[below] {\small{$a$}};
+				%\addplot [draw=none, forget plot] coordinates {(2,0)} node[below] {\small{$b$}};
+
+
+				\draw [line width=0.3mm, black2] (axis cs:-2,0) -- (axis cs:-1,0); %a=-1, b=3
+				\draw [line width=0.3mm, black2] (axis cs:-1,0.25) -- (axis cs:3,0.25);
+				\draw [line width=0.3mm, black2] (axis cs:3,0) -- (axis cs:5,0);
+				\draw [line width=0.1mm, black2, dashed] (axis cs:-1,0) -- (axis cs:-1,0.25);
+				\draw [line width=0.1mm, black2, dashed] (axis cs:3,0) -- (axis cs:3,0.25);
+
+				\addlegendentry{$a=-1$, $b=3$}
+
+				\addplot [only marks, mark=*, black2] table {
+				-1 0.25
+				3 0.25
+				};
+
+				%\addplot [draw=none, forget plot] coordinates {(-1,-0.2)}; %togliere?
+				%\addplot [draw=none, forget plot] coordinates {(4,1.4)}; %togliere?
+
+				\addplot [draw=none, forget plot, black2] coordinates {(0,0.45)} node[left] {\small{$\frac{1}{b-a}=\frac{1}{4}$}};
+				%\addplot [draw=none, forget plot, black2] coordinates {(-1,0)} node[below] {\small{$a$}};
+				%\addplot [draw=none, forget plot, black2] coordinates {(3,0)} node[below] {\small{$b$}};
+
+			\end{axis}
+
+		\end{tikzpicture}
+		\hskip 1pt
+		\begin{tikzpicture}
+
+			\begin{axis}[
+			axis lines = middle,
+			ylabel = $F(t)$,
+			xlabel = $t$,
+			width=0.57\textwidth,
+			height=0.5\textwidth,
+			xmin=-2,
+			xmax= 5,
+			ymin=-0.3,
+			ymax= 1.5,
+			yticklabels={,,},
+			%xticklabels={,,}
+			]
+
+				\draw [line width=0.3mm] (axis cs:-2,0) -- (axis cs:1,0);
+				\draw [line width=0.3mm] (axis cs:1,0) -- (axis cs:2,1);
+				\draw [line width=0.3mm] (axis cs:2,1) -- (axis cs:5,1);
+				\draw [line width=0.1mm, dashed] (axis cs:0,1) -- (axis cs:2,1);
+
+%				\addlegendentry{$a=1$, $b=2$}
+
+				\addplot [draw=none, forget plot] coordinates {(-1,-0.2)};
+				\addplot [draw=none, forget plot] coordinates {(4,1.4)};
+
+				\addplot [draw=none, forget plot] coordinates {(0,1)} node[left] {\small{$1$}};
+				%\addplot [draw=none, forget plot] coordinates {(1,0)} node[below] {\small{$a$}};
+				%\addplot [draw=none, forget plot] coordinates {(2,0)} node[below] {\small{$b$}};
+
+
+				\draw [line width=0.3mm, black2] (axis cs:-2,0) -- (axis cs:-1,0);
+				\draw [line width=0.3mm, black2] (axis cs:.-1,0) -- (axis cs:3,1);
+				\draw [line width=0.3mm, black2] (axis cs:3,1) -- (axis cs:5,1);
+
+%				\addlegendentry{$a=-1$, $b=3$}
+
+				%\addplot [draw=none, forget plot, black2] coordinates {(-1,0)} node[below] {\small{$a$}};
+				%\addplot [draw=none, forget plot, black2] coordinates {(3,0)} node[below] {\small{$b$}};
+
+			\end{axis}
+
+		\end{tikzpicture}
+
+%		\caption{grafici della funzione di densità e della funzione di ripartizione per la distribuzione uniforme continua.}
+	\end{figure}
+
+
+	\begin{tabular*}{1\textwidth}{l l l}
+		\textbf{Supporto:} & $[a,b] \in \RR$ & \\ \hline
+		\textbf{Funzione di densità:}    &  $f(x) = \begin{cases} \dfrac{1}{b-a} & \text{per }x \in [a,b] \\ 0 & \text{altrimenti} \end{cases}$ \CS[0.8]{0.6}\\ \hline
+		\textbf{Funzione di ripartizione:}    &  $F(t) = \begin{cases} 0 & \text{per } t < a \\ \dfrac{t-a}{b-a} & \text{per }t \in [a,b] \\ 1 & \text{per }t > b \end{cases}$ \CS[1]{0.8}\\ \hline
+		\textbf{Funzione caratteristica:} & $ \varphi(u) = \exp\left\{i \dfrac{a+b}{2} u\right\} \dfrac{\sin\left(\dfrac{b-a}{2}u\right)}{\left(\dfrac{b-a}{2}u\right)}$ \CS[1.08]{0.88}\\ \hline
+		\textbf{Valore atteso:} & $\EE[X] = \frac{1}{2}(a+b)$ &\CS[0.5]{0.3} \\ \hline
+		\textbf{Varianza:} & $Var (X) = \frac{1}{12}(b-a)^2$ &\CS[0.5]{0.3} \\
+	\end{tabular*}
+
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\needspace{7\baselineskip}
+\subsection{Esponenziale}
+
+	$$ \Ec (\lambda) $$
+
+	Descrive il tempo di attesa al verificarsi di un successo che avviene periodicamente: misura dunque la durata tra eventi in un processo di Poisson di parametro $\lambda$. In quanto priva di memoria, può modellizzare il tempo di vita di oggetti che non invecchiano.
+
+	\begin{figure}[H]
+
+		\centering
+
+		\begin{tikzpicture}
+
+			\begin{axis}[
+			axis lines = middle,
+			ylabel = $f(x)$,
+			xlabel = $x$,
+			width=0.5\textwidth,
+			height=0.5\textwidth,
+			%yticklabels={,,},
+			%xticklabels={,,}
+			]
+
+				\addplot [
+				domain=0:5,
+				samples=100,
+				color=black,
+				line width=0.3mm
+				]
+				{0.5*e^(-0.5*x)};
+
+				%\addlegendentry{$\lambda = 1$}
+
+				\addplot [
+				domain=0:5,
+				samples=100,
+				color=black2,
+				line width=0.3mm
+				]
+				{e^(-x)};
+
+				%\addlegendentry{$\lambda = 2$}
+
+				\addplot [
+				domain=0:5,
+				samples=100,
+				color=black3,
+				line width=0.3mm
+				]
+				{2*e^(-2*x)};
+
+				%\addlegendentry{$\lambda = 5$}
+
+				\addplot [draw=none, forget plot] coordinates {(1, 0.5)};
+
+			\end{axis}
+
+		\end{tikzpicture}
+		\hskip 1pt
+		\begin{tikzpicture}
+
+			\begin{axis}[
+			axis lines = middle,
+			ylabel = $F(t)$,
+			xlabel = $t$,
+			width=0.5\textwidth,
+			height=0.5\textwidth,
+			%yticklabels={,,},
+			%xticklabels={,,}
+			legend style={at={(axis cs: 5,0.1)},anchor=south east, font=\tiny},
+			legend cell align=left,
+			]
+
+				\addplot [
+				domain=0:5,
+				samples=100,
+				color=black,
+				line width=0.3mm
+				]
+				{1-e^(-0.5*x)};
+
+				\addlegendentry{$\lambda = 1$}
+
+				\addplot [
+				domain=0:5,
+				samples=100,
+				color=black2,
+				line width=0.3mm
+				]
+				{1-e^(-1*x)};
+
+				\addlegendentry{$\lambda = 2$}
+
+				\addplot [
+				domain=0:5,
+				samples=100,
+				color=black3,
+				line width=0.3mm
+				]
+				{1-e^(-2*x)};
+
+				\addlegendentry{$\lambda = 5$}
+
+				\addplot [draw=none, forget plot] coordinates {(1, 0.5)};
+
+			\end{axis}
+
+		\end{tikzpicture}
+
+%		\caption{grafici della funzione di densità e della funzione di ripartizione per la distribuzione esponenziale.}
+
+	\end{figure}
+
+	\begin{tabular*}{1\textwidth}{l l l}
+		\textbf{Supporto:} & $[0,+\infty)$ & \CS{0.40}\\ \hline
+		\textbf{Funzione di densità:}    &  $f(x) = \lambda e^{-\lambda x} \Ind_{(0, +\infty)}(x)$\CS[0.60]{0.40}\\ \hline
+		\textbf{Funzione di ripartizione:}    &  $F(t) = 1- e^{-\lambda t} \Ind_{(0, +\infty)}(t)$\CS[0.60]{0.40}\\ \hline
+		\textbf{Funzione caratteristica:} & $\varphi(u)=\dfrac{\lambda}{\lambda-iu}$ & \CS[0.60]{0.40}\\ \hline
+		\textbf{Valore atteso:} & $\EE[X]= \dfrac{1}{\lambda}$ & \CS[0.60]{0.40}\\ \hline
+		\textbf{Varianza:} & $Var(X)= \dfrac{1}{\lambda^2}$ & \CS[0.60]{0.40}\\
+	\end{tabular*}
+
+\clearpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\needspace{7\baselineskip}
+\subsection{Normale}
+
+	$$ \Nc(\mu, \sigma^2) $$
+
+	Detta anche \textbf{distribuzione gaussiana}, riveste un ruolo cruciale nella teoria della probabilità e della statistica.
+	I suoi parametri $\mu$ e $\sigma^2$ coincidono rispettivamente con la sua media e varianza.
+%	Il teorema centrale del limite (\ref{TCL}) afferma che una somma di $n$ VA con media e varianza finite converge in legge, al tendere di $n$ all'infinito, a una distribuzione normale.
+%	\clearpage
+%	A causa di ciò questa distribuzione dalla tipica forma a campana rappresenta un modello largamente impiegato, anche per rappresentare fenomeni complessi.
+	Nel caso di media nulla e varianza unitaria si ha una \textbf{normale standard}: $Z \sim \Nc(0,1)$.
+
+	\begin{figure}[H]
+
+		\centering
+
+		\begin{tikzpicture}
+
+			\begin{axis}[
+			axis lines = middle,
+			ylabel = $f(x)$,
+			xlabel = $x$,
+			width=0.6\textwidth,
+			height=0.6\textwidth,
+			%yticklabels={,,},
+			%xticklabels={,,},
+			%axis equal=true
+			]
+
+				\addplot [
+				domain=-5:5,
+				samples=100,
+				color=black,
+				line width=0.3mm
+				] {
+					1/sqrt(2*pi)*e^(-(x)^2/2
+					};
+
+				%\addlegendentry{$\mu =0, \sigma^2=0$}
+
+				\addplot [
+				domain=-5:5,
+				samples=100,
+				color=black2,
+				line width=0.3mm
+				] {
+					1/sqrt(2*pi*2)*e^(-(x-1)^2/4
+					};
+
+				%\addlegendentry{$\mu =1, \sigma^2=2$}
+
+				\addplot [
+				domain=-5:5,
+				samples=100,
+				color=black3,
+				line width=0.3mm
+				] {
+					1/sqrt(2*pi*5)*e^(-(x+1)^2/10
+					};
+
+				%\addlegendentry{$\mu =-1, \sigma^2=5$}
+
+				\addplot [draw=none, forget plot] coordinates {(1, 0.5)};
+
+			\end{axis}
+
+		\end{tikzpicture}
+		\hskip 1pt
+		\begin{tikzpicture}[declare function={erf(\x)=%
+		(1+(e^(-(\x*\x))*(-265.057+abs(\x)*(-135.065+abs(\x)%
+		*(-59.646+(-6.84727-0.777889*abs(\x))*abs(\x)))))%
+			/(3.05259+abs(\x))^5)*(\x>0?1:-1);}]
+
+			\begin{axis}[
+			%axis lines = middle,
+			axis x line= center,
+			axis y line= center,
+			ylabel = $F(t)$,
+			xlabel = $t$,
+			width=0.6\textwidth,
+			height=0.6\textwidth,
+			%yticklabels={,,},
+			%xticklabels={,,},
+			%axis equal=true		%Il Signore mi perdoni
+			legend style={at={(axis cs: 5,0.07)},anchor=south east, font=\tiny},
+			legend cell align=left,
+			]
+
+				\addplot [
+				domain=-5:5,
+				samples=100,
+				color=black,
+				line width=0.3mm
+				] {
+					(1/2)*(1+erf((x-0)/(1*sqrt(2))))
+					};
+
+				\addlegendentry{$\mu =0, \sigma^2=0$}
+
+				\addplot [
+				domain=-5:5,
+				samples=100,
+				color=black2,
+				line width=0.3mm
+				] {
+					(1/2)*(1+erf((x-1)/(1*sqrt(2*2))))
+					};
+
+				\addlegendentry{$\mu =1, \sigma^2=2$}
+
+				\addplot [
+				domain=-5:5,
+				samples=100,
+				color=black3,
+				line width=0.3mm
+				] {
+					(1/2)*(1+erf((x+1)/(1*sqrt(2*5))))
+					};
+
+				\addlegendentry{$\mu =-1, \sigma^2=5$}
+
+				%\addplot [draw=none, forget plot] coordinates {(1, 0.5)};
+
+			\end{axis}
+
+		\end{tikzpicture}
+
+%		\caption{grafici della funzione di densità e della funzione di ripartizione per la distribuzione normale.}
+
+	\end{figure}
+
+	\begin{tabular*}{1\textwidth}{l l l}
+		\textbf{Supporto:} & $\RR$ & \\ \hline
+		\textbf{Funzione di densità:} & $f(x)= \dfrac{1}{\sqrt{2 \pi \sigma^2}}\exp\left\{- \dfrac{(x-\mu)^2}{2 \sigma^2}\right\}$ & \CS[0.6]{0.4} \\ \hline
+		\textbf{Funzione di ripartizione:} & $F(t) = \Phi \left(\dfrac{t-\mu}{\sigma} \right) = \frac{1}{2}\left[1+\operatorname{erf}\left( \frac{t-\mu}{\sqrt{2}\sigma} \right)\right] $  & \CS[0.58]{0.4}\\ \hline
+		\textbf{Funzione caratteristica:} & $\varphi(u) = \exp\left\{i u \mu-\frac{\sigma^2}{2}u^2\right\}$ & \CS[0.5]{0.3}\\ \hline
+		\textbf{Valore atteso:} & $\EE[X]=\mu$ & \\ \hline
+		\textbf{Varianza:} & $Var(X)= \sigma^2$ & \\ \hline
+		\textbf{Momento quarto:} & $\EE[(X-\mu)^4] = 3\sigma^4$ & \\ \hline
+%		\textbf{Trasformazioni affini:} & {Date $X \sim N(\mu_X, \sigma^2_X)$, $Y \sim N(\mu_Y, \sigma^2_Y)$}\\
+%		& {$AX+b \sim \Nc (A \mu_X + b, A\sigma^2_XA^T)$ }&\\
+%		& {$aX+bY \sim N(a\mu_X + b\mu_Y, a^2\sigma^2_X + b^2\sigma^2_Y + 2ab\sigma_{XY})$}\\
+%		& {$a^2\sigma^2_X + b^2\sigma^2_Y + 2ab\sigma_{XY} \geq 0$ (Condizione da verificare)}
+		\textbf{Trasformazioni affini:} & \makecell[l] {\scriptsize{Date $X \sim N(\mu_X, \sigma^2_X)$, $Y \sim N(\mu_Y, \sigma^2_Y)$}\\
+		\scriptsize{$AX+b \sim \Nc (A \mu_X + b, A\sigma^2_XA^T)$ }\\
+		\scriptsize{$aX+bY \sim N(a\mu_X + b\mu_Y, a^2\sigma^2_X + b^2\sigma^2_Y + 2ab\sigma_{XY})$}\\
+		\scriptsize{$a^2\sigma^2_X + b^2\sigma^2_Y + 2ab\sigma_{XY} \geq 0$ (Condizione da verificare)}}
+	\end{tabular*}
+
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\needspace{7\baselineskip}
+\subsection{Gamma}
+
+	$$ \Gamma(\alpha, \beta) $$
+
+	Comprende come casi particolari le distribuzioni esponenziali e chi-quadro. È definita come la somma di VA indipendenti con distribuzione esponenziale ($\alpha$ VA esponenziali di parametro $\beta$), con $\alpha>0$ e $\beta>0$.
+
+	\begin{figure}[H]
+
+		\centering
+
+		\input{img/GammaDens}
+		\hskip 1pt
+		\input{img/GammaRipar}
+
+%		\caption{grafici della funzione di densità e della funzione di ripartizione per la distribuzione gamma.}
+
+	\end{figure}
+
+	\begin{tabular*}{1\textwidth}{l l l}
+		\textbf{Supporto:} & $[0,+\infty)$ &\CS{0.40} \\ \hline
+		\textbf{Funzione di densità:} & $f(x)= \dfrac{\beta^\alpha x^{\alpha-1} e^{-\beta x}}{\Gamma(\alpha)}\Ind_{(0, +\infty)}(x)$& \CS[0.62]{0.45}\\ \hline
+		\textbf{Funzione di ripartizione:}    &  $F(t) = \dfrac{\gamma(\alpha, \beta t)}{\Gamma(\alpha)} $ & \CS[0.62]{0.42}\\ \hline
+		%\textbf{Funzione di ripartizione:}    & $F(t)= \left(1- \sum\limits_{i=0}^{\alpha-1} e^{- \beta t} \dfrac{(\beta t)^i}{i!} \right)$ se $\alpha, \; \beta \in \NN$ & \CS[0.62]{0.42}\\ \hline
+		\textbf{Funzione caratteristica:} & $\varphi(u)= \left( \dfrac{ \beta }{\beta - iu} \right)^\alpha$ &\CS[0.62]{0.42}\\ \hline
+		\textbf{Valore atteso e momenti:} & $\EE [X^k] = \dfrac{\alpha(\alpha+1) \ldots (\alpha + k -1)}{\beta^k} $ & \CS[0.6]{0.40}\\ \hline
+		\textbf{Varianza:} & $Var(X)= \frac{\alpha}{\beta^2}$ & \CS[0.55]{0.35} \\ \hline
+		\textbf{Prodotto per scalare:} & $X \sim \Gamma(\alpha, \beta), \ Y= cX, \ c>0 \implies Y \sim \Gamma(\alpha, \frac{\beta}{c})$& \CS[0.55]{0.35} \\
+	\end{tabular*}
+	Dove la \textit{funzione} Gamma di Eulero è definita come:
+	$$ \Gamma(x) = \int_0^{+\infty} t^{x-1}e^{-t}\de t $$
+	
+\clearpage
+
+	Un caso particolare della distribuzione gamma è la distribuzione erlanghiana (da A. K.  Erlang) dove i parametri $\alpha$ e $\beta$ sono interi positivi. Solo in questo caso la funzione di ripartizione si può scrivere come: $$F(t)= \left(1- \sum\limits_{i=0}^{\alpha-1} e^{- \beta t} \dfrac{(\beta t)^i}{i!} \right)$$
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\needspace{7\baselineskip}
+\subsection{Chi-quadro}
+
+	$$ \chi^2 (k) = \Gamma \left( \frac{k}{2}, \frac{1}{2} \right) = \sum_{i=1}^{k} Z_i^2$$
+
+	Somma di $k$ normali standard, ovvero $Z \sim \Nc(0,1)$, ciascuna elevata al quadrato.
+
+	\begin{figure}[H]
+
+		\centering
+
+		\input{img/ChiQuadDens}
+		\hskip 1pt
+		\input{img/ChiQuadRipar}
+
+%		\caption{grafici della funzione di densità e della funzione di ripartizione per la distribuzione chi-quadro.}
+
+	\end{figure}
+
+	\begin{tabular*}{1\textwidth}{l l l}
+		\textbf{Supporto:} & $[0,+\infty)$ & \CS{0.40} \\ \hline
+		\textbf{Funzione di densità:} & $f(x)= \dfrac{1}{2^{\frac{k}{2}} \Gamma \left(\frac{k}{2} \right) } x^{ \frac{k}{2}-1} e^{- \frac{x}{2}}\,\Ind_{(0, +\infty)}$  & \CS[0.5]{0.5}\\ \hline
+		\textbf{Funzione di ripartizione:}    &  $F(t) = \dfrac{\gamma \left(\frac{k}{2}, \frac{t}{2} \right)}{\Gamma \left(\frac{k}{2}\right)} $ & \CS[0.65]{0.5}\\ \hline
+		\textbf{Funzione caratteristica:} & $\varphi(u)= (1-2iu)^{-\frac{k}{2}}$ \CS[0.60]{0.40} \\ \hline
+		\textbf{Valore atteso:} & $\EE[X]= k$ & \CS[0.60]{0.40} \\ \hline
+		\textbf{Varianza:} & $Var(X)= 2k $ & \CS[0.60]{0.40} \\
+	\end{tabular*}
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\needspace{7\baselineskip}
+\subsection{$t$ di Student}
+
+	$$t(n) = \dfrac{\Nc(0,1)}{\sqrt{\frac{\chi^2(n)}{n}}}$$
+
+	Definita come rapporto fra una normale standard e un'espressione legata alla chi-quadro, nell'ipotesi che queste due variabili aleatorie siano indipendenti.
+	Riveste un ruolo importante nella statistica, in particolare nella stima della media di una popolazione.
+	Il parametro $n$ viene detto \textit{numero di gradi di libertà}.
+
+	\begin{figure}[H]
+
+		\centering
+
+		\input{img/TStudDens}
+		\hskip 1pt
+		\input{img/TStudRipar}
+
+%		\caption{grafici della funzione di densità e della funzione di ripartizione per la distribuzione t di Student.}
+
+	\end{figure}
+
+	\begin{tabular*}{1\textwidth}{l l l}
+		\textbf{Supporto:} & $\RR$ & \CS{0.40} \\ \hline
+		\textbf{Funzione di densità:} &  $f(x)=\dfrac{\Gamma \left(\frac{n+1}{2} \right)}{\Gamma \left(\frac{n}{2}\right)\sqrt{\pi n}} \cdot  \left(1+\frac{x^2}{n} \right)^{-\frac{n+1}{2}}$ & \CS[0.7]{0.5} \\ \hline
+		\textbf{Valore atteso:} & $\EE[X]=0$ se $n>1$ \text{ oppure indefinito}& \CS[0.60]{0.40} \\ \hline
+		\textbf{Varianza:} & $Var(X)=\dfrac{n}{n-2}$ se $n>2$ \text{ oppure indefinita} & \CS[0.60]{0.40}\\
+	\end{tabular*}
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\needspace{7\baselineskip}
+\subsection{Weibull}
+
+	$$W(\lambda, k)$$
+
+	Qui trovate rappresentata la più comune parametrizzazione: $\lambda>0$, $k>0$.
+	
+		\begin{figure}[H] 	%%%  k/(lambda^k)*x^(k-1)*e^(-(x/lambda)^k)  %%% e^(-(x/lambda)^k)
+		
+		\centering
+		
+		\begin{tikzpicture}
+		
+		\begin{axis}[
+		axis lines = middle,
+		ylabel = $f(x)$,
+		xlabel = $x$,
+		width=0.5\textwidth,
+		height=0.5\textwidth,
+		]
+		
+		\addplot [
+		domain=0:5,
+		samples=100,
+		color=black,
+		line width=0.3mm
+		] { %e^(-1)
+			1/(1^1)*x^(1-1)*e^(-(x/1)^1)
+		};
+		
+		%				\addlegendentry{$ k=1, \lambda = 1$}
+		
+		\addplot [
+		domain=0.1:5,
+		samples=200,
+		color=black2,
+		line width=0.3mm
+		] {
+			2/(5^0.5)*x^(0.5-1)*e^(-(x/5)^0.5)
+		};
+		
+		%				\addlegendentry{$ k=0.5, \lambda = 5$}
+		
+		\addplot [
+		domain=0:5,
+		samples=100,
+		color=black3,
+		line width=0.3mm
+		] {
+			5/(2^5)*x^(5-1)*e^(-(x/2)^5)
+		};
+		
+		%				\addlegendentry{$ k=5, \lambda = 2$}
+		
+		\end{axis}
+		
+		\end{tikzpicture}
+		\hskip 1pt
+		\begin{tikzpicture}
+		
+		\begin{axis}[
+		axis lines = middle,
+		ylabel = $F(t)$,
+		xlabel = $t$,
+		width=0.5\textwidth,
+		height=0.5\textwidth,
+		%yticklabels={,,},
+		%xticklabels={,,},
+		%axis equal=true,
+		legend style={at={(axis cs: 5,0.1)},anchor=south east, font=\tiny},
+		legend cell align=left
+		]
+		
+		\addplot [
+		domain=0:5,
+		samples=100,
+		color=black,
+		line width=0.3mm
+		] { %e^(-1)
+			1-e^(-(x/1)^1)
+		};
+		
+		\addlegendentry{$\lambda = 1,  k=1$}
+		
+		
+		\addplot [
+		domain=0:5,
+		samples=100,
+		color=black2,
+		line width=0.3mm
+		] {
+			1-e^(-(x/5)^0.5)
+		};
+		
+		\addlegendentry{$ \lambda=5, k=0.5$}
+		
+		\addplot [
+		domain=0:5,
+		samples=100,
+		color=black3,
+		line width=0.3mm
+		] {
+			1-e^(-(x/2)^5)
+		};
+		
+		\addlegendentry{$ \lambda=2, k=5$}
+		
+		\addplot [draw=none, forget plot] coordinates {(1, 1.01)};
+		
+		\end{axis}
+		
+		\end{tikzpicture}
+		
+		%		\caption{grafici della funzione di densità e della funzione di ripartizione per la distribuzione di Weibull.}
+		
+	\end{figure}
+	
+	\begin{tabular*}{1\textwidth}{l l l}
+		\textbf{Supporto:} & $[0, +\infty]$ & \CS{0.40} \\ \hline
+		\textbf{Funzione di densità:} & $f(x)= \dfrac{k}{\lambda^k} x^{k-1} e^{- (x/\lambda)^k }\,\Ind_{(0, +\infty)}(x)$ & \CS[0.60]{0.40}\\ \hline
+		\textbf{Funzione di ripartizione:}    &  $F(t)= 1-e^{- (\frac{t}{\lambda})^k}$ \CS[0.60]{0.40}\\ \hline
+		\textbf{Funzione caratteristica:} & $\varphi(u) = \sum_{n=0}^{+\infty} \dfrac{(iu)^n\lambda^n}{n!}\Gamma \left(1+\dfrac{n}{k}  \right)$ &  \CS[0.60]{0.40}\\ \hline
+		\textbf{Valore atteso:} & $\EE[X]= \frac{\lambda}{k} \Gamma( \frac{1}{k})$ &  \CS[0.60]{0.40}\\ \hline
+		\textbf{Varianza:} & $Var(X)= \dfrac{\lambda^2}{k^2} \left[ 2k \Gamma \left(\frac{2}{k} \right) - \Gamma^2 \left(\frac{1}{k} \right) \right] $ &  \CS[0.60]{0.40}\\
+	\end{tabular*}
+
+	È spesso impiegata per la stimare il {tempo medio di guasto} (o MTTF, mean time to failure) di un sistema.
+	L'asse delle ascisse rappresenta il tempo, o il numero di cicli a cui è sottposto il campione (per esempio cadute o oscillazioni caldo-freddo); 
+	l'asse delle ordinate nella densità rappresenta la probabilità che un oggetto si guasti nel tempo, e nella funzione di ripartizione la percentuale di oggetti guasti.
+	\needspace{5\baselineskip}
+	Si noti che il parametro $k$, denominato \textit{tasso di guasto} o \textit{modulo di Weibull}, fornisce un'importante informazione:
+	\begin{itemize}
+		\item $k < 1$: la probabilità di guastarsi si riduce nel tempo, per esempio nel caso del rodaggio di un macchinario, producendo quindi un'alta  ``mortalità infantile'';
+		\item $k = 1$: la probabilità di guastarsi rimane invariata, e questo è il caso particolare della distribuzione esponenziale $\Ec (\lambda)$;
+		\item $k > 1$: la probabilità di guastarsi aumenta nel tempo, per esempio in un sistema dove le sollecitazioni precedenti danneggiano senza guastare.
+	\end{itemize}
+
+
+
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\needspace{7\baselineskip}
+\subsection{Cauchy}
+
+$$\Cc(x_0, y_0)$$
+
+Caso insolito tra le distribuzioni canoniche, in quanto una variabile con questa legge non è in $L^1$ e pertanto non ha né valore atteso né varianza.
+Ha i parametri $x_0 \in \RR$, $y_0 > 0$.\\[-8pt]
+
+\begin{figure}[H] %%% a,b  (1/pi)*(b)/((x-a)^2+b^2)      (1/pi)*arccot((a-x)/b)		(1/pi)*(pi/2-atan((a-x)/b))
+
+	\centering
+
+	\begin{tikzpicture}
+
+		\begin{axis}[
+		axis lines = middle,
+		ylabel = $f(x)$,
+		xlabel = $x$,
+		width=0.6\textwidth,
+		height=0.5\textwidth,
+		%yticklabels={,,},
+		%xticklabels={,,},
+		%axis equal=true,
+		legend style={at={(axis cs: -5,0.57)},anchor=north west, font=\tiny},
+		legend cell align=left
+		]
+
+			\addplot [
+			domain=-5:5,
+			samples=100,
+			color=black,
+			line width=0.3mm
+			] {
+				(1/pi)*(1)/((x-0)^2+1^2)
+			};
+
+			\addlegendentry{$ x_0=0, y_0 = 1$}
+
+			\addplot [
+			domain=-5:5,
+			samples=100,
+			color=black2,
+			line width=0.3mm
+			] {
+				(1/pi)*(0.5)/((x-2)^2+0.5^2)
+			};
+
+			\addlegendentry{$ x_0=2, y_0 = 0.5$}
+
+			\addplot [
+			domain=-5:5,
+			samples=100,
+			color=black3,
+			line width=0.3mm
+			] {
+				(1/pi)*(2)/((x+1)^2+2^2)
+			};
+
+			\addlegendentry{$ x_0=-1, y_0 = 2$}
+
+			\addplot [draw=none, forget plot] coordinates {(1, 0.5)};
+
+		\end{axis}
+
+	\end{tikzpicture}
+	\hskip 1pt
+	\input{img/CauchyRipar}
+
+%	\caption{grafici della funzione di densità e della funzione di ripartizione per la distribuzione di Cauchy.}
+
+\end{figure}
+
+\begin{tabular*}{1\textwidth}{l l l}
+	\textbf{Supporto:} & $\RR$ & \CS{0.40} \\ \hline  %na ceppa di minchia $[0, +\infty]$
+	\textbf{Funzione di densità:} & $f(x)= \dfrac{1}{\pi} \dfrac{y_0}{(x-x_0)^2 + y_0^2}$ & \CS[0.60]{0.40}\\ \hline
+%	\textbf{Funzione di ripartizione:}    &  $F(x)= \dfrac{1}{\pi} \operatorname{arccot} \left(\dfrac{x_0-x}{y_0} \right)$ & \CS[0.58]{0.38}\\ \hline  %%ToBeChanged, isn't correct
+	\textbf{Funzione di ripartizione:}    &  $F(t)= \dfrac{1}{\pi} \operatorname{arctan} \left(\dfrac{t-x_0}{y_0} \right)  + \frac{1}{2}$ & \CS[0.60]{0.40}\\ \hline
+	\textbf{Funzione caratteristica:} & $\varphi(u)= \exp \left\{ ix_0u-y_0|u| \right\}$\CS[0.60]{0.40}\\
+\end{tabular*}
+
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\needspace{7\baselineskip}
+\subsection{Beta}
+
+$$B(\alpha, \beta)$$
+
+Governa la probabilità $p$, a priori distribuita uniformemente, di un processo di Bernoulli dopo aver osservato $\alpha - 1$ successi e $\beta - 1$ fallimenti; con $\alpha >0$ e $\beta > 0$.
+
+\begin{figure}[H]
+	
+	\centering
+	
+	\input{img/BetaDens}
+	\hskip 1pt
+	\input{img/BetaRipar}
+	
+	
+\end{figure}
+
+\begin{tabular*}{1\textwidth}{l l l}
+	\textbf{Supporto:} & $\left[0,1\right]$ & \CS{0.40} \\ \hline
+	\textbf{Funzione di densità:} &  $f(x)=\dfrac{x^{\alpha-1}(1-x)^{\beta -1}}{B (\alpha, \beta)}$ & \CS[0.60]{0.40} \\ \hline
+	\textbf{Valore atteso:} & $\EE[X]=\dfrac{\alpha}{\alpha+\beta}$ & \CS[0.60]{0.40} \\ \hline
+	\textbf{Varianza:} & $Var(X)=\dfrac{\alpha\beta}{(\alpha+\beta)^2(\alpha+\beta+1)}$ & \CS[0.60]{0.40}\\
+\end{tabular*}
+
+Dove a denominatore della densità troviamo la \textit{funzione} Beta di Eulero, così definita:
+$$B(x,y) = \int_0^1 t^{x-1} (1-t)^{y-1}\de t$$
+\clearpage
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\needspace{7\baselineskip}
+\subsection{Rayleigh}
+
+$$Z(\sigma)$$
+
+Descrive la variabile aleatoria $Z = \sqrt{X^2+Y^2}$, dove $X$ e $Y$ hanno legge $\Nc(0,\sigma^2)$; con $\sigma >0$.
+
+\begin{figure}[H]
+	
+	\centering
+	
+	\input{img/RayleighDens}
+	\hskip 1pt
+	\input{img/RayleighRipar}
+	
+	%		\caption{grafici della funzione di densità e della funzione di ripartizione per la distribuzione t di Student.}
+	
+\end{figure}
+
+\begin{tabular*}{1\textwidth}{l l l}
+	\textbf{Supporto:} & $[0,+\infty)$ & \CS{0.40} \\ \hline
+	\textbf{Funzione di densità:} &  $f(x)=\dfrac{x}{\sigma^2} e^{-\frac{x^2}{2\sigma^2}}$ & \CS[0.6]{0.4} \\ \hline
+	\textbf{Funzione di ripartizione:} &  $F(t)=1-e^{-\frac{t^2}{2\sigma^2}}$ & \CS[0.6]{0.4} \\ \hline
+	\textbf{Valore atteso:} & $\EE[X]=\sigma\sqrt{\frac \pi 2}$& \CS[0.60]{0.40} \\ \hline
+	\textbf{Varianza:} & $Var(X)=(2-\frac \pi 2)\sigma^2$ & \CS[0.60]{0.40}\\
+\end{tabular*}
+
+

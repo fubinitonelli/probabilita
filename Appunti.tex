@@ -1,0 +1,56 @@
+\documentclass[a4paper]{article}
+\input{_includes}
+\usepackage{}\usepackage[paperwidth=17cm, paperheight=24cm, twoside, left=2.5cm, right=2cm, top=2.5cm, bottom=3cm]{geometry}
+
+\input{_style}
+\include{_commands}
+
+\usepackage[active,
+  generate=definizioni.part.tex,
+  extract-env={defn},
+  extract-cmd={section,subsection,subsubsection}]{extract}
+\begin{extract}
+  \input{_includes}
+  \input{_style}
+  \include{_commands}
+\end{extract}
+
+\begin{document}
+\begin{extract*}
+  \include{_style_in_doc}
+  \include{_firstpages}
+\end{extract*}
+
+\input{01_definizione_prob}
+\input{02_prob_condizionata}
+\input{03_costruzione_prob}
+\input{04_prob_su_R}
+\input{05_VA}
+\input{06_integrazione_P}
+\input{07_VARD}
+\input{08_VARC}
+\input{09_VA_indipendenti}
+\input{10_vettori_aleatori}
+\input{11_funzione_caratteristica}
+\input{12_vettori_gaussiani}
+\input{13_leggi_condizionate}
+\input{14_attesa_condizionata}
+\input{15_convergenza_VA}
+\input{16_teoremi_limite}
+\input{17_markov}
+
+\renewcommand{\thesection}{\Alph{section}}
+\setcounter{section}{0}
+\input{Appendice_A}
+\input{Appendice_B}
+\input{Appendice_C}
+
+\cleardoublepage
+
+\pagestyle{plain}
+\addcontentsline{toc}{section}{Indice analitico}
+{\small \printindex}
+
+\clearpage
+
+\end{document}

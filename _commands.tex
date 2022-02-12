@@ -1,0 +1,210 @@
+\makeatletter
+% case 1: theorem name--number ("ordinary") style
+\patchcmd{\thmhead@plain}%
+   {\thmnote{ {\the\thm@notefont(#3)}}}%  original form
+   {\thmnote{:  #3}}%  new form
+   {}{}
+\let\thmhead\thmhead@plain
+
+%\renewcommand{\qed}{\hfill \ensuremath{\Box}}
+
+\theoremstyle{break}
+\newtheorem{teo}{Teorema}[section]
+\newtheorem{coro}[teo]{Corollario}
+\newtheorem{defn}[teo]{Definizione}
+\newtheorem{oss}[teo]{Osservazione}
+\newtheorem{prop}[teo]{Proposizione}
+\newtheorem{lemma}[teo]{Lemma}
+
+\theoremstyle{breakb}
+\newtheorem{teob}[teo]{Teorema}
+\newtheorem{corob}[teo]{Corollario}
+\newtheorem{propb}[teo]{Proposizione}
+\newtheorem*{XxmpX}{Dimostrazione}
+\newenvironment{dimo}    % this is the environment name for the input
+  {\pushQED{\qed}\begin{XxmpX}}
+   {\popQED\end{XxmpX}}
+
+\theoremstyle{bold}
+\newtheorem*{nb}{NB}
+
+\theoremstyle{breakit}
+\newtheorem*{ese}{Esempio}
+\newtheorem*{eser}{Esercizio}
+\newtheorem*{cese}{Controesempio}
+
+\theoremstyle{breakitb}
+\newtheorem*{eseb}{Esempio}
+\newtheorem*{eserb}{Esercizio}
+\newtheorem*{ceseb}{Controesempio}
+
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+
+\newcommand\sigmaeq{\stackrel{\mathclap{\normalfont\mbox{$\sigma$-add}}}{\quad=\quad}}
+\newcommand\aceq{\stackrel{\mathclap{\normalfont\mbox{qc}}}{\;=\;}}
+\newcommand{\indep}{\mathrel{\text{\scalebox{1.07}{$\perp\mkern-10mu\perp$}}}}
+\newcommand{\padtwo}[1]{\ifnum #1 < 10 0\fi #1}
+
+\newcommand{\lezione}[2]{}
+
+\newcommand{\esercitazione}[2]{}
+
+\newenvironment{dedication}
+  {\clearpage           % we want a new page
+   \thispagestyle{empty}% no header and footer
+   \vspace*{\stretch{1}}% some space at the top
+   \itshape             % the text is in italics
+   \raggedleft          % flush to the right margin
+  }
+  {\par % end the paragraph
+   \vspace{\stretch{2}} % space at bottom is three times that at the top
+   \cleardoublepage     % finish off the page
+  }
+
+\newcommand*{\blankpage}{%
+
+}
+
+%cleardoublepage lascia le pagine bianche, con solo il numero
+\makeatletter
+\def\emptypage@emptypage{%
+    \hbox{}%
+    \thispagestyle{plain}   %% or any page style
+    \blankpage%
+    \newpage%
+}%
+\def\cleardoublepage{%
+        \clearpage%
+        \if@twoside%
+            \ifodd\c@page%
+                % do nothing
+            \else%
+                \emptypage@emptypage%
+            \fi%
+        \fi%
+    }%
+\makeatother
+
+% SCORCIATOIE PERSONALIZZATE
+
+%% Formattazione
+\newcommand{\Fixvmode}{\leavevmode\vspace{-\baselineskip}}
+\newcommand{\JPTh}[1]{\normalfont{(\textit{J-P Th #1})}}
+\newcommand{\JPCoro}[1]{\normalfont{(\textit{J-P Coro #1})}}
+
+%% Varie
+\newcommand{\DimStar}{
+  \textit{\framebox[2.5\width]{$\ast$} La dimostrazione sotto riportata fa parte del solo programma completo.}
+}
+
+\newcommand{\DimStarPar}{
+  \textit{\framebox[2.5\width]{$\ast$!} Una parte della dimostrazione sotto riportata fa parte del solo programma completo.}
+}
+\newcommand{\DimStarInd}{
+  \textit{\framebox[2.5\width]{$\ast$} Questa parte della dimostrazione fa parte del solo programma completo.}
+}
+\newcommand{\EsStar}{
+  \textit{\framebox[2.5\width]{$\ast$} L'esempio sotto riportato fa parte del solo programma completo.}
+}
+
+\newcommand{\DoCo}[1][n]{(\Omega, \Ac, \PP) \to \ifthenelse{\equal{#1}{1}}{(\RR, \Bc)}{(\RR^{#1}, \Bc^{#1})}}
+\newcommand{\Dom}{(\Omega, \Ac, \PP)}
+\newcommand{\Ex}[1]{\EE \left[ #1 \right]}
+\newcommand{\IS}{È }
+\newcommand{\notindep}{\centernot{\indep}}
+\newcommand{\Ind}{\mathds{1}}
+\newcommand{\im}{\operatorname{im}}
+\newcommand{\markov}{\operatorname{Markov}}
+
+%Lettere fighe/corsive
+\newcommand{\Ac}{\mathcal A}
+\newcommand{\Bc}{\mathcal B}
+\newcommand{\Cc}{\mathcal C}
+\newcommand{\Dc}{\mathcal D}
+\newcommand{\Ec}{\mathcal E}
+\newcommand{\Fc}{\mathcal F}
+\newcommand{\Gc}{\mathcal G}
+\newcommand{\Hc}{\mathcal H}
+\newcommand{\Ic}{\mathcal I}
+\newcommand{\Jc}{\mathcal J}
+\newcommand{\Kc}{\mathcal K}
+\newcommand{\Lc}{\mathcal L}
+\newcommand{\Mc}{\mathcal M}
+\newcommand{\mm}{\mathscr m} %per la misura di Lebesgue
+\newcommand{\Nc}{\mathcal N}
+\newcommand{\Oc}{\mathcal O}
+\newcommand{\Pc}{\mathcal P}
+\newcommand{\Qc}{\mathcal Q}
+\newcommand{\Rc}{\mathcal R}
+\newcommand{\Sc}{\mathcal S}
+\newcommand{\Tc}{\mathcal T}
+\newcommand{\Uc}{\mathcal U}
+\newcommand{\Vc}{\mathcal V}
+\newcommand{\Wc}{\mathcal W}
+\newcommand{\Xc}{\mathcal X}
+\newcommand{\Yc}{\mathcal Y}
+\newcommand{\Zc}{\mathcal Z}
+
+%% Doppia barra
+\renewcommand{\AA}{\mathbb A}
+\newcommand{\BB}{\mathbb B}
+\newcommand{\CC}{\mathbb C}
+\newcommand{\DD}{\mathbb D}
+\newcommand{\EE}{\mathbb E}
+\newcommand{\FF}{\mathbb F}
+\newcommand{\GG}{\mathbb G}
+\newcommand{\HH}{\mathbb H}
+\newcommand{\II}{\mathbb I}
+\newcommand{\JJ}{\mathbb J}
+\newcommand{\KK}{\mathbb K}
+\newcommand{\LL}{\mathbb L}
+\newcommand{\MM}{\mathbb M}
+\newcommand{\NN}{\mathbb N}
+\newcommand{\OO}{\mathbb O}
+\newcommand{\PP}{\mathbb P}
+\newcommand{\QQ}{\mathbb Q}
+\newcommand{\RR}{\mathbb R}
+\renewcommand{\SS}{\mathbb S}
+\newcommand{\TT}{\mathbb T}
+\newcommand{\UU}{\mathbb U}
+\newcommand{\VV}{\mathbb V}
+\newcommand{\WW}{\mathbb W}
+\newcommand{\XX}{\mathbb X}
+\newcommand{\YY}{\mathbb Y}
+\newcommand{\ZZ}{\mathbb Z}
+
+% d nell'integrale
+\newcommand{\de}{\mathrm d}
+\newcommand{\dx}{\de x}
+\newcommand{\dy}{\de y}
+\newcommand{\dP}{\de P}
+\newcommand{\dPP}{\de \PP}
+
+% \bigcdot un pallino per le var nelle funzioni
+\makeatletter
+\newcommand*\bigcdot{\mathpalette\bigcdot@{.5}}
+\newcommand*\bigcdot@[2]{\mathbin{\vcenter{\hbox{\scalebox{#2}{$\m@th#1\bullet$}}}}}
+\makeatother
+
+\makeatletter
+\pgfdeclarepatternformonly[\hatchdistance,\hatchthickness]{flexible hatch}
+  {\pgfqpoint{0pt}{0pt}}
+  {\pgfqpoint{\hatchdistance}{\hatchdistance}}
+  {\pgfpoint{\hatchdistance-1pt}{\hatchdistance-1pt}}%
+  {
+      \pgfsetcolor{\tikz@pattern@color}
+      \pgfsetlinewidth{\hatchthickness}
+      \pgfpathmoveto{\pgfqpoint{0pt}{0pt}}
+      \pgfpathlineto{\pgfqpoint{\hatchdistance}{\hatchdistance}}
+      \pgfusepath{stroke}
+  }
+\makeatother
+
+% Indice su 2 colonne
+\makeindex[columns=2]
+
+% Padding verticale nelle celle
+% uso: \CS[spazio sopra]{spazio sotto}
+\newcommand{\CS}[2][0]{\rule{0pt}{#1 cm} \rule[-#2cm]{0pt}{0pt}}

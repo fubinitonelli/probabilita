@@ -1,0 +1,116 @@
+\documentclass[8pt,a4paper]{article}
+
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{amssymb}
+\usepackage{multicol}
+\usepackage[top=0.5cm,left=0.5cm,right=0.5cm,bottom=0.5cm]{geometry}
+\usepackage{amsfonts}
+\usepackage{etoolbox}
+\usepackage{cancel}
+\usepackage{yhmath}
+
+\newcommand{\EE}{\mathbb E}
+\newcommand{\NN}{\mathbb N}
+\newcommand{\PP}{\mathbb P}
+\newcommand{\RR}{\mathbb R}
+\newcommand{\ZZ}{\mathbb Z}
+
+\newcommand{\Ac}{\mathcal A}
+\newcommand{\Bc}{\mathcal B}
+\newcommand{\Cc}{\mathcal C}
+\newcommand{\Ec}{\mathcal E}
+\newcommand{\Fc}{\mathcal F}
+\newcommand{\Gc}{\mathcal G}
+\newcommand{\Hc}{\mathcal H}
+\newcommand{\Lc}{\mathcal L}
+\newcommand{\Nc}{\mathcal N}
+\newcommand{\Pc}{\mathcal P}
+
+% d nell'integrale
+\newcommand{\de}{\mathrm d}
+\newcommand{\dx}{\de x}
+\newcommand{\dy}{\de y}
+\newcommand{\dP}{\de P}
+\newcommand{\dPP}{\de \PP}
+
+\newcommand{\Bot}{\perp \!\!\! \perp} % indipendenza
+\usepackage{dsfont} % per funzione indicatrice
+\newcommand{\Ind}{\mathds{1}} % funzione indicatrice
+
+\DeclareMathOperator{\MCD}{MCD}
+\DeclareMathOperator{\Det}{det} % determinante
+\DeclareMathOperator{\Var}{Var} % varianza
+\DeclareMathOperator{\Cov}{Cov} % covarianza
+\DeclareMathOperator{\Img}{Im}
+\DeclareMathOperator{\Col}{Col}
+\DeclareMathOperator{\Ker}{Ker}
+\DeclareMathOperator{\Bi}{Bi} % binomiale
+\DeclareMathOperator{\Be}{Be} % bernoulli
+
+% per far essere piccoli sum e prod
+\makeatletter
+\newcommand{\changeoperator}[1]{%
+  \csletcs{#1@saved}{#1@}%
+  \csdef{#1@}{\changed@operator{#1}}%
+}
+\newcommand{\changed@operator}[1]{%
+  \mathop{%
+    \mathchoice{\textstyle\csuse{#1@saved}}
+               {\csuse{#1@saved}}
+               {\csuse{#1@saved}}
+               {\csuse{#1@saved}}%
+  }%
+}
+\makeatother
+
+\changeoperator{sum}
+\changeoperator{prod}
+ 
+ % Turn off header and footer
+\pagestyle{empty}
+
+% Redefine section commands to use less space
+\makeatletter
+\renewcommand{\section}{\@startsection{section}{1}{0mm}%
+                                {-0.1ex plus -.5ex minus -.2ex}%
+                                {0.5ex plus .2ex}%x
+                                {\normalfont\large\bfseries}}
+\renewcommand{\subsection}{\@startsection{subsection}{2}{0mm}%
+                                {0.7ex plus 0ex minus 0ex}%
+                                {-2.1ex plus 0ex}%
+                                {\normalfont\scriptsize\bfseries}}
+\renewcommand{\subsubsection}{\@startsection{subsubsection}{3}{0mm}%
+                                {-1ex plus -.5ex minus -.2ex}%
+                                {1ex plus .2ex}%
+                                {\normalfont\small\bfseries}}
+\makeatother
+
+%\titlespacing\section{0pt}{0pt plus 0pt minus 0pt}{0pt plus 0pt minus 0pt}
+
+% Don't print section numbers
+\setcounter{secnumdepth}{0}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt plus 0ex}
+
+% -----------------------------------------------------------------------
+
+\begin{document}
+
+\raggedright
+\footnotesize
+\begin{multicols}{3}
+
+% multicol parameters
+% These lengths are set only within the two main columns
+%\setlength{\columnseprule}{0.25pt}
+\setlength{\premulticols}{1pt}
+\setlength{\postmulticols}{1pt}
+\setlength{\multicolsep}{1pt}
+\setlength{\columnsep}{2pt}
+
+\input{source}
+
+\end{multicols}
+\end{document}

@@ -1,0 +1,352 @@
+\lezione{18}{11.05.17}
+\section{Funzione caratteristica}
+Dalla teoria sviluppata fin qui, sappiamo che una probabilità su $(\RR,\Bc)$ è caratterizzata dalla funzione di ripartizione e dalla densità (sia essa discreta o continua), e che la densità caratterizza anche una probabilità nel caso multidimensionale $(\RR^n, \Bc^n)$.
+In questo capitolo introdurremo un nuovo modo di caratterizzare la probabilità, la \emph{funzione caratteristica}.
+Vedremo che questo strumento presenta una serie di notevoli vantaggi: permette di trattare indistintamente i casi continui e discreti, semplifica il calcolo dei valori attesi e facilita lo studio di alcune aree d'interesse come l'indipendenza, la continuità e la combinazione lineare di variabili aleatorie.
+% Quanta potenza, signori!
+
+\subsection{Definizioni}
+Riprendiamo la definizione di prodotto scalare e introduciamo alcune notazioni alternative:
+$$\langle X|Y \rangle = \langle X,Y\rangle = X \cdot Y= (X,Y) \coloneqq \sum^n_{k=1}X_kY_k$$
+Tra le varie notazioni, in questo testo si è scelto di utilizzare la prima\footnote{Contro il volere del popolo, in quanto è quella dei fisici}: $\langle X|Y \rangle$.
+% Tralascerei il fatto che è dei fisici (AW)
+% E INVECE (Br1)
+
+\begin{defn}
+  \index{funzione!caratteristica}
+  \index{Fourier, trasformata di}
+  Sia $\PP$ una probabilità su $(\RR,\Bc)$, la \textbf{funzione caratteristica} (o \textbf{trasformata di Fourier}) di $\PP$ è la funzione:
+    $$\widehat{\PP}=\varphi: \RR^n \to \CC \qquad \varphi (u) \coloneqq \int_{\RR^n}e^{i\langle u|x\rangle}\PP(\dx)$$
+\end{defn}
+
+Dall'analisi sappiamo che $z=e^{i \vartheta}=\cos(\vartheta) + i \sin (\vartheta)$, che è forma esponenziale del numero complesso, con $\vartheta \in \RR$ $|e^{i \vartheta}|=1 \quad \forall \vartheta \in \RR$\\
+\medskip
+Ne discende che:
+$$e^{i\langle u|x\rangle}=\cos(\langle u|x\rangle) + i \sin (\langle u|x\rangle), \ |e^{i \langle u|x\rangle}|=1, \ \forall u \ \forall x$$
+
+Si consulti l'appendice A a pagina \pageref{int-complessa} per eventuali delucidazioni circa l'integrazione di variabili complesse.
+
+Si ricorda che vale la \emph{disuguaglianza triangolare} estesa agli integrali:
+$$\left| \int h \dPP \, \right| \leq \int \abs h \dPP$$
+Si fa inoltre presente che $\exists \, \varphi(u) \; \forall u$ perché $e^{i\langle u|x\rangle} \in \Lc^1(\PP) \; \forall u$ in quanto $|e^{i \langle u|x\rangle}|=1 \; \in \Lc^1(\PP) \; \forall u$.
+
+
+\smallskip
+\begin{defn}
+  Sia $X:\DoCo$ vettore aleatorio di legge $P^X$. La funzione caratteristica di $X$ è $\widehat P^X =\varphi_X:\RR^n\to \CC$ definita come:
+    $$\varphi_X(u)=\int_{\RR^n}e^{i \langle u|x\rangle}\, P^X(\dx)=\EE\left[e^{i \langle u|x\rangle}\right]=\int_\Omega e^{i \langle u|x\rangle}\, \dPP$$
+\end{defn}
+
+\begin{ese}
+$X\sim Po (\lambda)$, con $\lambda > 0$ (VA con distribuzione Poisson).
+Ricaviamo la sua funzione caratteristica:
+  \begin{align*}
+    \varphi_X(u) &=\EE[e^{i u x}] = \sum_{k=0}^{{+\infty}}e^{i u k}e^{-\lambda}\frac{\lambda^k}{k!} & (\text{applicando la definizione})\\
+    &= e^{-\lambda}\sum_{k=0}^{{+\infty}}\frac{(\lambda e^{i u})^k}{k!} & (\text{per def. di esponenziale complesso})\\
+    &= e^{-\lambda}e^{\lambda e^{iu}} & (\text{raccogliendo})\\
+    &=\exp \{ \lambda (e^{i u}-1)\}
+  \end{align*}
+\end{ese}
+
+\begin{ese}
+  $X\sim \Ec (\lambda)$, con $\lambda > 0$ (VA aleatoria con distribuzione esponenziale).
+  Ricaviamo la sua funzione caratteristica:
+  \begin{align*}
+    \varphi_X(u) &=\EE[e^{i u x}]
+    =\int_{-\infty}^{+\infty}e^{iut}f_X(t) \de t & (\text{applicando la definizione})\\
+    &= \int_{0}^{+\infty}e^{i u t}\lambda e^{-\lambda t} \de t & (\text{per linearità})\\
+    &= \lambda \int_{0}^{+\infty} e^{t(i u -\lambda)}\de t\\
+    &=\lambda \frac{e^{t(i u -\lambda)}}{i u -\lambda}\Bigg\rvert_{0}^{+\infty} & ( e^{iut} \text{ limitata})\\
+    &=\frac{\lambda}{\lambda-iu}
+  \end{align*}
+Nell'ultima uguaglianza si è sfruttato il fatto che in un prodotto tra un esponenziale con argomento una quantità negativa (infinitesimo) e un esponenziale con argomento complesso (limitato) vince il primo.
+\end{ese}
+
+\subsection{Proprietà}
+
+\begin{teob}[\JPTh{14.1}]
+  La funzione caratteristica $\widehat{\PP}$ di una probabilità $\PP$ su $(\RR^n, \Bc^n)$ caratterizza $\PP$, ovvero:
+  $$\widehat{\PP}(u)=\widehat{\QQ}(u) \ \forall u \in \RR^n \iff \PP(B)=\QQ(B) \ \forall B \in \Bc^n$$
+  In particolare, dato un vettore aleatorio $X$, la funzione caratteristica $\varphi_X$ caratterizza la legge $P^X$.
+\end{teob}
+
+\smallskip
+\begin{teo}[proprietà analitiche di $\varphi$ \JPTh{13.1}]\label{teo-prop-analitiche-caratteristica}
+  Data $\varphi$ funzione caratteristica di una qualsiasi probabilità $\PP$ su $(\RR^n, \Bc^n)$, allora è vero che:
+  \begin{enumerate}
+    \item $\varphi$ continua;
+    \item $|\varphi| \leq 1$;
+    \item $\varphi(0)=1$.
+  \end{enumerate}
+\end{teo}
+
+\begin{dimo}
+  \Fixvmode
+  \begin{etaremune}
+    \item $\varphi(0)=\bigintsss_{\RR^n}e^{i \langle 0|x\rangle}\PP(\dx)=\PP(\RR^n)=1$.
+    \item $\abs{\varphi(u)}= \left| \bigintsss_{\RR^n}e^{i \langle u|x\rangle}\PP(\dx) \right| \leq \bigintsss_{\RR^n} \left| e^{i \langle u|x\rangle} \right| \PP(\dx)=1 \; \forall u$.
+    \item $l\to +\infty$ $\implies$ $u_l\to u$ $\implies$ $\varphi(u_l)\to\varphi(u)$ dove $\varphi(u_l)=\bigintsss_{\RR^n}e^{i \langle u_l|x\rangle}\PP(\dx)$.
+
+    Per quest'ultimo punto occorre tener presente che:
+    \begin{itemize}
+      \item $\langle u_l|x\rangle$ $\to$ $\langle u|x\rangle$ per continuità del prodotto scalare $\forall x$;
+      \item $e^{i \langle u_l|x\rangle}$ $\to$ $e^{i \langle u|x\rangle}$ per continuità dell'esponenziale $\forall x$;
+      \item $l\to +\infty$ $\implies$ $\bigintsss_{\RR^n}e^{i \langle u|x\rangle}\PP(\dx)=\varphi(u)$ per convergenza dominata. \qedhere
+    \end{itemize}
+  \end{etaremune}
+\end{dimo}
+
+\subsubsection{Calcolo dei momenti}
+
+\begin{defn}
+  \index{momento}
+  Si dice \textbf{momento $n$-esimo} di una variabile aleatoria $X$ il valore atteso della sua $n$-esima potenza $\Ex{X^n}$. \\
+\end{defn}
+
+\smallskip
+\begin{teob}[\JPTh{13.2}]
+  Sia $X=(X_1, \, \dots, \, X_n):\DoCo$ vettore aleatorio. \\
+  Se $\exists \, n \in \NN$ tale per cui $x_k \in L^m (\PP)$ $\forall k=1, \, \dots, \, n$, allora $\varphi_X\in \Cc^m(\RR^n,\CC)$ e vale:
+    $$\frac{\partial^m}{\partial u_{k_1} \cdots \partial u_{k_m}}\varphi(u)=i^m\EE[X_{k_1} \cdots X_{k_m}e^{i \langle u|x\rangle}] \quad \forall u \in \RR^n$$
+\end{teob}
+
+Si tratta dunque di uno \emph{scambio di limiti} fra la derivata e il valore atteso, ovvero, euristicamente:
+$$\frac{\partial^n}{\partial u_{k_1} \cdots \partial u_{k_n}}\EE[\, \bigcdot \,]=\EE\left[\frac{\partial^n}{\partial u_{k_1} \cdots \partial u_{k_n}} \; \, \bigcdot \, \right] $$
+Inoltre è utile notare che con questo teorema è possibile calcolare il momento ricorrendo solo alle derivate senza bisogno dell'integrale.
+
+\begin{oss}\label{oss-momenti}
+  In particolare, il valore $\varphi(0)$ può essere molto utile per ricavare direttamente i momenti:
+  $$\frac{\partial^m}{\partial u_{k_1} \cdots \partial u_{k_m}}\varphi(0)=i^m \, \EE[X_{k_1} \cdots X_{k_m}]$$
+\end{oss}
+\medskip
+\begin{oss}
+  Sia $X_k \in L^2 \subset L^1 \ \forall k$. Allora:
+  \begin{itemize}
+    \item $\EE[X_k]=\dfrac{1}{i}\dfrac{\partial}{\partial u_k}\,\varphi(0)$;
+    \item $ \EE[X_k^2]=-\dfrac{\partial^2}{\partial u_k^2}\,\varphi(0),\enspace$ da cui si può agevolmente calcolare $Var(X_k)$;
+    \item $ \EE[X_kX_j]=-\dfrac{\partial^2}{\partial u_k \partial u_j}\,\varphi(0), \enspace$ da cui si può agevolmente calcolare $Cov(X_k,X_j)$.
+  \end{itemize}
+\end{oss}
+
+
+
+\medskip
+\begin{ese}
+  Sia $X\sim \Ec (\lambda)$ $\lambda > 0$ (VA con distribuzione esponenziale).
+  Da un esempio precedente, sappiamo che: $X \in L^m$ $\forall m > 1$ e $\varphi_X(u)=\dfrac{\lambda}{\lambda-iu}$. Allora:
+  \begin{align*}
+  \EE[X]&=\dfrac{1}{i}\varphi'(0)=\dfrac{1}{i}\dfrac{\de}{\de u} \left.\left(\dfrac{\lambda}{\lambda-iu}\right) \right|_{u=0}
+  = \dfrac{1}{i} \, \lambda \, (-1) \, \left. \dfrac{-i}{(\lambda-iu)^2} \right|_{u=0} \\
+  &= \left.\dfrac{\lambda}{(\lambda-iu)^2}\right|_{u=0}=\dfrac{1}{\lambda}\\[1.1em]
+  \EE[X^2]&=-\varphi''(0)=-\dfrac{\de}{\de u} \, \left.\left[\dfrac{\lambda i}{(\lambda-iu)^2} \right] \right|_{u=0} = \left. -\lambda \, i \, (-2) \, \dfrac{1}{(\lambda-iu)^3}(-i)\right|_{u=0} \\
+  &= \left.\dfrac{2\lambda}{(\lambda-iu)^3}\right|_{u=0}=\dfrac{2}{\lambda^2}\\[1.1em]
+  Var(X)&=\EE[X^2]-\EE^2[X]=\dfrac{2}{\lambda^2}-\dfrac{1}{\lambda^2}=\dfrac{1}{\lambda^2}
+  \end{align*}
+\end{ese}
+
+\begin{ese} Calcoliamo la funzione caratteristica della distribuzione normale standard tramite il teorema dei momenti.\\
+  \label{caratt-normale}
+  Sia $X\sim \Nc(0,1)$ allora vale che $X \in L^p \enspace\forall p \geq 1$. Sostituendo nella definizione di funzione caratteristica la densità della normale:
+  \begin{align*}
+    \varphi (u) = \EE[e^{i u x}]=\int_{\RR}e^{iut}\frac{e^{-\frac{t^2}{2}}}{\sqrt{2\pi}}\de t
+    =\int_{\RR} \cos(ut)\frac{e^{-\frac{t^2}{2}}}{\sqrt{2\pi}}\de t + i\int_{\RR}\sin(ut)\frac{e^{-\frac{t^2}{2}}}{\sqrt{2\pi}}\de t
+  \end{align*}
+
+  Si osserva che il secondo integrale è nullo in quanto l'integranda è una funzione dispari: si perde perciò la parte immaginaria. \\
+  Per risolvere quest'integrale si usa un trucco: applicando il teorema dei momenti, si ottiene la derivata $\varphi' (u)$ in funzione di $\varphi (u)$:
+  \begin{align*}
+    \varphi' (u) & = i \, \EE\left[x e^{i u x}\right] = i \int_\RR t e^{iut}\frac{e^{-\frac{t^2}{2}}}{\sqrt{2\pi}}\de t \\[5pt]
+    &= i \left( \int_\RR \underbrace{t \cos(ut) \frac{e^{-\frac{t^2}{2}}}{\sqrt{2\pi}}}_{\text{funzione dispari}}\de t
+    + i \int_\RR t \sin(ut) \frac{e^{-\frac{t^2}{2}}}{\sqrt{2\pi}}\de t \right) \\[5pt]
+    &= -\int_\RR t \sin(ut)\frac{e^{-\frac{t^2}{2}}}{\sqrt{2\pi}}\de t\\[5pt]
+    & = -\frac{1}{\sqrt{2 \pi}}\left\{ \left. -e^{-\frac{t^2}{2}} \sin (ut) \right|_{-\infty}^{+\infty} \; +\int_{-\infty}^{+\infty}e^{\frac{t^2}2} \cos (ut) \, u \, \de t \right\}=-u \varphi (u)
+  \end{align*}
+  L'integrale si è così trasformato in un problema di Cauchy ben posto, in cui la condizione iniziale è dettata dal teorema \ref{teo-prop-analitiche-caratteristica}:
+  $$\begin{cases}
+    \varphi'(u)=-u\varphi(u) \\ \varphi(0)=1
+  \end{cases} \quad \implies \quad \varphi(u)=e^{-\frac{u^2}{2}}$$
+  È immediato verificare che vale l'osservazione \ref{oss-momenti}, infatti il valore atteso è:
+  $$\Ex{X} = \frac{1}{i} \varphi'(0) = 0 \cdot \varphi(0) = 0$$
+  Il calcolo della varianza è altrettanto semplice:
+  $$Var(X) = \Ex{X^2} - \EE^2[X] = -\varphi''(0) = \varphi(0) - 0^2 \cdot \varphi(0) = 1$$
+\end{ese}
+
+\medskip
+Visti i risultati negli esempi precedenti dove la parte immaginaria della funzione caratteristica è andata annullandosi, si potrebbe pensare di definire una funzione caratteristica senza i numeri complessi.
+\begin{defn}\label{funz-gen-mom}
+  \index{funzione!generatrice dei momenti}
+  La funzione $M_X:\RR^n \to \RR$ tale che:
+  $$M_X(u)=\EE\left[e^{\langle u|X\rangle}\right]=\int_{\RR^n}e^{\langle u|X\rangle}P^X(\dx)$$
+  è detta \textbf{funzione generatrice dei momenti}.
+\end{defn}
+
+Dalla definizione segue immediatamente che:
+$$\frac{\partial^m}{\partial u_{k_1} \cdots \partial u_{k_m}}M_X(0)=\EE[X_{k_1} \cdots X_{k_m}]$$
+Non considerando i numeri complessi, in tutti i casi in cui questi non si annullano l'integrale non esiste oppure la funzione non può essere definita su tutto $\RR^n$.
+
+\subsubsection{Trasformazioni affini}
+
+\begin{teob}[\JPTh{13.3}]\label{phi-trasf-aff}
+  \index{trasformazione affine}
+  Sia il vettore aleatorio $X : \DoCo$. \\
+  Siano inoltre $A\in \RR^{m\times n}$, $b\in \RR^m$, e il vettore aleatorio trasformato $Y=AX+b : \DoCo[m]$, allora:
+  $$\varphi_Y(u)=e^{i\langle u|b\rangle} \, \varphi_X\left(A^T \, u\right) \ \forall u \in \RR^m$$
+\end{teob}
+
+\begin{dimo}\belowdisplayskip=-14pt
+\Fixvmode
+  \begin{align*}
+    \varphi_Y(u) & =\EE\left[e^{i\langle u|Y\rangle}\right]
+    =\EE\left[e^{i\langle u|AX+b\rangle}\right] & (\text{per definizione})\\
+    &=e^{i\langle u|b\rangle} \, \EE\left[e^{i\langle u|AX\rangle}\right] & (\text{per linearità di } \EE)\\
+    &=e^{i\langle u|b\rangle} \, \EE\left[e^{i\langle A^Tu|X\rangle}\right] & (\text{prop. del prodotto scalare})\\
+    &=e^{i\langle u|b\rangle} \, \varphi_X\left(A^Tu\right)
+  \end{align*}\qedhere
+\end{dimo}
+
+\bigskip
+\begin{ese}[funzione caratteristica di una variabilie aleatoria normale non standard]
+\label{ese-caratt-normale-generica}
+Sia $X\sim N(\mu,\sigma^2)$. Allora $X=\mu+\sigma Z$, con $Z=\frac{X-\mu}{\sigma}\sim N(0,1)$. Dunque:
+$$\varphi_X (u)=e^{i u \mu}\varphi_Z(\sigma u)=  e^{i u \mu}e^{\frac{-\sigma^2}{2}u^2} =e^{i u \mu-\frac{\sigma^2}{2}u^2}$$
+\end{ese}
+
+\medskip
+\begin{ese}[funzione caratteristica della somma di variabili aleatorie]
+  \ \newline
+  Siano $X=(X_1, \, \dots, \, X_n) \sim \varphi_X \enspace$ e $\enspace Y=\sum_{k=1}^{n}X_k$. Calcoliamo le funzioni caratteristiche di $Y$ e di $X_k$:
+  $$
+    Y = \begin{bmatrix} 1, \, \dots, \,  1\end{bmatrix}
+    \begin{bmatrix} X_1 \\ \vdots \\ X_n \end{bmatrix} \qquad
+    \varphi_Y(u) = \varphi_X \left(
+      \begin{bmatrix} 1 \\ \vdots \\ 1 \end{bmatrix} u
+    \right) = \varphi_X(u, \, \dots, \, u)
+  $$
+
+  Per estrarre una sola componente poniamo $v = \begin{bmatrix} 0 ,\ \dots ,\ 0 ,\ u ,\ 0 ,\ \dots ,\ 0 \end{bmatrix}$, dove la $u$ occupa la $k$-esima posizione.  \\
+  Allora $uX_k =\langle v|X \rangle$ e dunque:
+  $$
+    \varphi_{X_k}(u) = \EE[e^{iuX_k}] = \EE[e^{i\langle v|X\rangle}] = \varphi_X(v) = \varphi_X(0, \, \dots, \, 0,u,0, \, \dots, \, 0)
+  $$
+\end{ese}
+
+\esercitazione{14}{26.05.17}
+\subsection{Risultati notevoli}
+Riportiamo i risultati ottenuti dagli esercizi omettendo i passaggi.
+\subsubsection{Alcune funzioni caratteristiche notevoli}
+\begin{itemize}
+  \item \textbf{Bernoulli}: 
+	$$X \sim Be(p) \ \leftrightarrow \ \varphi_X(u) = p e^{iu} + 1 - p, \ \text{con} \ p \in [0,1]$$
+  \item \textbf{Binomiale}: 
+	$$X \sim Bi(n,p) \ \leftrightarrow \ \varphi_X(u) = (p e^{iu} + 1 - p)^n, \ \text{con} \ p \in [0,1] \ \text{e} \ n \in \NN$$
+  	(Nota: in quanto somma di $n$ bernoulliane iid, la binomiale ha la funzione caratteristica uguale al prodotto delle loro funzioni caratteristiche, come previsto dalla teoria.)
+  \item \textbf{Uniforme simmetrica}:
+	$$X \sim U(-a,a) \ \leftrightarrow \ \varphi_X(u) = \dfrac{\sin(au)}{au} \eqqcolon \operatorname{sinc}(au), \ \text{con} \ \varphi_X(0) = 1, a \in [0,+\infty)$$
+	Tale funzione è detta \emph{seno cardinale}. 
+	\index{seno cardinale}
+  \item \textbf{Uniforme generica}: 
+	$$X \sim U(a,b) \ \leftrightarrow \ \varphi_X(u) = e^{i \frac{a+b}{2} u} \operatorname{sinc} \left( \frac{b-a}{2} u \right), \ \text{con} \ -\infty < a < b < +\infty$$
+  	(Nota: è stata ottenuta come trasformazione affine del caso precedente.)
+\end{itemize}
+Si rimanda alle appendici B e C di pagina \pageref{appendice-discrete} e \pageref{appendice-continue} per una lista più completa delle funzioni caratteristiche.
+
+\subsubsection{Somma di VA indipendenti}
+\begin{itemize}
+  \item \textbf{Bernoulliane}. Date $X_1, \, \dots, \, X_n \sim Be(p)$ indipendenti:
+    $$ X_1 + \dots + X_n \sim Bi(n, p)$$
+  \item \textbf{Gaussiane}. Date $X_1, \, \dots, \, X_n \sim \Nc(0,1)$ indipendenti:
+    $$ X_1 + \dots + X_n \sim \Nc(0, n) \quad \text{e} \quad X_1^2 + \dots + X_n^2 \sim \chi^2(n)$$
+  \item \textbf{Esponenziali}. Date $X_1, \, \dots, \,  X_n \sim \Ec(\lambda)$ indipendenti:
+    $$ X_1 + \dots + X_n \sim \Gamma(n, \lambda)$$
+  \item \textbf{Gamma}. Date $X \sim \Gamma(\alpha, \lambda), Y \sim \Gamma(\beta, \lambda)$ indipendenti:
+    $$ X+Y \sim \Gamma(\alpha + \beta, \lambda)$$
+  \item \textbf{Poisson}. Date $X \sim Po(\lambda_X), Y \sim Po(\lambda_Y)$ indipendenti:
+    $$ X+Y \sim Po(\lambda_X+\lambda_Y)$$
+
+\end{itemize}
+\lezione{19}{17.05.17}
+\subsection{Continuità e indipendenza di vettori aleatori}
+In questo capitolo mostreremo che, se $X$ è un vettore aleatorio \emph{continuo}, $X_k$ continuo $\forall k$, mentre in generale $X_k$ continuo $\forall k$ $\centernot\implies$ $X$ vettore aleatorio \emph{continuo}, tranne in alcuni casi specifici.
+
+\medskip
+\begin{teo}
+  Sia $X = (X_1, \, \dots, \, X_n):\DoCo[n]$ vettore aleatorio tale che \textit{le componenti $X_k$ sono indipendenti}. Allora:
+  \begin{center}
+    $X$ continuo $\iff$ $X_k$ continuo $\forall k$
+  \end{center}
+\end{teo}
+\begin{dimo}
+	$(\implies)$: ovvio. \\
+	($\impliedby$): dato un qualsiasi evento $B_1 \times \dots \times B_n \in \Bc^n$, possiamo fattorizzare la legge congiunta grazie all'indipendenza tra le VA:
+	\begin{align*}
+		P^X(B_1 \times \dots \times B_n) & \ = \ P^{X_1}(B_1) \cdots P^{X_n}(B_n)\\
+		& \ = \ \int_{B_1} f_1(x_1) \de x_1 \cdots \int_{B_n} f_n(x_n) \de x_n \\
+		& \stackrel{\text{F-T}}{=} \int_D f_1(x_1)\cdots f_n(x_n)\de x_1 \de x_n & \qedhere
+	\end{align*}
+\end{dimo}
+
+\smallskip
+\begin{nb}
+  La semplice continuità non è sufficiente ad affermare che le componenti continue implichino un vettore continuo; introducendo l'indipendenza rendiamo l'affermazione necessaria e sufficiente.
+\end{nb}
+
+\smallskip
+\begin{teo}
+  Siano $X_1:\DoCo[n]$, $X_2:\DoCo[m]$ vettori aleatori \textbf{indipendenti}. Allora:
+  $$X = (X_1, X_2): \DoCo[n+m] \text{ continuo } \iff X_1 \text{ e } X_2 \text{ continui}$$
+\end{teo}
+
+\begin{teo}
+  Sia $X = (X_1, \, \dots, \, X_n):\DoCo[n]$ vettore aleatorio. Allora:
+      $$\{X_k\}_{k=1}^{n} \text{ famiglia di VA} \indep \iff \varphi_X(u_1, \dots, u_n) = \prod\limits_{k=1}^{n} \varphi_{X_k} (u_k) \quad \forall u \in \RR^n$$
+\end{teo}
+\needspace{1\baselineskip}
+\begin{dimo}
+  \Fixvmode
+  \begin{itemize}
+  \item \textbf{($\implies$)}:
+    per ipotesi, $X_k$ sono indipendenti. Allora:
+    \begin{align*}
+      \varphi_X(u_1, \dots, u_n) &= \EE \left[\exp\{i \langle u|X \rangle \} \right]\\
+      &= \EE \left[\exp\left\{i\sum\limits_{k=1}^{n} u_k X_k \right\} \right] & (\text{esplicitando})\\
+      &= \EE \left[\prod\limits_{k=1}^{n}\exp\{i u_k X_k\} \right] & (\text{proprietà degli exp})\\
+      &= \prod\limits_{k=1}^{n}\EE \left[\exp\{i u_k X_k\} \right] & (\text{per indipendenza})\\
+      &= \prod\limits_{k=1}^{n}\varphi_{X_k}(u_k)
+    \end{align*}
+
+  \item \textbf{($\impliedby$)}:
+    sia $Q = P^{X_1} \otimes \cdots \otimes P^{X_n}$ probabilità su $(\RR^n, \Bc^n)$. Allora:
+    $$\widehat Q(u) = \prod\limits_{k=1}^{n} \widehat P^{X_k}(u_k) = \prod\limits_{k=1}^{n} \varphi_{X_k}(u_k)$$
+    Notiamo che anche la legge congiunta si fattorizza allo stesso modo:
+    $$\widehat P^X(u) = \varphi(u) = \prod\limits_{k=1}^{n} \varphi_{X_k}(u_k) \implies \widehat{Q}(u) = \widehat{P}^X(u) \; \quad \forall u \in \RR^n$$
+    Dunque abbiamo $Q = P^X$ e $P^X = P^{X_1} \otimes \dots \otimes P^{X_n}$, da cui segue che le $X_k$ sono indipendenti. \qedhere
+  \end{itemize}
+\end{dimo}
+
+\medskip
+\begin{corob}[\JPTh{15.2}]
+  Siano $X_1, \dots , X_n$ VA indipendenti. Allora:
+  $$Y = \sum\limits_{k=1}^{n} X_k \implies \varphi_Y(u) = \varphi_{\sum\limits_{k} X_k} (u) = \prod\limits_{k=1}^{n} \varphi_{X_k}(u) \enspace \forall u \in \RR$$
+\end{corob}
+
+\begin{defn}
+  \index{prodotto!di convoluzione}
+  \index{convoluzione}
+  Siano $X_1, X_2$ variabili aleatorie indipendenti e $Y=X_1+X_2$. \\
+  $P^Y$ è detto anche \textbf{prodotto di convoluzione} di $P^{X_1}$ e $P^{X_2}$:
+    $$P^Y \coloneqq P^{X_1} \ast P^{X_2}$$
+\end{defn}
+È utile notare che il prodotto di convoluzione è commutativo, infatti come $Y = X_1 + X_2 = X_2 + X_1$ la probabilità $P^Y = P^{X_1} \ast P^{X_2} = P^{X_2} \ast P^{X_1}$.
+
+\medskip
+\begin{teob}[\JPTh{15.1,15.3}]
+  Siano $X_1, X_2$ VAR indipendenti, $Y = X_1 + X_2$. Allora:
+  \begin{enumerate}
+    \item $P^Y(B) = (P^{X_1} \ast P^{X_2})(B) = \bigintssss_{\RR \times \RR} \Ind_B (s+t) P^{X_1}(\de s) P^{X_2}(\de t)$;
+    \item $X_1$ e $X_2$ sono continue $\implies Y$ continua e vale il seguente risultato\footnote{``Non che questo integrale sia facile, di nuovo evviva la funzione caratteristica''}:
+      $$f_Y(y) = \bigintssss_{\RR} f_{X_1} (y-t) f_{X_2} (t) \, \de t = (f_1 \ast f_2) (y)$$
+  \end{enumerate}
+\end{teob}
+
+Intuitivamente: $\PP (y < Y < y+dy)\simeq f_Y(y)dy$. Ovvero, la funzione densità $f_Y(y)$ rappresenta la probabilità che il valore della VA $Y$ cada in un intorno infinitesimo del valore $y$. Questo getta luce sul significato della formula fornita dal teorema: ciascuna delle due densità indica la probabilità che la corrispondente VA assuma circa il valore $(y-t)$ e $t$, rispettivamente; quindi, il loro prodotto rappresenta la probabilità che la loro somma sia $y$. L'integrale serve per ``raccogliere'' tutti i diversi valori possibili che può assumere $y$.
+\cleardoublepage

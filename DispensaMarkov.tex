@@ -1,0 +1,78 @@
+\documentclass[a4paper]{article}
+\input{_includes}
+\usepackage[paperwidth=17cm, paperheight=24cm, twoside, left=2.5cm, right=2cm, top=2.5cm, bottom=3cm]{geometry}
+% \usepackage{draftwatermark}
+% \SetWatermarkText{\textsf{BOZZA}}
+% \SetWatermarkScale{1}
+
+\input{_style}
+\include{_commands}
+
+\begin{document}
+\include{_style_in_doc}
+
+\pagestyle{empty} % no header and footer
+
+\vspace*{\stretch{9}}
+
+\vspace{0.8cm}
+\hspace{0.7cm}
+{\textsc{\Huge Catene di Markov}}
+
+\hspace{0.7cm}
+{\scshape\large Dalle lezioni del prof. Matteo Gregoratti \par}
+
+\hspace{0.7cm}
+{\large Estratto da \textit{Appunti di Probabilità} \par}
+
+\begin{center}
+  {\vspace{\stretch{2}}
+  \includegraphics[width=0.38\textwidth]{img/Logo_s.png}}
+\end{center}
+
+\clearpage
+\vspace*{\stretch{12}}
+\input{InfoLicenza}
+\vspace*{\stretch{2}}
+
+\textsc{Revisione del \today}
+\IfFileExists{commit_hash.part}
+{- \texttt{\input{commit_hash.part}}}
+{}
+
+\textsc{Developed with git \includegraphics[height=1em]{img/icons/code.pdf} by:}
+
+\textsc{Fabrizio Bernardi} - \href{fabrizio@fubinitonelli.it}{\texttt{fabrizio@fubinitonelli.it}}\\
+\textsc{Gioele Cerri} - \href{gioele@fubinitonelli.it}{\texttt{gioele@fubinitonelli.it}}\\
+\textsc{Bruno Guindani} - \href{bruno@fubinitonelli.it}{\texttt{bruno@fubinitonelli.it}}\\
+\textsc{Simone Polito} - \href{simone@fubinitonelli.it}{\texttt{simone@fubinitonelli.it}}\\
+\textsc{Aron Wussler} - \href{aron@fubinitonelli.it}{\texttt{aron@fubinitonelli.it}}
+
+
+\vspace{\stretch{5}}
+\clearpage
+
+\pagestyle{plain}
+
+
+\hypersetup{linkcolor=black}
+
+\pdfbookmark[1]{Indice}{index}
+\setcounter{tocdepth}{2}
+\tableofcontents
+\hypersetup{linkcolor=blue}
+\cleardoublepage
+
+\pagestyle{inner}
+
+\input{17_markov}
+
+\cleardoublepage
+
+\pagestyle{plain}
+\addcontentsline{toc}{section}{Indice analitico}
+{\small \printindex}
+
+\clearpage
+
+\end{document}

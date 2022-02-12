@@ -1,0 +1,35 @@
+\documentclass[a4paper]{article}
+\input{_includes}
+\usepackage[a4paper,left=2cm,right=2cm,top=2.5cm,bottom=2.4cm]{geometry}
+\input{_style}
+\include{_commands}
+
+\begin{document}
+\fancypagestyle{errata_first}{%
+  \fancyhf{}% Clear header/footer
+  \fancyfoot[L]{}
+  \fancyfoot[R]{© Gli autori, tutti i diritti riservati}
+  \renewcommand{\headrulewidth}{0.0pt}
+}
+
+\fancypagestyle{errata}{%
+  \fancyhf{}% Clear header/footer
+  \fancyhead[L]{Errata corrige}
+  \fancyhead[R]{Appunti di probabilità}
+  \fancyfoot[R]{\thepage}
+  \renewcommand{\headrulewidth}{0.1pt}
+}
+
+\pagestyle{errata_first}
+% \pagestyle{errata}
+
+\vspace{0.4cm}
+{\scshape\huge Appunti di Probabilità - Errata corrige\par}
+
+{\scshape\Large Dalle lezioni del prof. Matteo Gregoratti \par}
+{\scshape\Large Edizione $L^2$ \par}
+
+\vspace{1.5cm}
+\input{ErrataL2_content}
+
+\end{document}

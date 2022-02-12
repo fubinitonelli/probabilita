@@ -1,0 +1,91 @@
+	\begin{figure}[H]
+		\centering
+		
+		\begin{tikzpicture}
+		
+			\begin{axis}[
+		axis lines = middle,
+		ylabel = $f(x)$,
+		xlabel = $x$,
+		width=0.57\textwidth,
+		height=0.57\textwidth,
+		xmin=-5.5,
+		xmax= 5.5,
+		ymin=-1,
+		ymax= 10,
+		yticklabels={,,},
+		xticklabels={,,},
+		axis equal=true,
+		legend style={at={(axis cs: 5,1.1)},anchor=south east, font=\tiny},
+		legend cell align=left	,
+		]
+		
+		\draw [line width=0.5mm, black] (axis cs: -5.5,0) -- (axis cs: 5.5,0);
+		\draw [line width=0.5mm, black] (axis cs: 0,0) -- (axis cs: 0,7);
+		\draw [line width=0.5mm, black] (axis cs: -1,6) -- (axis cs: 0,7);
+		\draw [line width=0.5mm, black] (axis cs: 1,6) -- (axis cs: 0,7);
+		\addplot +[only marks, black, mark=*, line width=0.5mm, mark options={fill=white, scale=2}] coordinates {
+			(0,0)
+		};
+		
+		
+		\end{axis}
+		
+%		\begin{axis}[
+%		axis lines = middle,
+%		ylabel = $f(x)$,
+%		xlabel = $x$,
+%		width=0.5\textwidth,
+%		height=0.5\textwidth,
+%%		xmin=-3,
+%%		xmax=3,
+%%		ymax=10,
+%		]
+%		
+%		\draw [line width=2.3mm, black2] (-3,0) -- (3,0);
+%		\draw [line width=2.3mm, black2] (0,0) -- (0,7);
+%	
+%		\end{axis}
+%		
+		\end{tikzpicture}
+		\hskip 1pt
+		\begin{tikzpicture}
+
+
+			\begin{axis}[
+			axis lines = middle,
+			ylabel = $F(x)$,
+			xlabel = $x$,
+			width=0.57\textwidth,
+			height=0.57\textwidth,
+			xmin=-1.5,
+			xmax= 1.5,
+			ymin=-1,
+			ymax= 2,
+			yticklabels={,,},
+			xticklabels={,,},
+			axis equal=true,
+			legend style={at={(axis cs: 1.5,2)},anchor=north east, font=\tiny},
+			legend cell align=left	,
+			]
+			
+			\draw [line width=0.5mm, black] (axis cs: -5.5,0) -- (axis cs: 0,0);
+			\addlegendentry{n=0}
+			\draw [line width=0.5mm, black] (axis cs: 0,1) -- (axis cs: 5.5,1);
+			\draw [line width=0.5mm, dashed, black] (axis cs: 0,0) -- (axis cs: 0,1);
+			
+
+			\addplot +[only marks, black, mark=*, line width=0.5mm, mark options={fill=white, scale=2}] coordinates {
+				(0,0)
+			};
+						\addplot +[only marks, black, mark=*, line width=0.5mm, mark options={fill=white, scale=2}] coordinates {
+				(0,1)
+			};
+		
+						
+			
+			\end{axis}
+
+		\end{tikzpicture}
+		
+	\end{figure}

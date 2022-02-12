@@ -1,0 +1,307 @@
+\section{Variabili aleatorie reali continue}
+Gran parte delle grandezze aleatorie del mondo reale non possono essere descritte con una probabilità concentrata in un numero discreto di punti; da qui la necessità di introdurre le \emph{variabili aleatorie continue} che descrivono questo tipo di fenomeni.
+Saranno forniti criteri per stabilire se una variabile aleatoria è continua o meno (si noti fin da subito che ciò \emph{non} significa semplicemente che la funzione rappresentante la variabile è continua).
+Era già stato osservato che, nel caso in cui la probabilità di una variabile sia descritta da una densità continua, il singolo punto possiede una probabilità nulla.
+Sebbene non sia problematico di per sé, questo fatto causa varie complicazioni nel calcolo del valore atteso con le regole introdotte nei capitoli precedenti, che darebbero inevitabilmente risultati pari a $0$.
+Occorre dunque un nuovo strumento matematico per poter integrare funzioni continue rispetto a una probabilità continua: la \emph{misura di Lebesgue}, concetto preso in prestito dalla teoria della misura e che estende la nozione di probabilità.
+
+
+\subsection{Misura di Lebesgue}
+
+\begin{defn}
+  \index{Lebesgue!misura di}
+  La \textbf{misura di Lebesgue} è quella funzione $\mm:\Bc \to [0, +\infty)$ tale che:
+  \begin{enumerate}
+    \item $\sigma$-additività: dati $B_n \in \Bc \enspace \forall n \in \NN, \; B_k \cap B_l = \varnothing \enspace \forall k \neq l$, allora:
+      $$\mm\left( \bigcup\limits_{n=1}^{{+\infty}} B_n \right) = \sum\limits_{n=1}^{{+\infty}} \mm(B_n)$$
+    \item $\mm((a,b]) = b-a$
+  \end{enumerate}
+\end{defn}
+Si noti che il punto (1) non è sufficiente a qualificare la misura di Lebesgue come misura di probabilità perché non è definita sull'intervallo $[0,1]$. Il punto (2) afferma che ogni intervallo ha misura uguale alla sua lunghezza.
+
+\medskip
+\begin{teo}[unicità della misura di Lebesgue \JPTh{11.1}]
+  La misura di Lebesgue è \textit{unica}.
+\end{teo}
+
+\medskip
+\begin{dimo}
+  \leavevmode
+  Sia $a < b$, e siano $\mm^1$ e $\mm^2$ due misure di Lebesgue. Costruiamo ora due funzioni $\mm_{a,b}^1$ e $\mm_{a,b}^2$ tali che:
+  $$\mm_{a,b}^k: \Bc \to [0,1], \quad \mm_{a,b}^k(A) = \frac{\mm(A \cap (a,b])}{b-a} \quad \text{per } k = 1,2$$
+  Le $\mm_{a,b}^k$ sono probabilità su $(\RR, \Bc)$: infatti sono $\sigma$-additive (in quanto lo sono le $\mm^k$) e $\mm_{a,b}^k(\RR) = 1$.
+  Esse avranno dunque una funzione di ripartizione ciascuna:
+  $$F_{a,b}^k(x) = \mm_{a,b}^k ((-\infty, x]) = \begin{cases}0 & x < a \\ \frac{x-a}{b-a} & a < x < b \\ 1 & x > b \end{cases}$$
+
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+      axis lines = middle,
+      xlabel = $x$,
+      ylabel = {$F(x)$},
+      width=0.7\textwidth,
+      height=0.3\textwidth,
+    ]
+
+    \addplot [draw=none, forget plot] coordinates {(-1,-0.1)};
+    \addplot [draw=none, forget plot] coordinates {(5,1.4)};
+    \draw [line width=0.1mm, dashed] (axis cs:0,1) -- (axis cs:4,1);
+    \draw [line width=0.3mm, color=lightblue] (axis cs:-3,0) -- (axis cs:1,0) -- (axis cs:4,1) -- (axis cs:5,1);
+    \draw [line width=0.1mm, dashed] (axis cs:1, 0) -- (axis cs: 1, 1.2);
+    \draw [line width=0.1mm, dashed] (axis cs:4, 0) -- (axis cs: 4, 1.2);
+    \end{axis}
+    \end{tikzpicture}
+    \label{plot-ripartizione-lebesgue}
+    \caption{funzione di ripartizione $F_{1,4}^k$}
+  \end{figure}
+
+  Osservando che nessuna delle due dipende da $k$, si conclude che $F_{a,b}^1 \equiv F_{a,b}^2$ e dunque che $\mm_{a,b}^1 = \mm_{a,b}^2$ perché la funzione di ripartizione caratterizza la probabilità. Dimostriamo ora che questa proprietà vale indipendentemente dagli estremi:
+  \begin{align*}
+    \mm^1 (A) &= \mm^1(A \cap \RR) \\
+    &= \mm^1 \left(A \cap \bigcup\limits_{n \in \ZZ} (n, n+1] \right) & \text{(per definizione di $\RR$)}\\
+    &= \sum\limits_{n \in \ZZ} \mm^1 \left( A \cap (n, n+1] \right) & \text{(per $\sigma$-additività)}\\
+    &= \sum\limits_{n \in \ZZ} \mm_{n, n+1}^1 (A) & \text{(per definizione di $\mm_{a,b}^k$)}\\
+    &= \sum\limits_{n \in \ZZ} \mm_{n, n+1}^2 (A) & \text{(le probabilità sono uguali)}\\
+    &= \mm^2(A) \quad \forall A \in \Bc & \text{(ripetendo i passaggi al contrario)}
+  \end{align*}
+  Questo conclude la dimostrazione.
+\end{dimo}
+
+\medskip
+\begin{teob}[\JPTh{11.2}]
+  La misura di Lebesgue \textit{esiste}.
+\end{teob}
+
+\medskip
+\needspace{3\baselineskip}
+\begin{dimo}
+  \leavevmode
+  Si definisca
+  $$F_{n, n+1} \coloneqq \begin{cases} 0 & x \leq n \\ x-n & n < x \leq n+1 \\ 1 & x > n+1, \end{cases} $$
+  \begin{figure}[H]
+    \centering
+    \begin{tikzpicture}
+    \begin{axis}[
+      axis lines = middle,
+      xlabel = $x$,
+      ylabel = {$F(x)$},
+      width=0.6\textwidth,
+      height=0.3\textwidth,
+    ]
+
+    \addplot [draw=none, forget plot] coordinates {(-1,-0.1)};
+    \addplot [draw=none, forget plot] coordinates {(3,1.4)};
+    \draw [line width=0.1mm, dashed] (axis cs:0,1) -- (axis cs:2,1);
+    \draw [line width=0.3mm, color=lightblue] (axis cs:-3,0) -- (axis cs:1,0) -- (axis cs:2,1) -- (axis cs:3,1);
+    \draw [line width=0.1mm, dashed] (axis cs:1, 0) -- (axis cs: 1, 1.2);
+    \draw [line width=0.1mm, dashed] (axis cs:2, 0) -- (axis cs: 2, 1.2);
+    \end{axis}
+    \end{tikzpicture}
+    \label{plot-ripartizione-lebesgue-esistenza}
+    \caption{funzione di ripartizione $F_{1,2}$}
+  \end{figure}
+  che è una funzione non decrescente, continua da destra e avente valori limite $F(-\infty)=0$ e $F(+\infty)=1$: è dunque una funzione di ripartizione, associata alla quale esiste una probabilità $ \mm_{n,n+1}: \Bc \to [0,1]$ (di cui però non sappiamo molto altro). \\
+  Si definisca ora $\mm:\Bc \to [0,+\infty), \ \ \mm(A) \coloneqq \sum\limits_{n \in \ZZ} \mm_{n, n+1} (A)$. Notiamo che $\mm$ è $\sigma$-additiva, in quanto $\mm_{n, n+1}$ lo è e le serie a termini positivi si scambiano; inoltre:
+  $$\mm((a,b]) = \sum\limits_{n \in \ZZ} \mm_{n, n+1} ((a,b]) =
+  \sum\limits_{n \in \ZZ} [ F_{n,n+1}(b)-F_{n,n+1}(a) ] = b-a$$
+  La tesi è dunque dimostrata.
+\end{dimo}
+
+\medskip
+
+\subsubsection{Integrale di Lebesgue}
+
+L'integrale di Lebesgue è compatibile con quello di Riemann, infatti è un'estensione di quest'ultimo.
+  La teoria dell'integrazione per $X:(\Omega,\Ac,\PP) \to (\RR,\Bc)$ si ripete tale e quale per $h:(\RR,\Bc,\mm)\to (\RR,\Bc)$, \textit{a meno di due variazioni}:
+\begin{itemize}
+  \item $h$ limitata $\centernot\implies h \in L^1(\mm)$: la misura di Lebesgue ammette infatti integrali propri anche illimitati;
+  \item $L^2(\mm) \centernot\subseteq L^1(\mm)$, ulteriore conseguenza della motivazione precedente.
+  \end{itemize}
+\medskip
+
+\begin{defn}
+  \index{Lebesgue!integrale di}
+  L'\textbf{integrale di Lebesgue} è definito come:
+  $$\int_{\RR} h \; \de\mm \quad \forall h \geq 0 \quad \forall h \in L^1(\mm)$$
+\end{defn}
+\medskip
+
+\begin{defn}
+  \index{quasi ovunque (qo)}
+  Si dice che $h = \widetilde{h}$ \textbf{quasi ovunque} (\textbf{qo}) se le due funzioni appartengono alla stessa classe  di equivalenza $[h]$:
+  $$[h] = \{\widetilde{h}: \RR \to \RR \text{ boreliano tale che } \mm(h \neq \widetilde{h}) = 0\}$$
+\end{defn}
+
+\begin{nb}
+  $\int_{\RR} h \, \de\mm $ dipende solo da $[h]$. Questo significa che il valore dell'integrale non cambia se le funzioni sono uguali a meno di un numero discreto (finito o numerabile) di punti.
+\end{nb}
+
+\medskip
+\begin{teo}
+  Sia $h: [a,b] \to \RR$, limitata e Riemann-integrabile.\\*
+  Allora la funzione $h$ è Lebesgue-integrabile e i due integrali hanno lo stesso valore:
+  $$\int_a^b h(x) \, \dx = \int_{[a,b]} h \, \de\mm$$
+\end{teo}
+
+\medskip
+\begin{ese} Alcune funzioni Lebesgue-integrabili ma non Riemann-integrabili:
+  \begin{itemize}
+    \item $h(x) = \dfrac{1}{x^2} \Ind_{[1, +\infty)}(x)$\\[5pt]
+      Questa funzione ammette integrale di Riemann solo improprio, mentre ammette integrale di Lebesgue proprio, grazie al criterio di convergenza dominata di $h(x) = \frac{1}{x^2} \Ind_{[1, k]}(x)$
+    \item $h(x) = \Ind_{\QQ \cap [0,1]}$ (detta \textit{funzione di Dirichlet}) \\*
+      Questa funzione ammette solo integrale di Lebesgue, perché $h=0$ \textit{quasi ovunque}:
+      $$\mm(h\neq 0) = \mm (\QQ \cap [0,1])=\sum_{q \in \QQ \cap [0,1]}\mm(\{q\})=0$$
+  \end{itemize}
+\end{ese}
+
+Poiché l'integrale di Lebesgue e quello di Riemann sono interscambiabili qualora esistano entrambi, d'ora in avanti $\de m$ sarà indicato come $\dx$ e l'integrale di Lebesgue sarà indicato come $\int_\RR h \, \dx$ per chiarezza rispetto alla variabile di integrazione.
+
+\subsection{Densità continua di probabilità}
+
+\begin{defn}
+  \index{variabile aleatoria!reale continua}
+  Una probabilità $\PP$ su $(\RR, \Bc)$ ammette \textbf{densità (continua) di probabilità} se $\exists f:\RR \to [0, +\infty)$ boreliana tale che:
+  $$F(x) = \PP((-\infty, x]) = \int_{-\infty}^{x} f \, \de t = \int_{\RR} f(t) \, \Ind_{(-\infty, x]}(t) \, \de t = \int_{(-\infty, x]} f \, \de t$$
+
+  Se $\PP = P^X$ di una VAR $X$ diciamo che $X$ è una \textbf{variabile aleatoria reale (assolutamente) continua} (abbreviato in VARC) e che $f$ è densità (continua) di $X$.
+\end{defn}
+
+Quali funzioni di ripartizione ammettono densità? In questo testo saranno enunciati solo un criterio sufficiente e uno necessario, mentre il concetto di \emph{continuità assoluta} verrà introdotto nel corso di analisi reale e funzionale.
+\medskip
+
+\begin{prop}[criterio necessario]
+  Se $F(x)=\int_{-\infty}^{x}f(t) \, \de t$ allora $F$ è continua.
+\end{prop}
+
+\begin{dimo}
+  \leavevmode
+  Si vuole capire se, per $n \to +\infty$, $x_n \to x$ implichi $F(x_n) \to F(x)$, allora:
+  $$F(x_n) = \int_{-\infty}^{x_n} f(t) \de t = \int_{\RR} f(t) \Ind_{(-\infty, x_n]} \de t \underset{n \to +\infty}{\to} \int_{\RR} f(t) \Ind_{(-\infty, x]} = F(x)$$
+  L'uguaglianza vale quasi ovunque per convergenza dominata, infatti:
+  $$0 \leq f(t) \Ind_{(-\infty, x_n]}(t) \leq f(t) \in L^1 \qedhere$$
+\end{dimo}
+
+\medskip
+\begin{prop}[criterio sufficiente]
+  Data $F \in C^0 \cap C^1$ a tratti, allora $F = \int_{-\infty}^x f \de t$, $f = F'$ quasi ovunque.
+\end{prop}
+
+\subsubsection{Caratterizzazione di una densità su $\RR$}
+
+\begin{teob}\label{teo-f-densita}
+  \begin{enumerate}
+    \Fixvmode
+    \item $f:\RR \to \RR$ densità di probabilità su $(\RR, \Bc)$
+      $\iff f$ boreliana, $f \geq 0$, $\int_{\RR} f \, \dx = 1$;
+    \item Nel caso valga (1) si dice che $f$ determina $\PP$ e vale $\PP(A) = \int_{A} f \, \dx \; \forall A \in \Bc$, ovvero la classe di equivalenza $[f]$ caratterizza $\PP$;
+    \item Una probabilità $\PP$ su $(\RR, \Bc)$ con densità $f$ caratterizza $[f]$, ovvero se $f$ e $\widetilde{f}$ sono densità per $\PP$ allora $\mm(f \neq \widetilde{f}) = 0$.
+  \end{enumerate}
+\end{teob}
+\medskip
+\begin{dimo}
+  \Fixvmode
+  \begin{enumerate}
+    \item
+    \begin{itemize}
+      \item ($\Longrightarrow$): $f$ boreliana, $f \geq 0$ per definizione:
+        $$\int_{-\infty}^{+\infty} f \dx = \int_{-\infty}^{+\infty} \lim_{t \to +\infty} \Ind_{(-\infty, t]} (x) f(x) \dx$$
+        Quindi, per convergenza monotona:
+        $$ = \lim_{t \to +\infty} \int_{-\infty}^{t} f(x) \dx = \lim_{t \to +\infty} F(t) = 1$$
+      \item ($\Longleftarrow$): $f$ boreliana, $f \geq 0$ per definizione, $\int_{\RR} f \dx = 1$  \\*
+        Definisco $F(x) = \int_{-\infty}^{x} f \de t \implies F$ continua e decrescente.\\*
+        Visto che l'operatore integrale è positivo e $f \geq 0$:
+        \begin{itemize}
+          \item $\lim\limits_{t \to -\infty} F(t) = 0 \quad$Per convergenza dominata
+          \item $\lim\limits_{t \to +\infty} F(t) = 1 \quad$Per convergenza monotona/dominata
+        \end{itemize}
+        Quindi sia $\PP$ la probabilità su $(\RR, \Bc)$ della funzione di ripartizione $F$
+        allora $\PP$ ha densità $f$ per costruzione.
+    \end{itemize}
+    \medskip
+    \item Sia $f$ boreliana, $f \geq 0$, $\int_{\RR} f \dx = 1$, $f$ densità di $\PP$\\*
+      Sia inoltre:
+      $$\widetilde{\PP}(A) = \int_{A} f \dx \quad \forall A \in \Bc \implies \widetilde{\PP}: \Bc \to [0,1], \ \widetilde{\PP}(\RR) = 1$$
+      allora $\widetilde{\PP}$ è $\sigma$-additiva.
+      Quindi $\widetilde{\PP}$ è una probabilità su $(\RR, \Bc), \text{ con } \widetilde{F} = F$, $\widetilde{\PP} = \PP$, ovvero:
+      $$\PP(A) = \widetilde{\PP}(A) = \int_{A} f \dx$$
+
+      Per giustificare il passaggio in cui si afferma che $\widetilde{\PP}$ è $\sigma$-additiva si può mostrare che dati $B_n$ disgiunti, ovvero:
+      $$B_n \in \Bc, B_k \cap B_l = \varnothing \; \forall k \neq l$$
+      allora:
+      $$\widetilde{\PP} \left(\bigcup\limits_{n} B_n \right) = \bigintsss_{\bigcup\limits_{n} B_n} f(x) \dx = \bigintsss_{\RR} f(x) \Ind_{\bigcup\limits_{n} B_n}  (x) \dx$$
+      Essendo i $B_n$ disgiunti la funzione indicatrice può essere spezzata in una sommatoria:
+      $$= \int_{\RR} f(x) \sum\limits_{n} \Ind_{B_n} (x) \dx  = \sum\limits_{n} \int_{\RR} f(x) \Ind_{B_n} (x) \dx = \sum\limits_{n} \widetilde{\PP}(B_n)$$
+      Lo scambio di integrale e sommatoria è possibile grazie al fatto che la serie è completamente a termini positivi.
+
+      Ricapitolando $f$ determina $\PP$ e $[f]$ caratterizza $\PP$, ovvero se $\PP_1$ ha densità $f_1$, $\PP_2$ ha densità $f_2$ e:
+      $$[f_1] = [f_2] \implies \PP_1 = \PP_2$$
+    \medskip
+    \item Sia $\PP$ una probabilità su $(\RR, \Bc)$, $f$ e $\widetilde{f}$ densità di $\PP$;
+      si vuole mostrare che questo implica $\mm (f \neq \widetilde{f}) = 0$.
+      Si dimostra quindi che $\mm (f < \widetilde{f}) = 0$ e $\mm (f > \widetilde{f}) = 0$.
+
+      Dato $\varepsilon > 0$ sia:
+      $$A = \left\{x: f(x)+ \varepsilon \leq \widetilde{f}(x)\right\} \subseteq \left(f < \widetilde{f} \, \right) \implies A \uparrow \left(f  < \widetilde{f} \, \right) \text{ per } \varepsilon \downarrow 0$$
+      allora, passando alle probabilità:
+      $$\PP(A) + \varepsilon \mm(A) = \int_{A} (f+\varepsilon) \dx \leq \int_{A}  \widetilde{f}(A) = \PP(A)$$
+      Essendo $\varepsilon$ strettamente maggiore di zero:
+      $$\mm(A) = 0 \ \forall \varepsilon \implies \mm(f < \widetilde{f}) = 0$$
+      Ripetendo lo stesso procedimento per $f > \widetilde{f}$ si ottiene che:
+      $$\mm(f \neq \widetilde{f}) = \mm(f < \widetilde{f}) + \mm(f > \widetilde{f}) = 0 \qedhere$$
+  \end{enumerate}
+\end{dimo}
+
+\medskip
+\begin{teo}[il ritorno della regola del valore atteso]
+  \index{valore atteso!per VAR continue}
+  \index{regola del valore atteso}
+  Dati $\Dom$ spazio di probabilità, $X$ VAR continua di legge $P^X$ e densità $f$ e $h: \RR \to \RR$ boreliana, allora:
+  \begin{enumerate}
+    \item $h \in L^1 (P^X) \iff hf \in L^1(\mm)$
+    \item $h$ ammette integrale rispetto a $P^X$ $\iff$ $hf$ ammette integrale rispetto a $\mm$
+    \item Sotto le ipotesi di (1) e (2):
+    $$\EE[h(x)] = \int_{\Omega} h(x) \, \dPP = \int_{\RR} h \, \de P^X = \int_{\RR} h f \, \dx$$
+  \end{enumerate}
+\end{teo}
+
+L'ultima uguaglianza è la tesi fondamentale del teorema.\footnote{Come al solito}
+\medskip
+
+\begin{dimo}
+  La dimostrazione è molto simile a quella del teorema \ref{regola-valore-atteso}, è sufficiente considerare che:
+  \begin{itemize}
+    \item $B \in \Bc$, $h = \Ind_{B}$ per il teorema \ref{teo-f-densita}, quindi:
+      $$P^X(B) = \int_{B} f(x) \, \dx$$
+    \item $h$ è semplice per linearità;
+    \item quando $h \geq 0$ si sfrutta convergenza monotona;
+    \item per $h$ qualsiasi si può impiegare la scomposizione in $h_+$ e $h_-$. \qedhere
+  \end{itemize}
+\end{dimo}
+\smallskip
+\begin{nb}
+  Data una variabile continua $X$ non è detto che $Y=h(X)$ lo sia altrettanto. Un esempio può essere una semplice bernoulliana: $Y = \Ind_B(X)$. $Y$ può infatti assumere solo i due valori $1$ e $0$, quindi non può essere continua a meno che non sia costante.
+\end{nb}
+
+\esercitazione{8}{11.04.17}
+\subsection{Considerazioni pratiche}
+Dato uno spazio di probabilità $(\Omega, \Ac, \PP)$ e una VAR $X:\RR \to \RR$, $X$ è \textbf{(assolutamente) continua}:
+\begin{itemize}
+  \item[] $\iff P^X$ ammette densità $f$, $\enspace P^X(B) = \int_{B}f(x) \, \dx \quad \forall B \in \Bc$
+  \item[] $\iff F_X(t) = \int_{-\infty}^{+\infty} f \, \dx  \enspace \forall t \in \RR$
+  \item[] $\implies F_X \in C^0$, ovvero $P^X(\{x\}) = \PP(X=x) = F_X(x)-F_X(x_-) = 0$ (in quanto $F_X(x_-)=F_X(x_+)=F_X(x)$)
+  \item[] $\; \Longleftarrow \; F_X \in C^0 \cap C^1$ a tratti\\[5pt]
+    In quest'ultimo caso $f = \begin{cases} F_X'(x) & $dove $F_X$ è derivabile$ \\  $valore arbitrario$ & $altrimenti$ \end{cases}$
+\end{itemize}
+\smallskip
+Se $h$ è boreliana, e se $h:\RR \to [0,+\infty]$ oppure $h:\RR \to \RR \;(h \in L^1(\PP))$, allora:
+$$\EE[h(X)] = \int_{\Omega} h(X(\omega)) \, p(\de \omega) = \int_{\RR} h(x) \, P^X (\dx) =
+\int_{\RR} h(x) \, f(x) \, \dx$$
+Inoltre:
+$$f \text{ densità } \iff \begin{cases}
+  f $ boreliana$\\
+  f \geq 0 \\
+  \int_{-\infty}^{{+\infty}}f(x) \, \dx = 1
+\end{cases}$$
+
+\cleardoublepage

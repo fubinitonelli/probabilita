@@ -1,0 +1,83 @@
+	\begin{figure}[H]
+		\centering
+		
+		\begin{tikzpicture}
+		
+		\begin{axis}[
+		axis lines = middle,
+		ylabel = $f(x)$,
+		xlabel = $x$,
+		width=0.50\textwidth,
+		height=0.50\textwidth,
+		ymin=0,
+		xmax= 1.5,
+		xmin=0,
+		ymax=1,
+		xticklabels={0.5,1,0,1},
+		]
+
+		
+		\addplot +[only marks, black, mark=*, mark options={fill=black, scale=0.7}] coordinates {
+			(	0.5	,	0.8	)
+			(	1,	0.2	)
+		};
+	
+		\addplot +[only marks, black2, mark=*,mark options={fill=black2, scale=0.7} ] coordinates {
+			(	0.5	,	    0.5	)
+			(	1	,	    0.5	)
+		};
+	
+		\addplot +[only marks, black3, mark=*,mark options={fill=black3, scale=0.7}] coordinates {
+			(	0.5	,	0.3)
+			(	1	,	 0.7	)
+		};
+
+		\end{axis}
+		
+		\end{tikzpicture}
+		\hskip 1pt
+		\begin{tikzpicture}
+			\begin{axis}[
+			samples at = {0,...,10},
+			axis lines = middle,
+			ylabel = $F(k)$,
+			xlabel = $k$,
+			width=0.50\textwidth,
+			height=0.50\textwidth,
+			ymin=0,
+			xmax= 2,
+			xmin=0,
+			xticklabels={0.5,1,0,1},
+			legend style={at={(axis cs: 2,0.1)},anchor=south east, font=\tiny},
+			legend cell align=left,
+			]
+			
+			\draw [line width=0.3mm, black] (axis cs:1,1) -- (axis cs:1.5,1);
+			\draw [line width=0.3mm, black2] (axis cs:1,1) -- (axis cs:1.5,1);
+			\draw [line width=0.3mm, black3] (axis cs:1,1) -- (axis cs:1.5,1);
+		
+			\addplot +[jump mark left, black, mark=*, mark options={fill=black, scale=0.7}] coordinates {
+				(	0.5	,	    0.8	)
+				(	1	,	    1	)
+			};
+		
+			\addlegendentry{$p=0.2$};
+			
+			\addplot +[jump mark left, black2, mark=*,mark options={fill=black2, scale=0.7} ] coordinates {
+				(	0.5	,	    0.5	)
+				(	1	,	    1	)
+			};
+		
+			\addlegendentry{$p=0.5$};
+			
+			\addplot +[jump mark left, black3, mark=*,mark options={fill=black3, scale=0.7}] coordinates {
+				(	0.5	,	0.3	)
+				(	1	,	1	)
+			};
+		
+			\addlegendentry{$p=0.7$};
+			
+		\end{axis}
+	\end{tikzpicture}
+		
+	\end{figure}

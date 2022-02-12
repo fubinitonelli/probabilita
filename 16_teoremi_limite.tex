@@ -1,0 +1,580 @@
+\lezione{26}{09.06.17}
+
+\section{Teoremi limite}
+I due \emph{teoremi limite} sono tra i risultati più potenti dello studio della probabilità.
+Partendo da ipotesi minime, contribuiscono a mettere le basi per lo studio della statistica;
+essi poggiano su tutta la teoria affrontata finora, in particolare sulla convergenza di variabili aleatorie, ma avranno delle dimostrazioni sorprendentemente semplici a questo punto della trattazione.
+
+La \emph{legge dei grandi numeri} permette l'approssimazione della media di una variabile aleatoria attraverso esperimenti ripetuti;
+il \emph{teorema centrale del limite} cementa definitivamente l'importanza della legge gaussiana nello studio di variabili aleatorie con legge \emph{qualsiasi}.
+L'introduzione di questi teoremi consentirà l'analisi del \emph{comportamento asintotico} di alcune successioni (in particolare della loro \emph{velocità di convergenza}) e la \emph{stima dei parametri} di una popolazione, tecnica frequentemente sfruttata in statistica.
+
+\subsection{Legge dei grandi numeri}\label{legge-grandi-numeri}
+
+\begin{teo} [legge forte dei grandi numeri (LGN) \JPTh{20.1,20.2}]
+  \index{legge!dei grandi numeri (LGN)}
+  Siano $X_n \in L^1$ una successione di variabili aleatorie iid e $\mu \in \RR$. Allora:
+  $$\EE[X_n]=\mu \iff \widebar X_n \stackrel{\text{qc}}{\longrightarrow} \mu$$
+  Inoltre in questo caso vale anche $\widebar X_n \stackrel{L^1}{\longrightarrow} \mu $.
+\end{teo}
+Questa legge viene definita ``forte'' perché dà un risultato di convergenza quasi certa, che è ovviamente un risultato più potente rispetto ad altri tipi di convergenza. \\*
+Si noti che la parte ($\implies$) di questo teorema ha ipotesi sul codominio e dà una tesi sul dominio.\footnote{``Teoremi come questi non li avete visti in analisi''} \\*
+Inoltre, nel caso in cui le VA della successione siano continue, si può notare che la loro media, per definizione un integrale e quindi una somma \emph{continua}, possa anche essere ottenuta come un limite \emph{numerabile}.\\[-9pt]
+
+
+Abbiamo già visto una delle applicazioni (inconsapevoli) di questo enunciato all'inizio del testo, a pagina \pageref{come-assegnare-prob}, per assegnare una probabilità in modo frequentista.
+
+\medskip
+\begin{ese}
+  Se $X_n \sim Be(p)$ iid, allora $\EE[X_n]=\PP(X_n=1)=p \iff \widebar X_n \stackrel{\text{qc}}{\longrightarrow} p$.
+\end{ese}
+
+\begin{ese}
+  Se $X_n \sim P^X$ iid, $\PP(X_n \in B)=P^X(B)=p \iff \dfrac{\sum_{k=1}^n \Ind_B(X_k)}{n} \stackrel{\text{qc}}{\longrightarrow} p$.
+\end{ese}
+
+\begin{ese}
+  Definiamo $\Omega = \left \{ 0, \, 1 \right \}^\NN, \ \Ac=\sigma(X_n=1 \, : \, n \in \NN) $ e $ X_n(\omega)=\omega_n$. Allora si ha $\widebar X_n(\omega)=\widebar{\omega}_n \stackrel{\text{qc}}{\longrightarrow} p$.
+  In questo teorema vengono definiti solo oggetti che dipendono dalla legge: in quest'ultimo caso, alterando il parametro $p$ la probabilità si sposta, senza modificarsi, andandosi a concentrare su certi $\omega_n$ che fanno tendere la media campionaria a $p$.
+  Per questo il teorema funziona per ogni valore ammissibile di $p$.
+\end{ese}
+\medskip
+
+\begin{prop}
+  Siano $X_n$ VA iid in $L^2$. Allora:
+  $$\mu= \EE[X_n] \text{ e } \sigma^2=Var(X_n) \ \implies \ S^2_n \stackrel{\text{qc}}{\longrightarrow} \sigma^2$$
+\end{prop}
+
+\begin{dimo}
+  Possiamo riscrivere $S^2_n$ a partire dalla sua definizione:
+  $$S^2_n = \dfrac{1}{n-1} \sum_{k=1}^{n}(X_k-\widebar X_n)^2 =
+  \dfrac{n}{n-1} \left[\frac{1}{n} \cdot \sum_{k=1}^{n} X_k^2 - \widebar X_n^2\right]$$
+  Analizziamo ora la convergenza di ciascun elemento:
+  $$ \dfrac{n}{n-1} \stackrel{n}{\longrightarrow} 1, \qquad
+  \frac{1}{n}\sum_{1}^{n}X_k^2 \; \stackrel{\text{qc}}{\longrightarrow} \; \EE[X^2] = \mu^2 + \sigma^2, \qquad
+  \widebar X_n^2 \stackrel{\text{qc}}{\longrightarrow} \mu^2$$
+  Per le proprietà della convergenza quasi certa, $S^2_n \stackrel{\text{qc}}{\longrightarrow} 1(\mu^2 + \sigma^2 - \mu^2)=\sigma^2$.
+\end{dimo}
+
+\medskip
+\begin{dimo}[\hspace{-3pt}della LGN]
+  Dimostreremo solo ($\implies$) nel caso $L^2$. \\
+  Siano $X_n \in L^2$ iid e chiamiamo $\mu = \EE[X_n]$ e $\sigma^2 = Var(X_n)$ per semplicità di notazione.
+  % \implies \widebar X_n \stackrel{\text{qc}}{\longrightarrow} \mu$.\\
+
+  \begin{enumerate}
+    \item Dimostriamo che $\widebar X_n \stackrel{L^2}{\longrightarrow} \mu$.
+    Per linearità del valore atteso possiamo affermare che $\EE[\widebar X_n]=\mu$ e che:
+      $$Var(\widebar X_n)= \EE[(\widebar X_n - \mu)^2] =\dfrac{\sigma^2}{n} \stackrel{n}{\longrightarrow} 0$$
+      Da ciò discende immediatamente l'affermazione di sopra.
+
+      Possiamo quindi imporre $\mu=0$ senza perdita di generalità definendo la VA $Y_n \coloneqq X_n-\mu$, infatti:
+      $$\EE[X_n]=\mu, \ \widebar X_n \stackrel{\text{qc}}{\longrightarrow} \mu \iff \EE[Y_n]=0, \  Y_n \stackrel{\text{qc}}{\longrightarrow} 0$$
+
+    \item Mostriamo ora che la sottosuccessione $\widebar X_{n^2}$, ovvero la media campionaria degli $X_k$ tali che $k=n^2$ per un qualche $n$, converge quasi certamente a 0.
+      \begin{align*}
+      	\EE \left[ \sum_{n=1}^{+\infty}(\widebar X_{n^2})^2 \right] &= \sum_{n=1}^{+\infty} \EE\left[ (\widebar X_{n^2})^2 \right] &\text{(scambio di limiti \ref{teo-leibniz-style} con VA positive)}\\
+      	&= \sum_{n=1}^{+\infty} Var(\widebar X_{n^2}) &\text{(perché $\EE[X_n]=0$)} \\
+      	&= \sum_{n=1}^{+\infty} \dfrac{\sigma^2}{n^2} < +\infty &\text{(la serie di $\frac 1{n^2}$ converge)}
+      \end{align*}
+      Condizione necessaria per la convergenza della serie è che il limite del termine generale della successione valga zero:
+      $$\sum_{n=1}^{+\infty}( \widebar X_{n^2} )^2 < +\infty \ \text{qc} \ \implies ( \widebar X_{n^2})^2 \stackrel{n}{\longrightarrow} 0 \ \text{qc} \ \iff \widebar X_{n^2} \stackrel{\text{qc}}{\longrightarrow} 0$$
+
+    \item Infine proviamo che $\widebar X_n \stackrel{\text{qc}}{\longrightarrow} 0$.\\
+      Sia $p(n) \in \NN$ il numero\footnote{Formalmente si può definire questo numero come $p(n) \coloneqq \lfloor{\sqrt n}\rfloor$, che è un valore ben definito per ogni $n$. Tale definizione non è comunque rilevante ai fini della dimostrazione.} tale che:
+      $$p(n)^2 \le n < (p(n)+1)^2, \ \ \text{ovvero} \ \ \frac{(\sqrt{n}-1)^2}{n} < \frac{p(n)^2}{n} \le 1$$
+      Per il teorema dei due carabinieri, vale che $\frac{p(n)^2}{n} \stackrel{n}{\longrightarrow}1$. \\
+      Sfruttiamo $p(n)$ per definire una nuova VA:
+      $$\widebar X_n - \dfrac{p(n)^2}{n} \widebar X_{p(n)^2} = \dfrac{1}{n} \sum_{k= p(n)^2+1}^{n} X_k$$
+      Passando alle varianze:
+      $$ Var \left( \widebar X_n - \dfrac{p(n)^2}{n} \widebar X_{p(n)^2} \right)
+      = Var \left( \dfrac{1}{n} \sum_{k= p(n)^2+1}^{n} X_k \right)
+      = \dfrac{1}{n^2} \sigma^2 \left(n-p(n)^2 \right)$$
+      Con una catena di minorazioni, troviamo:
+      $$\dfrac{1}{n^2} \sigma^2 \left(n-p(n)^2 \right)
+      \le \dfrac{\sigma^2}{n^2} (2p(n)+1)
+      \le \dfrac{\sigma^2}{n^2} \left(2 \sqrt{n}+1 \right)
+      \le \dfrac{3 \sigma^2}{n^{\frac{3}{2}}}$$
+      Sviluppando la varianza tramite la definizione e sfruttando la linearità del valore atteso, abbiamo:
+      \begin{align*}
+        \EE \left[ \sum_{n=1}^{+\infty} \left( \widebar X_n - \dfrac{p(n)^2}{n} \widebar X_{p(n)^2} \right)^2 \right]
+        &= \sum_{n=1}^{+\infty} \EE \left[ \left(\widebar X_n - \dfrac{p(n)^2}{n} \widebar X_{p(n)^2} \right)^2 \right]\\
+        &\le \sum_{n=1}^{+\infty} \dfrac{3 \sigma^2}{n^ {\frac{3}{2}} } < +\infty
+      \end{align*}
+      Si ottiene così una serie convergente; quindi, come abbiamo già visto, il termine generale tende a $0$. Rimuoviamo allora il quadrato:
+      $$ \left( \widebar X_n - \dfrac{p(n)^2}{n} \widebar X_{p(n)^2} \right)^2 \stackrel{\text{qc}}{\longrightarrow} 0
+      \implies \widebar X_n - \dfrac{p(n)^2}{n} \widebar X_{p(n)^2}  \stackrel{\text{qc}}{\longrightarrow} 0 \ $$
+      Sfruttando i risultati precedenti vediamo che:
+      $$\widebar X_n =
+      \underbrace{ \widebar X_n - \dfrac{p(n)^2}{n} \widebar X_{p(n)^2} }_{\stackrel{\text{qc}}{\longrightarrow} 0} +
+      \underbrace{ \dfrac{p(n)^2}{n}}_{\longrightarrow 1} \cdot
+      \underbrace{ \widebar X_{p(n)^2} }_{\stackrel{\text{qc}}{\longrightarrow} 0}  \stackrel{\text{qc}}{\longrightarrow} 0 \qedhere$$
+  \end{enumerate}
+\end{dimo}
+
+\subsubsection{Applicazioni notevoli}
+\emph{Metodo Monte Carlo.} Vogliamo stimare numericamente il seguente integrale:
+$$c= \int_0^1 h(x) \, \dx, \ \  \text{con } h \in L^1$$
+Per farlo definiamo $X_n \sim U([0,1])$ iid. Notiamo che $h(X_n) \in L^1(\PP)$ iid $\iff h \in L^1(P^{X_n})$. Allora:
+$$\frac{1}{n} \sum_{k=1}^{n} h(X_k) \stackrel{\text{qc}}{\longrightarrow} \EE[h(X_1)]=\int_{0}^{1}h(s) \, \de s \\
+\implies \frac{1}{n} \sum_{k=1}^{n}h(X_k) \simeq c \quad \text{(se $n$ è grande)}$$
+In generale, il metodo Monte Carlo è una tecnica che calcola integrali approssimandone il valore con la media campionaria, anche se la funzione integranda non ammette integrale elementare.
+
+\medskip
+\emph{Statistica.} Tramite la consistenza è possibile stimare $\mu$ e $\sigma^2$:
+$$\widehat{\mu}=\widebar X_n \stackrel{n}{\longrightarrow} \mu \qquad \text e \qquad \widehat{\sigma}^2= S_n^2= \dfrac{1}{n-1} \sum_{k=1}^{n}(X_k-\widebar X_n)^2$$
+
+\subsection{Teorema centrale del limite}
+
+\begin{teo}[teorema centrale del limite (TCL) \JPTh{21.1}]\label{TCL}
+  \index{teorema!centrale del limite (TCL)}
+  Siano $X_n$ iid in $L^2$, con $\mu = \EE[X_n]$ e $\sigma^2= Var(X_n)>0$. Allora:
+  $$\dfrac{\widebar X_n-\mu}{ \dfrac{\sigma}{\sqrt{n} } }  \stackrel{\Lc}{\longrightarrow} \Nc(0,1)$$
+\end{teo}
+Se $\sigma^2=0$ il teorema perde di significato, ma questo è comunque un caso di banale trattazione.
+
+Nella pratica statistica questo teorema risolve il problema dell'impossibilità di fare infiniti esperimenti: considerando un campione sufficientemente numeroso, la distribuzione può essere approssimata con una gaussiana.\footnote{``La statistica, di colpo, serve a qualcosa''}
+
+\begin{nb}
+  Dati $X_n \in L^2$ iid, abbiamo visto che, per la legge dei grandi numeri, $\widebar X_n \stackrel{\text{qc}}{\longrightarrow} \mu$ e che la varianza della media campionaria si riduce fino a diventare nulla:
+  $$Var(\widebar X_n)=\dfrac{\sigma^2}{n} \longrightarrow 0$$
+  Dunque la distribuzione si stringe e converge in legge a $\delta_{\mu}$, a prescindere dalla legge originaria delle VA.
+  Normalizzando si impedisce che essa degeneri in una delta, permettendo l'osservazione della distribuzione per $n$ che tende ad infinito:
+  $$ \dfrac{\widebar X_n - \mu}{\dfrac{\sigma}{\sqrt{n}}} \ \implies \
+  \EE \left[ \dfrac{\widebar X_n - \mu}{\dfrac{\sigma}{\sqrt{n}}} \right] = 0, \quad
+  Var \left( \dfrac{\widebar X_n - \mu}{\dfrac{\sigma}{\sqrt{n}}} \right) = 1 $$
+\end{nb}
+Senza il teorema, il limite del rapporto nella tesi sarebbe un'irrisolvibile forma indeterminata $\frac 0 0$.
+
+Le ipotesi del TCL (o delle sue varianti) possono, in alcuni casi, non richiedere che le VA siano iid, e ciò spiega perché le distribuzioni gaussiane siano così comuni: essendo molte VA somme di diversi componenti indipendenti, gli effetti del TCL si ripercuotono su tali casi.
+Un esempio può essere l'altezza, dovuta a molti fattori diversi che la influenzano in modo non identicamente distribuito; infatti, preso un numero sufficientemente elevato di individui, essa risulta gaussiana.
+
+\lezione{27}{14.06.17}
+
+\medskip
+\begin{dimo}[\hspace{-3pt}del TCL]
+	Questa dimostrazione fa uso del logaritmo complesso, argomento tipicamente sviscerato nel corso di analisi 3.
+	Per agevolare la comprensione si possono trovare alcuni cenni alle sue proprietà nell'appendice A, a pagina \pageref{log-complesso}.
+
+  Come per la LGN, è possibile porre $\mu = 0$ senza perdita di generalità mediante la traslazione $Y_n \coloneqq X_n - \mu$.
+  Infatti questo implica che $Y_n$ iid,  $Y_n \in L^2$, $\EE [Y_n] = 0$, $\widebar{Y}_n = \widebar X_n - \mu$, $Var(Y_n) = \sigma^2$, e che pertanto:
+  $$\frac{\widebar{Y}}{\frac{\sigma}{\sqrt{n}}} = \frac{\widebar X_n - \mu}{\frac{\sigma}{\sqrt{n}}} \stackrel{\Lc}{\longrightarrow} \Nc(0,1)$$
+
+  Avendo una convergenza in legge è opportuno usare la funzione caratteristica: sia dunque $\varphi$ la funzione caratteristica di $Y_n$.
+  Si nota che $\varphi(u) = \EE[e^{iuY_n}] \implies \varphi \in C^2$ perché $Y_n \in L^2$ e perché $\varphi'(0) = 0$ e $\varphi''(0) = -\sigma^2$, valori che si possono facilmente verificare. Pertanto, lo sviluppo in serie di Taylor arrestato al second'ordine di $\varphi$ è:
+  $$\varphi(u) = 1 - \frac{1}{2}\sigma^2 u^2 + o(u^2), \quad \text{con } o(u^2) \in \CC$$
+  Si può ora scrivere la $\varphi$ del rapporto cercato e modificarla nel modo che segue:
+  \begin{align*}
+    \varphi_{\frac{\widebar{Y}_n}{\sigma}\sqrt{n}}(u) \;
+    &= \; \varphi_{\frac{\sum\limits_{k=1}^{n} Y_k}{\sigma \sqrt{n}}} (u) \;
+    	= \; \varphi_{\sum\limits_{k=1}^{n} Y_k}\left( \frac{u}{\sigma \sqrt{n}} \right)
+   	&\mathmakebox[1pt][r]{\hfill\text{(per le proprietà di $\varphi$)}}\\
+    &= \; \left( \varphi \left( \frac{u}{\sigma \sqrt{n}} \right) \right)^n
+    	&\mathmakebox[1pt][r]{\hfill\text{(le VA sono iid)}}\\
+    &= \exp\left\{\log\left( \varphi \left( \frac{u}{\sigma \sqrt{n}} \right) \right)^n\right\}
+	&\mathmakebox[1pt][r]{\hfill\text{(introducendo un exp)}}\\
+    &= \exp\left\{n \log\left( \varphi \left( \frac{u}{\sigma \sqrt{n}} \right) \right)\right\} 
+	&\mathmakebox[1pt][r]{\hfill\text{(proprietà dei logaritmi)}}\\
+    &= \exp \left\{ n \log\left( 1-\frac{1}{2} \sigma^2 \frac{u^2}{n\sigma^2} + o \left( \frac{1}{n} \right) \right) \right\}
+    	&\mathmakebox[1pt][r]{\hfill\text{(sviluppando in serie $\varphi$)}}\\
+    &= \exp \left\{ n \left( -\frac{1}{2} \frac{\sigma^2 u^2}{n \sigma^2} + o \left( \frac{1}{n} \right) \right) \right\}
+    	&\mathmakebox[1pt][r]{\hfill\text{(sviluppando in serie il log)}}\\
+    &= \exp \left\{ \left( -\frac{1}{2} u^2 + o (1) \right) \right\}
+    \stackrel{n \to +\infty}{\longrightarrow} e^{-\frac{u^2}{2}} = \varphi_{\Nc(0,1)}(u) \ \forall u \in \RR
+	\qquad \quad %eh lo so che sono una brutta persona (AW)
+  \end{align*}
+  Questo conclude la dimostrazione.
+  Si noti ancora come essa regga per qualsiasi distribuzione, dipendendo solo da media e varianza della legge.
+\end{dimo}
+
+\subsection{Comportamento asintotico di alcune distribuzioni}
+L'introduzione del TCL permette uno studio dell'andamento delle distribuzioni di una successione di VA $X_1,\dots,X_n$ quando $n$ è sufficientemente grande.
+Forniamo di seguito qualche esempio notevole.
+
+\subsubsection{Chi-quadro}
+Data una successione di VA $X_n \sim \chi^2(n)$, si ha $X_n \sim \sum\limits_{k=1}^{n} Z_k^2$, dove $Z_k \sim \Nc(0,1)$ iid. Notiamo che anche $Z_k^2 \sim \chi^2(n)$ iid.
+
+I momenti della $Z_k^2$ sono $\EE[Z_k^2] = 1$ e $Var(Z_k^2) = 2 \enspace \forall k$, quindi possiamo procedere con la normalizzazione, come richiesto dal TCL:
+$$\frac{X_n - n}{\sqrt{2n}} \sim \frac{\sum\limits_{k=1}^{n} Z_k^2 - n}{\sqrt{2n}} = \frac{\widebar{(Z_n^2)} - 1}{\sqrt{\frac{2}{n}}}
+\; \stackrel{\Lc}{\longrightarrow} \; \Nc(0,1) $$ %è la media campionaria degli Z_n^2, quindi il \widebar va sopra tutto quanto (Br1)
+Per $n$ grande, si ha:
+$$\frac{X_n-n}{\sqrt{2n}} \approx \Nc(0,1) \implies X_n \sim \chi^2(n) \approx \Nc(n,2n)$$
+\begin{nb}
+	Si nota che, come sempre parlando di leggi, non è detto che $X_n$ sia effettivamente una somma di normali standard, ma semplicemente ha la stessa distribuzione di una somma di normali standard.
+\end{nb}
+
+\subsubsection{$t$ di Student}
+Data una successione di VA $X_n \sim t(n)$, si ha $X_n \sim \frac{Z}{\sqrt{Q/n}} \;$, dove $Z \sim \Nc(0,1),$ \\*
+$Q \sim \chi^2$ e $Z \indep Q$.
+
+Grazie alla LGN possiamo mostrare che:
+$$\frac{Q}{n} \sim \frac{\sum\limits_{k=1}^{n} Z_k^2}{n} \stackrel{\text{qc}}{\longrightarrow} 1
+\implies \frac{Q}{n} \stackrel{\Lc}{\longrightarrow} 1
+\implies X_n \sim \frac{Z}{\sqrt{\frac{Q}{n}}} \stackrel{\Lc}{\longrightarrow} \Nc(0,1)$$
+Per l'ultima implicazione abbiamo invocato Slutsky\footnote{Che è il nuovo Fubini-Tonelli.}, affermando che $Q/n$ tende ad una costante.
+In altri termini, si è ottenuta la seguente relazione tra leggi:
+$$t(n) \xrightarrow{\text{deb}} N(0,1)$$
+
+\subsubsection{Binomiale}
+Data una successione di $X_n \sim Bi(n,p)$, si ha $X_n \sim \sum\limits_{k=1}^{n} Y_k$, dove $Y_k \sim Be(p)$ iid.\\
+Ne consegue che $X_n \sim n\widebar{Y}_n$.
+Per il TCL si scrive che: $$\frac{\widebar{Y}_n - p}{\sqrt{np(1-p)}/n} \stackrel{\Lc}{\longrightarrow} \Nc(0,1) \implies \frac{X_n - np}{\sqrt{np(1-p)}} \stackrel{\Lc}{\longrightarrow} \Nc(0,1)$$\\
+Ovvero, dato $n$ grande, la generica relazione tra le due leggi è la seguente:
+$$Bi(n,p) \approx \Nc(np, np(1-p))$$
+
+\subsection{Velocità di convergenza}
+
+Data una successione di VAR $X_k$ iid in $L^2$, indicata con $\widebar X_n$ la loro media campionaria per $n \to +\infty$ si ha:
+\begin{itemize}
+	\item $\widebar X_n \stackrel{\text{qc}}{\longrightarrow} \mu$ per la legge dei grandi numeri;
+	\item $\sqrt{n}(\widebar X_n - \mu) \stackrel{\text{qc}}{\longrightarrow} \Nc(0, \sigma^2)$ per il teorema centrale del limite.
+\end{itemize}
+L'ultimo criterio viene utilizzato per misurare la \textit{velocità di convergenza} del limite.
+
+Riprendiamo una definizione dall'analisi per agevolare la spiegazione:
+
+\begin{defn}\label{vel-conv-falza}
+  La \emph{velocità di convergenza} della funzione $f(x)$ è l'esponente $\alpha$ tale per cui: $$\lim\limits_{x \to +\infty} x^\alpha f(x) = L \in \RR \setminus \{0\}$$
+\end{defn}
+
+\medskip
+\begin{ese}
+  Data la funzione $\cos\left(\frac 1 n\right) \stackrel{n}{\to} 1$, l'espressione $n^\alpha \left(\cos\left(\frac 1 n\right)-1\right)$ tende ad un limite finito diverso da zero per $\alpha = 2$.
+\end{ese}
+
+\medskip
+\begin{defn}
+  \index{convergenza!velocità di}
+  Sia $X_n$ una successione di VAR, $a \in \RR$ una costante, e $v_n$ una successione reale con $v_n \; \to +\infty$ per $n \to +\infty$. \\*
+  Se $\exists \, T$ VAR, con $ T \nsim \delta_0 $, tale che $v_n(X_n-a) \stackrel{\Lc}{\longrightarrow} T$, allora si dice che $X_n$ converge ad $a$ con \textbf{velocità di convergenza $v_n$}.
+\end{defn}
+
+\medskip
+\begin{nb} La distribuzione $\delta_0$ prevede tutta la probabilità concentrata nel punto 0:
+  $T \nsim \delta_0 \iff \PP (T=0) < 1$. La distribuzione limite $\delta_0$ è dunque l'analogo del limite nullo nel caso presentato nella definizione \ref{vel-conv-falza}.
+\end{nb}
+
+\medskip
+\begin{nb}$X_n \stackrel{\Lc}{\longrightarrow} a \implies X_n \stackrel{\PP}{\longrightarrow} a$. Infatti
+  $X_n - a = \underbrace{v_n(X_n-a)}_{\to T}\underbrace{1/v_n}_{\to 0} \xrightarrow{n} 0$ per il teorema di Slutsky.
+\end{nb}
+
+\begin{ese}
+  Sia $X_k$ una successione di VA iid in $L^2$ con $\sigma_k^2 > 0 \enspace \forall k$; allora la media campionaria $\widebar X_n$ converge a $\mu$ con velocità $v_n = \sqrt n$, \emph{a prescindere dalla legge delle $X_k$}.
+  Infatti, applicando il TCL, si ha che $\sqrt{n}(\widebar X_n - \mu) \longrightarrow \Nc(0, \sigma^2)$. \\*
+  Questo risultato, data la sua generalità, viene spesso utilizzato negli esercizi per indovinare la velocità di convergenza di successioni più complesse.
+\end{ese}
+
+\medskip
+\begin{nb}
+  $v_n$ non è univocamente determinata. Infatti, data una successione $X_n \to \mu$ con $v_n = \sqrt{n}$, questa converge a un valore reale non nullo anche, per esempio, per $v_n' = \frac{n}{n+1}\sqrt{n} \,$ grazie al teorema di Slutsky.
+\end{nb}
+
+\begin{ese}
+  Si consideri una successione di VA $X_k \sim U([0, \lambda])$ iid con $\lambda > 0$ fissato. Sia poi $X_{(1)} = \min\{X_1, \dots, X_n\} = W_n$.\footnote{Il pedice $(1)$ è una notazione alternativa per il minimo frequentemente usata in statistica. Più in generale, dato un insieme di valori $\{X_1,\dots,X_n\}$, $X_{(i)}$ è l'$i$-esimo valore più piccolo dell'insieme (e quindi $X_{(n)}$ è il valore massimo tra essi).}
+  Dimostriamo che $W_n$ tende in legge a 0. \\*
+  Si utilizza, come spesso succede quando sono coinvolti dei min, la funzione di ripartizione di $W_n$: essa è $F_{W_n} (t) = \PP(W_n \leq t) = 1-\PP(W_n > t)$. Tuttavia, essendo $W_n$ un minimo di VA iid, $F_{W_n}(t) = 1-\PP(X_1 > t, \dots, X_n > t) = 1- \PP (X_1 > t)^n$. Distinguiamo quindi i casi per la variabile $t$:
+
+  $$F_{W_n} (t) = \begin{cases} 0 &\text{per }t \leq 0 \\ 1-\left( \frac{\lambda-t}{\lambda}\right)^n &\text{per }0 < t \leq \lambda \\ 1 &\text{per }t > \lambda \end{cases} \quad \stackrel{n \to +\infty}{\longrightarrow} \quad \begin{cases} 0 &\text{per }t \leq 0 \\ 1 &\text{per }0 < t \leq \lambda \\ 1 &\text{per }t > \lambda \end{cases} \; = \;\Ind_{(0, +\infty)} (t)$$
+
+  Si può quindi affermare che $F_{W_n}(t) \stackrel{\text{qo}}{\longrightarrow} \Ind_{[0, +\infty)} (t) \enspace \forall t$ (per la precisione, ovunque tranne che in $t=0$).
+  Ma questa è la funzione di ripartizione della delta di Dirac $\delta_0$, quindi $W_n \stackrel{\Lc}{\longrightarrow} 0$.
+
+  In questo caso la velocità di convergenza è $v_n = n$: infatti, si può dimostrare che $n W_n = T_n \stackrel{\Lc}{\longrightarrow} \varepsilon(\lambda)$.
+\end{ese}
+
+\subsubsection{Asintotica normalità}
+
+\begin{defn}
+  \index{asintotica normalità}
+  Una successione di VA è detta \textbf{asintoticamente normale} di parametri $a$ e $\frac{q}{v_n^2}$ (con $q > 0$ e $v_n \to +\infty$) se:
+  $$v_n(X_n-a) \stackrel{\Lc}{\longrightarrow} \Nc(0, q), \quad \text{e si scriverà }
+  X_n \sim  AN \left(a,\frac{q}{v_n^2}\right)$$
+\end{defn}
+
+\medskip
+\begin{ese}
+  Riscriviamo il TCL con la notazione appena introdotta:
+  $$
+    X_k \text{ iid in } L^2, \text{ con } \sigma^2 > 0 \ \implies \ \widebar X_n \sim AN \left( \mu, \frac{\sigma^2}{n} \right)
+  $$
+\end{ese}
+
+\medskip
+\begin{nb}
+  Nonostante $X_n \to a$, non è necessariamente vero che $\EE[X_n] \longrightarrow a$ o che $Var(X_n) \sim \frac{q}{v_n^2}$.
+\end{nb}
+
+\medskip
+\begin{cese}
+	Siano $X_n, Y_n$ successioni di VAR tali che $X_k \indep Y_k \ \forall k$. Siano inoltre $p_n, \mu_n, v_n$ e $\sigma_n$ successioni numeriche tali che $v_n \to +\infty$, che $Y_n \sim Be(p_n)$ con $p_n \xrightarrow{n} 1$, e che le $X_n$ abbiano, per ogni $n$, la seguente legge condizionata:
+	$$X_n | Y_n = k \sim \Nc \left( ak + \mu_n(1-k), k \frac q {v_n^2} + (1-k) \frac{\sigma_n^2}{v_n^2} \right)$$
+	Dimostriamo che $X_n$ è asintoticamente normale, ovvero che $Z_n = v_n(X_n - a) \xrightarrow{\Lc} \Nc(0,q)$. Mediante il teorema \ref{phi-trasf-aff} sulle trasformazioni affini delle funzioni caratteristiche si ottiene:
+	$$ \varphi_{Z_n}(u) = e^{-i a v_n u} \varphi_{X_n}(v_n u)$$
+	Ricordando che $\varphi_{X_n}$ è un valore atteso e che pertanto vale la formula di pagina \pageref{formula-att-cond}, si può continuare scrivendo:
+	\begin{align*}
+		e^{-i a v_n u} &\varphi_{X_n}(v_n u) = e^{-i a v_n u} \Ex { \ \varphi_{X_n}(v_n u) \ } \\[7pt]
+		&= e^{-i a v_n u} \Big[ p \ \Ex { \ \varphi_{X_n}(v_n u) \ | Y_n=1 } + (1-p) \ \Ex { \ \varphi_{X_n}(v_n u) \ | Y_n=0 } \Big] \\
+		&= e^{-i a v_n u} \left[ p \ \varphi_{\Nc \left( a, \frac q {v_n^2} \right) }(v_n u) + (1-p) \ \varphi_{\Nc \left( \mu, \frac {\sigma_n^2} {v_n^2} \right)} (v_n u) \right]
+	\end{align*}
+	Infatti $k=0$ o $k=1$ cancellano l'uno o l'altro dei due addendi nei parametri della legge di $X_n | Y_n = k$. Ora, la funzione caratteristica $\varphi_{\Nc \left( \mu, \frac {\sigma_n^2} {v_n^2} \right)} (v_n u)$ è limitata $\forall u$ e $1-p \to 0$: l'intero secondo addendo è un $o(1)$. Sostituendo la formula per la $\varphi_{\Nc}$ nell'addendo rimasto e ricordando che $v_n \to +\infty$, risulta che:
+	\begin{align*}
+		\varphi_{Z_n}(u) &= e^{-i a v_n u} \Big[ p \ e^{i a v_n u - \frac 1 2 \frac q {v_n^2} v_n^2 u^2} + o(1) \Big] \\[7pt]
+		&= p \ e^{- \frac 1 2 q u^2} + e^{-i a v_n u} o(1) \overset{n}{\longrightarrow} e^{- \frac 1 2 q u^2 }
+	\end{align*}
+	La funzione ottenuta è la funzione caratteristica di una normale con media nulla e varianza $q$. Dunque effettivamente $ X_n \sim \Ac\Nc\left( a, \frac q {v_n^2} \right)$. Infine, calcoliamo media e varianza di $X_n$ usando le definizioni di attesa e varianza condizionata:
+	\begin{align*}
+		\Ex{X_n} &= \EE \big[ \Ex{X_n | Y_n} \big] \\
+		&=\Ex{ a Y_n + \mu_n (1-Y_n) } = a \ p_n + (1 - p_n) \mu_n\\[10pt]
+		Var(X_n) &=\ Var ( \Ex{X_n|Y_n} ) + \Ex{ Var( X_n|Y_n ) } & (\text{proprietà \ref{scomp-var}})
+	\end{align*}
+	Quindi per le proprietà di varianza e valore atteso si ha:
+	\begin{align*}
+		Var(X_n) &= Var \big(aY_n + \mu_n(1-Y_n)\big) + \Ex{ Y_n \frac q {v_n^2} + (1-Y_n) \frac{\sigma_n^2}{v_n^2} } \\
+		&= (a - \mu_n)^2 p (1-p) + p \frac q {v_n^2} + (1-p) \frac{\sigma_n^2}{v_n^2}
+	\end{align*}
+	Come si può osservare, media e varianza non sono sempre uguali, rispettivamente, ad $a$ e a $\frac q {v_n^2}$; anzi, a seconda delle successioni scelte nelle ipotesi si può farle convergere a qualsiasi valore desiderato o anche divergere a $+\infty$.
+\end{cese}
+
+Data una funzione $h:\RR \to \RR$ continua e $X_n$ che converge in legge, probabilità o quasi certa\footnote{``Nel modo che preferite'', disse Gregoratti.} $X_n \longrightarrow a$ allora è noto che $Y_n = h(X_n) \implies Y_n \longrightarrow h(a)$, ma per scoprire la sua velocità di convergenza e se è asintoticamente normale introduciamo il metodo delta 1, molto utile negli esercizi.
+\medskip
+
+\begin{teo}[metodo delta 1\footnote{Nel caso ve lo steste chiedendo: sì, esiste un metodo delta 2, ma non fa parte del programma di questo corso.}]
+  \index{metodo delta 1}
+  Siano:
+  \begin{itemize}
+    \item $X_n$ successione di VA reali a valori in un boreliano $B \subseteq \RR$;
+    \item $a \in \mathring{B}$, ovvero punto interno a $B$;
+    \item $v_n \to +\infty$, velocità di convergenza;
+    \item $T$ VAR.
+  \end{itemize}
+  Se $v_n(X_n - a) \stackrel{\Lc}{\longrightarrow} T$ e $h:B \to \RR$ è una funzione misurabile su $B$ e differenziabile in $a$, allora:
+  $$v_n(h(X_n) - h(a)) \; \stackrel{\Lc}{\longrightarrow} \; h'(a) T $$
+\end{teo}
+Si noti che la funzione $h$ non deve dipendere da $n$, altrimenti $h$ non sarebbe una funzione, bensì una successione di funzioni $h_n$ e il metodo delta 1 non sarebbe valido.
+\needspace{3\baselineskip}
+\begin{dimo}
+	\Fixvmode
+	\begin{itemize}
+		\item \emph{Caso generale.}
+		Si scriva lo sviluppo di Taylor-Peano di $h(x)$ centrato in $x = a$:
+		$$h(x) = h(a) + h'(a) (x-a) + o(x-a) \quad \forall x \in B$$
+		Si definisca ora il resto $r$ come $r(x-a) \coloneqq h(x) - h(a) - h'(a) (x-a) = o(x-a)$, con $x \in B$, che è tale che $\frac{r(x-a)}{x-a} \to 0$ per $x \to a$. Definiamo quindi anche la funzione $g: \RR\to\RR$:
+		$$g(y) \coloneqq
+		\begin{cases}
+		\frac{r(y)} y & \text{con } y+a \in B, \; y \neq 0\\
+		0       & \text{con } y+a \notin B, \; y \neq 0
+		\end{cases}
+		$$
+		Essa è continua in $y = 0$ e misurabile. Dunque $h(x) - h(a) = h'(a) (x-a) + (x-a) g(x-a) \enspace \forall x \in B$. Applichiamo la velocità di convergenza:
+		\begin{align*}
+			v_n(h(X_n)-h(a)) &= v_n\big( h'(a) (X_n-a)  + (X_n-a) g(X_n-a) \big) \\
+			&=v_n (X_n-a) h'(a) + v_n(X_n-a)g(X_n-a)
+		\end{align*}
+		I termini $v_n(X_n-a)$ convergono in legge a $T$; inoltre, poiché $X_n-a \xrightarrow{\Lc} 0$, per la continuità di $g$ anche $g(X_n-a) \xrightarrow{\Lc} g(0) = 0$. Per il teorema di Slutsky la somma converge dunque in legge a $T \cdot h'(a) + T \cdot 0 = h'(a) T$.
+		\item \emph{Caso $B=\RR$}.
+		$$g(s) \coloneqq
+		\begin{cases}
+		\frac{h(s)-h(a)}{s-a}-h'(a) & \text{per } s\neq a\\
+		0       & \text{per } s = a
+		\end{cases}
+		$$
+		Mediante uno sviluppo di Taylor al prim'ordine si può scrivere che:
+		$$v_n (h(X_n) - h(a)) = v_n ( h'(a) (X_n-a) + o(X_n-a) )$$
+		%Ma cos'è $v_n\cdot o(X_n-a)$? \\ %E' quello che ci stiamo chiedendo tutti (Br1)
+		Portando $v_n h'(a) (X_n-a)$ al membro sinistro:
+		\begin{align*}
+			v_n \, o(X_n-a)
+			&= v_n \big( h(X_n)-h(a)-h'(a)(X_n-a) \big) \\
+			&= v_n(X_n-a) \left( \frac{h(X_n)-h(a)}{X_n-a}-h'(a) \right) \\
+			&= \underbrace{v_n(X_n-a)}_{\stackrel{\Lc}{\to}T}\underbrace{g(X_n)}_{\stackrel{\Lc}{\to}g(a)}
+			\xrightarrow{\Lc} 0 T = 0 &\text{(per Slutsky)}
+		\end{align*}
+		Pertanto, ricordando la definizione di $g$:
+		\begin{align*}		
+		v_n (X_n - a) &\left(\frac{h(X_n)-h(a)}{X_n-a} - h'(a) \right) \xrightarrow{\Lc} 0 \\
+		&\implies v_n (h(X_n)-h(a)) - h'(a) v_n (X_n-a) \xrightarrow{\Lc} 0 \\
+		&\implies v_n (h(X_n)-h(a)) \xrightarrow{\Lc} h'(a) T &\qedhere
+		\end{align*}
+	\end{itemize}
+\end{dimo}
+
+\medskip
+\begin{coro}
+  Se $T \nsim \delta_0$ e $h'(a) \neq 0$, $v_n$ è la velocità di convergenza sia di $X_n$ che di $h(X_n)$; \\*
+  in altri termini, \emph{quasi} tutte le trasformazioni \emph{non} modificano la velocità di convergenza.
+\end{coro}
+
+\medskip
+\begin{coro}[metodo delta 1, caso gaussiano]\label{md1-gauss}
+  Siano $X_n: \Omega \to B$ tali che $X_n \sim AN \left( a, \frac q {v_n^2} \right)$ e $h: B \to \RR$ funzione misurabile tale che $h'(a) \neq 0$. Allora:
+  $$Y_n = h(X_n) \sim AN \left( h(a), (h'(a))^2 \frac q {v_n^2} \right)$$
+\end{coro}
+
+\needspace{3\baselineskip}
+
+\lezione{28}{15.06.17}
+
+Vediamo qualche esempio di applicazione del corollario enunciato poc'anzi.
+
+\begin{ese}
+  Siano $X_n \sim \Ec (\lambda)$ iid con $\lambda > 0$. \\
+  È noto che $\widebar X_n \sim AN(\frac 1 \lambda, \frac 1 {n \lambda^2})$ per il TCL, e che $\widebar X_n \xrightarrow{\text{qc}} \frac 1 \lambda$ per la LGN.
+  Da qui si nota, peraltro, come l'asintotica normalità non sia in senso stretto una convergenza di $\widebar X_n$, bensì di una \emph{funzione} di $\widebar X_n$, per la precisione di $(\sqrt n \widebar X_n - a)$: in caso contrario sarebbe violata l'unicità del limite.
+
+  Si supponga ora che il valore di $\lambda$ sia incognito, e che lo si voglia stimare con la successione $Y_n \coloneqq \frac 1 {\widebar X_n}$. Dunque $Y_n = h(\widebar X_n)$, con $h: B = (0, +\infty) \to \RR, \ h(t) = \frac 1 t$, che è tale che $h'(t) = - \frac 1 {t^2} \neq 0 \ \forall t \in (0,+\infty)$.
+  Si osservi che in questo caso la restrizione del dominio di $h$ a un boreliano è stata fondamentale per garantire regolarità $C^1$ in ogni punto della funzione, che altrimenti non sarebbe stata derivabile in $t = 0$.
+
+  Per le proprietà di convergenza quasi certa e funzioni continue, $Y_n \stackrel{\text{qc}}{\longrightarrow} \lambda = a$ e quindi c'è anche convergenza in legge a $\lambda$. È dunque possibile riscrivere il limite con la notazione dell'asintotica normalità:
+  $$Y_n \sim AN\left( \lambda, \big( h'(a) \big) \frac 1 {n \lambda^2} \right) = AN\left( \lambda, \frac {\lambda^4} {n\lambda^2} \right) = AN\left( \lambda, \frac {\lambda^2} n \right)$$
+  Inoltre, ricordando la formula per i momenti della gamma, la quale è appunto la distribuzione di una somma di VA esponenziali, si ottiene che:
+  $$\Ex{Y_n} = n \Ex{\frac 1 { \sum_{k=1}^n {X_k} } } = n \frac 1 {\lambda^{-1}} \frac{\Gamma(n-1)}{\Gamma(n)} = n \lambda \frac{(n-2)!}{(n-1)!} = \frac n {n-1} \lambda \stackrel{n}{\longrightarrow} \lambda
+  $$
+  Si noti che il valore atteso di $Y_n$ tende asintoticamente a $\lambda$, ma non è \emph{esattamente} $\lambda$ per ogni $n$ fissato.
+  Per questa ragione lo stimatore $Y_n$ viene chiamato \emph{distorto}, definizione che preciseremo meglio nelle prossime righe.
+
+  \index{stimatore corretto o non distorto}
+  Introduciamo, infine, un'ultima successione per perfezionare ulteriormente la stima di $\lambda$: $T_n \coloneqq \frac{n-1} n \cdot Y_n = \frac{n-1}{\sum_{k=1}^n {X_k}}$, che ha valore atteso $\Ex{T_n} \equiv \lambda \ \forall n$ e viene per questo definito \emph{stimatore corretto} o \emph{non distorto}.
+  Tutti gli stimatori che non sono corretti sono detti, appunto, \emph{distorti}.
+  Si può inoltre mostrare che $Var(T_n) = \frac{\lambda^2}{n-2}$.
+
+  Non rimane che studiare la convergenza: poiché $\frac{n-1}n \stackrel{n}{\longrightarrow} 1$ e $Y_n \stackrel{\text{qc}}{\longrightarrow} \lambda$, si ottiene che $T_n = \frac{n-1} n Y_n \stackrel{\text{qc}}{\longrightarrow} \lambda$, ovvero $T_n$ è asintoticamente normale. L'intuizione suggerisce che il fattore $\frac{n-1}n$ lasci inalterata la media asintotica $\lambda$ e la velocità di convergenza $\sqrt n$ di $Y_n$. In altre parole, l'aspettativa è che $\sqrt n (T_n - \lambda) \stackrel{\Lc}{\longrightarrow} \Nc(0,\lambda^2)$. Verifichiamo la correttezza della nostra \textit{Ansatz}\footnote{Come ci ricorda il buon professor Micheletti, un'\textit{Ansatz} è un'ipotesi realistica, in tedesco.}:
+  $$\sqrt n (T_n - \lambda) = \sqrt n \left(\frac{n-1} n \cdot Y_n - \lambda\right) = \frac{n-1} n \sqrt n (Y_n - \lambda) + \frac{n-1} n  \sqrt n \lambda - \sqrt n \lambda$$
+  Poiché $\frac{n-1}n \to 1$ (quindi anche in legge) e $\sqrt n (Y_n - \lambda) \xrightarrow{\Lc} \Nc(0, \lambda^2)$ per ipotesi, applicando il teorema di Slutsky il primo addendo converge in legge a $\Nc(0,\lambda^2)$; il secondo e il terzo addendo sommati danno $\sqrt n \lambda \frac{n-1} n \xrightarrow{n} 0$; il tutto converge dunque in legge a $\Nc(0,\lambda^2)$ e dunque effettivamente:
+  $$ T_n \sim AN \left( \lambda, \frac{\lambda^2} n \right)$$
+\end{ese}
+
+
+\subsection{Stima dei parametri di una distribuzione} \label{applicazioni-statistica}
+Un obiettivo frequente in statistica è ottenere più informazioni possibili su una popolazione $X_n$, ovvero una successione di VA iid in $L^2$, avente legge, parametri e funzione di ripartizione $F$ ignoti.
+Applicando la teoria della probabilità introdurremo degli \emph{stimatori puntuali} per ciascuna delle grandezze interessate e per ciascuno stimatore elencheremo le proprietà che lo rendono efficace.
+\subsubsection{Media}
+Lo stimatore di $\mu = \Ex{X_n}$ è la già nota \textbf{media campionaria}: $$\widebar X_n = \frac 1 n \sum_{k=1}^n X_k$$
+Infatti, a prescindere da $F$ è vero che:
+\begin{enumerate}
+  \index{errore quadratico medio (MSE)}
+  \item $\Ex{\widebar X_n} = \mu \quad \forall n$ (stimatore corretto).
+  \item $Var(\widebar X_n) = \frac{\sigma^2}n \stackrel{n}{\longrightarrow} 0$ (ovvero $\widebar X_n \stackrel{L^2}{\longrightarrow} \mu$). In termini statistici si dice che il MSE\footnote{Mean Square Error, errore quadratico medio.}$\stackrel{n}{\longrightarrow} 0$.
+  \item $\widebar X_n \stackrel{\text{qc}}{\longrightarrow} \mu$ per la LGN (\textbf{consistenza}).
+  \item $\dfrac{\widebar X_n-\mu}{\sfrac\sigma {\sqrt n}} \xrightarrow{\Lc} \Nc(0,1)$ per il TCL, ovvero $\widebar X_n \sim AN\left( \lambda, \frac{\sigma^2}n \right)$. \\
+	Da quest'ultima proprietà discende la teoria della statistica su intervalli di confidenza e test d'ipotesi.
+\end{enumerate}
+Si possono visualizzare e riassumere questi risultati nel seguente grafico: \\
+
+\begin{figure}[H]\label{plot-conv-media}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+        axis lines = middle,
+        xlabel = $n$,
+        ylabel = $\widebar X_n$,
+        width=\textwidth,
+        height=0.4\textwidth,
+        yticklabels={,,},
+        xticklabels={,,2,4,6,8,10,12,14,\dots,n}
+    ]
+    \draw [line width=0.2mm, dashed] (axis cs:0,2) -- (axis cs:22,2);
+    \draw [line width=0.2mm, dashed] (axis cs:18,0) -- (axis cs:18,4);
+
+    \draw [line width=0.3mm, color=red]
+      (axis cs:1,3.6) -- (axis cs:2,2.9) -- (axis cs:3,0.8) -- (axis cs:4,3) -- (axis cs:5,2.8) --
+      (axis cs:6,1.0) -- (axis cs:7,1.4) -- (axis cs:8,1.7) -- (axis cs:9,1.2) -- (axis cs:10,2.5) --
+      (axis cs:11,1.7) -- (axis cs:12,1.8) -- (axis cs:13,2.1) -- (axis cs:14,2.05) -- (axis cs:15,1.95) --
+      (axis cs:16,2.01) -- (axis cs:17,1.99) -- (axis cs:18,2.01) -- (axis cs:19,2) -- (axis cs:20,2);
+
+    \draw [line width=0.3mm, color=lightblue]
+      (axis cs:1,1) -- (axis cs:2,3) -- (axis cs:3,3.2) -- (axis cs:4,1.5) -- (axis cs:5,0.9) --
+      (axis cs:6,2.6) -- (axis cs:7,1.3) -- (axis cs:8,2.4) -- (axis cs:9,2.5) -- (axis cs:10,1.5) --
+      (axis cs:11,2.2) -- (axis cs:12,2.1) -- (axis cs:13,1.95) -- (axis cs:14,1.97) -- (axis cs:15,2.03) --
+      (axis cs:16,2.01) -- (axis cs:17,1.99) -- (axis cs:18,2.01) -- (axis cs:19,2) -- (axis cs:20,2);
+
+    \addplot [draw=none, forget plot] coordinates {(-0.5,-0.5)};
+    \addplot [draw=none, forget plot] coordinates {(20, 4)};
+
+    \addplot [draw=none, forget plot] coordinates {(0,2)} node[left] {$\mu$};
+
+    \end{axis}
+  \end{tikzpicture}
+  \caption{grafico della convergenza della media campionaria al valore atteso}
+\end{figure}
+
+Ogni spezzata rappresenta un diverso osservatore (supponiamo che siano in numero molto elevato) che effettua le proprie estrazioni separatamente dagli altri, aggiornando costantemente, all'aumentare del numero $n$ di campioni raccolti, la propria media campionaria. \\
+Le 4 osservazioni precedenti hanno ciascuna la propria rappresentazione visuale:
+\begin{enumerate}
+  \item Correttezza: per ogni $n$ fissato, la media di tutti valori di $\widebar X_n$ corrispondenti a quell'$n$ (detta anche, non a caso, \emph{media verticale}) è esattamente $\mu$.
+  \item Convergenza in $L^2$: lo sparpagliamento dei valori di $\widebar X_n$ intorno a $\mu$ per uno stesso $n$ diminuisce verso lo zero all'aumentare di $n$.
+  \item Convergenza quasi certa: ciascuna linea spezzata rappresentante la successione $\widebar X_n$ di un osservatore tende al valore $\mu$ all'aumentare di $n$; questa quantità è anche detta media orizzontale.
+  \item Convergenza in legge: un eventuale grafico della frequenza di valori di $\frac{\widebar X_n-\mu}{\sfrac\sigma {\sqrt n}}$ per uno stesso $n$ fissato tenderebbe, all'aumentare di $n$, ad avere una forma gaussiana.
+\end{enumerate}
+
+\subsubsection{Varianza}
+Lo stimatore di $\sigma^2 = Var(X_n)$ è la già nota \textbf{varianza campionaria}: $$S_n^2 = \frac 1 {n-1} \sum_{k=1}^n (X_k - \widebar X_n)^2$$
+Per ogni $F$:
+\begin{enumerate}
+  \item $\Ex{S_n^2} = \sigma^2 \quad \forall n$ (corretto).
+  \item ``Non si dice cosa succede alla varianza della varianza campionaria''\footnote{Leggasi come ``Non lo vuoi davvero sapere, fidati''}
+  \item $S_n^2 \stackrel{\text{qc}}{\longrightarrow}  \sigma^2$ (consistente).
+  \item $\dfrac{S_n^2-\sigma^2}{\sqrt{\frac{\mu_4-\sigma^4} n}} \stackrel{\Lc}{\longrightarrow} \Nc(0,1)$, \\ ovvero $S_n^2 \sim AN\left(\sigma^2,\frac{\mu_4 - \sigma^4} n\right)$, dove $\mu_4 = \Ex{(X_n-\mu)^4} \neq \sigma^4$.
+\end{enumerate}
+\subsubsection{Stima di una proporzione}
+\index{proporzione campionaria}
+Lo stimatore della proporzione $p = \PP(X_n \in B)$ è la \textbf{proporzione campionaria}:
+$$\widehat p_n = \frac 1 n \sum_{k=1}^n \Ind_B(X_k)$$
+Essa non è altro che il numero dei campioni caduti effettivamente in $B$ divisi per il numero totale dei campioni. Si noti inoltre che:
+$$ \Ind_B(X_k) = Y_k \sim Be(p), \quad \text{con } p = \PP(X_k \in B) = \PP(Y_k = 1)$$
+Per ogni $F$, è vero che:
+\begin{enumerate}
+  \item $\Ex{\widehat p_n} = p \quad \forall n$ (corretto).
+  \item $Var(\widehat p_n) = n \frac{p(1-p)}{n^2} = \frac{p(1-p)} n \stackrel{n}{\longrightarrow} 0$.
+  \item $\widehat p_n \stackrel{\text{qc}}{\longrightarrow} p$ per la LGN.
+  \item $\dfrac{\widehat p_n - p}{\sqrt{ \frac{p(1-p)} n }} \stackrel{\Lc}{\longrightarrow} \Nc(0,1)$ per il TCL. Da questa proprietà discende la teoria della statistica per i test d'ipotesi.
+  \item  $\dfrac{\widehat p_n - p}{\sqrt{ \frac{\widehat p_n(1-\widehat p_n)} n }} = \dfrac{\widehat p_n - p}{\sqrt{ \frac{p(1-p)} n }} \cdot \dfrac{\sqrt{ \frac{p(1-p)} n }}{\sqrt{ \frac{\widehat p_n(1-\widehat p_n)} n }} \stackrel{\Lc}{\longrightarrow} \Nc(0,1)$ per il teorema di Slutsky. \\*
+  Infatti la prima frazione converge in legge a $\Nc(0,1)$ per il punto precedente e la seconda frazione, funzione continua di $\widehat p_n$, converge qc a 1 per la LGN.
+\end{enumerate}
+
+\subsubsection{Funzione di ripartizione}
+\index{funzione!di ripartizione empirica}
+Lo stimatore di $F(t) = \PP(X_n \leq t)$, con $t \in \RR$, è la \textbf{funzione di ripartizione empirica}:
+$$F_n(t) = \frac 1 n \sum_{k=1}^n \Ind_{(-\infty,t)}(X_k) = \frac 1 n \sum_{k=1}^n \Ind_{[X_k,+\infty)}(t)$$
+L'ultima scrittura equivalente è giustificata dal fatto che $X_k \leq t \iff t \geq X_k$. \\*
+Ogni $\omega \in \Omega$ è mappato, attraverso questa trasformazione, in una funzione di ripartizione: la $F_n(t)$ sarebbe dunque, più precisamente, una $F_n(t,\omega)$, perché $X_n = X_n(\omega)$ varia al variare dell'esito elementare, ovvero dell'osservatore, in quanto $X_n$ può essere incluso oppure no nelle varie indicatrici.
+Supponendo che un osservatore (corrispondente a un preciso valore di $t$) abbia trovato $n$ esiti $X_k$ tutti distinti, e disponendo gli $X_k$ in ordine di valore crescente (in quanto esperimenti casuali non saranno necessariamente già in ordine) sull'asse delle ascisse, la funzione avrà $n$ discontinuità, ciascuna in un $X_k$, e i salti saranno tutti pari a $\frac 1 n$.
+In caso di $X_k$ sovrapposte, per esempio in quantità $m$, ci saranno $n-m$ salti, e quelli in corrispondenza dei valori ottenuti più volte saranno più alti ($\frac m n$, per la precisione).
+
+Le varie $F_n$ hanno grafici che dipendono dall'esito realizzatosi e dall'$n$ con cui è stato effettuato l'esperimento: sono dunque a tutti gli effetti una successione di funzioni aleatorie.
+Anche a $F_n$ sono estendibili le seguenti proprietà:
+\begin{enumerate}
+  \item $\Ex{F_n(t)}  = F(t) \quad \forall t$ (corretto).
+  \item $Var(F_n(t)) = \dfrac{F(t)(1-F(t))} n \quad \forall t$.
+  \item $F_n(t) \to F(t) \text{ qc} \quad \forall t$ (consistente).
+  \item $F_n(t) \sim AN \left( F(t), \frac{F(t)(1-F(t))} n \right)$. \\
+\end{enumerate}
+La proprietà (3) può essere ampliata:
+\begin{enumerate}
+  \item[3'.] $F_n(t) \to F(t) \quad \forall t, \ \text{qc}$ (\textbf{convergenza puntuale quasi certa}).
+  È una affermazione leggermente più forte della precedente: prima la convergenza era quasi certa per ogni singolo $t$, ovvero, se un osservatore trovasse l'evento improbabile (la non-``convergenza quasi certa'') l'intera $F(t)$ rappresentata dall'insieme degli osservatori (ciascuno con la propria $t$) non convergerebbe, a causa di quell'unico osservatore.
+  Invece, scambiando ``qc'' e ``$\forall t$'' si ottiene che \emph{l'intera} $F(t)$ ha convergenza quasi certa garantita, non solo le singole $F_n(t)$ con $t$ fissato (che non sono altro che semplici successioni numeriche). Con quest'ultima affermazione la convergenza è più stabile rispetto alle fluttuazioni aleatorie del singolo sperimentatore.
+  \item[3''.] Vale il seguente risultato.
+\end{enumerate}
+\begin{teo}[teorema di Glivenko-Cantelli]
+  \index{Glivenko-Cantelli, teorema di}
+  $$\sup\limits_{t \in \RR} |F_n(t) - F(t)| \xrightarrow[n]{\text{qc}} 0$$
+\end{teo}
+Il teorema rappresenta la \textbf{convergenza uniforme quasi certa} di $F_n(t)$ (l'estremo superiore dell'errore tende a 0), ovvero, la convergenza avviene alla stessa velocità in tutti i punti del dominio.
+\subsection{Un controesempio: la legge di Cauchy}
+Talvolta nella vita non tutti i tipi di convergenza sono verificati contemporaneamente. \\
+\index{distribuzione!Cauchy}
+Siano $X_n$ iid tali che $X_n \sim \Cc(a,\sigma)$ (distribuzione di Cauchy), ovvero con le seguenti densità e funzione caratteristica, rispettivamente:
+$$f(t) = \frac 1 {\pi \sigma} \frac 1 {1+(\frac{t-a}\sigma)^2} \quad \text{ e } \quad \varphi(u) = \exp\{ iau - \sigma|u| \}.$$
+Poiché $\Ex{|X_n|} = \int_{-\infty}^{+\infty} |t| f(t) \de t$ diverge, in quanto l'integranda è asintotica a $\frac 1 t$, $X_n \notin L^1$. Visto che $X_n$ non può avere media, $a$, che è il valore centrale della distribuzione, può essere solo una mediana. Ma per la LGN (che ricordiamo essere una condizione necessaria e sufficiente) non c'è nemmeno convergenza quasi certa della media campionaria $\widebar X_n$ ad $a$: infatti $\widebar X_n$ è funzione di variabili non $L^1$ e quindi non è $L^1$ lei stessa. Ovvero, $ \widebar X_n \centernot{\stackrel{\text{qc}}{\longrightarrow}} a.$ \\
+Non resta che controllare se è almeno verificata la convergenza in legge di $\widebar X_n$:
+\begin{align*}
+\varphi_{\widebar X_n}(u) &= \varphi_{\frac 1 n \sum X_k}(u) = \varphi_{\sum X_k}\left(\frac u n\right) \\[4pt]
+&= \left( \varphi \left(\frac u n\right) \right)^n = \left( \exp\left\{ ia \frac u n - \sigma \frac{|u|}n \right\} \right)^n & (\text{perché VA iid})\\[4pt]
+&= \exp\{ iau - \sigma |u| \} = \varphi(u)
+\end{align*}
+Tutte le medie campionarie sono ancora variabili Cauchy, e quindi c'è convergenza in legge Cauchy:
+$$ \widebar X_n \sim \Cc(a,\sigma) \quad \forall n \quad \implies \quad
+\widebar X_n \xrightarrow{\Lc} \Cc(a,\sigma)$$
+
+\cleardoublepage

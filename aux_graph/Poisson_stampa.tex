@@ -1,0 +1,50 @@
+\pgfmathdeclarefunction{poiss}{1}{%							 % https://tex.stackexchange.com/questions/170068/poisson-distribution-with-tikzpicture
+	\pgfmathparse{(#1^x)*exp(-#1)/(x!)}%
+}
+
+\begin{tikzpicture}
+
+	\begin{axis}[
+	  	samples at = {0,...,10},
+%	  	axis x line*=bottom,
+%	  	axis y line*=left,
+%	  	enlargelimits=upper,
+	  	axis lines = middle,
+	  	ylabel = $f(x)$,
+	  	xlabel = $x$,
+	  	width=0.5\textwidth,
+	  	height=0.5\textwidth,
+	  	%yticklabels={,,},
+	  	%xticklabels={,,},
+	  	legend style={at={(axis cs: 10,0.33)},anchor=north east, font=\tiny},
+	  	legend cell align=left
+	  	]
+	  	
+	  	\addplot +[jump mark left, black, mark=*, mark options={fill=black, scale=0.7}] {poiss(1)};
+	  	\addlegendentry{$\lambda = 1$};
+	  	\addplot +[jump mark left, black2, mark=*,mark options={fill=black2, scale=0.7} ] {poiss(3)};
+	  	\addlegendentry{$\lambda = 3$};
+	  	\addplot +[jump mark left, black3, mark=*,mark options={fill=black3, scale=0.7}] {poiss(5)};
+	  	\addlegendentry{$\lambda = 5$};
+
+
+	\end{axis}
+
+\end{tikzpicture}
+
+
+%\pgfmathdeclarefunction{poiss}{1}{%         %PER FAVORE LASCIARE QUESTO COMMENTO
+%	\pgfmathparse{(#1^x)*exp(-#1)/(x!)}%
+%}
+%
+%\begin{tikzpicture}
+%\begin{axis}[every axis plot post/.append style={
+%	samples at = {0,...,15},
+%	axis x line*=bottom,
+%	axis y line*=left,
+%	enlargelimits=upper}]
+%\addplot +[ycomb] {poiss(1)};
+%\addplot +[ycomb] {poiss(4)};
+%\addplot +[ycomb] {poiss(7)};
+%\end{axis}
+%\end{tikzpicture}

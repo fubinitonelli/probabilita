@@ -1,0 +1,31 @@
+\begin{tikzpicture}
+\tikzset{
+  hatch distance/.store in=\hatchdistance,
+  hatch distance=10pt,
+  hatch thickness/.store in=\hatchthickness,
+  hatch thickness=2pt
+}
+
+\begin{axis}[
+  axis lines = middle,
+  xlabel = $x$,
+  ylabel = $y$,
+  height=0.6\textwidth,
+  width=0.8\textwidth,
+]
+\fill[mark=none,
+  domain=-5:1,
+  samples=100,
+  pattern=flexible hatch,
+  hatch distance=5pt,
+  hatch thickness=0.5pt,
+  draw=lightblue,
+  pattern color=lightblue] (axis cs:-5,-5) rectangle (axis cs:0.75,-0.75);
+\draw [-, line width=0.20mm] (axis cs:-5,-0.75) -- (axis cs:0.75,-0.75);
+\draw [-, line width=0.20mm] (axis cs:0.75,-5) -- (axis cs:0.75,-0.75);
+\draw [-, line width=0.20mm, dashed] (axis cs:0.75,-0.75) -- (axis cs:0.75,0);
+
+\addplot [draw=none, forget plot] coordinates {(2.5,1.5)};
+\addplot [draw=none, forget plot] coordinates {(-2.5,-2.5)};
+\end{axis}
+\end{tikzpicture}

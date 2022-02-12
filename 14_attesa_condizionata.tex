@@ -1,0 +1,315 @@
+\section{Attesa condizionata}
+\index{attesa condizionata}
+Nel capitolo precedente è stata affrontata la trattazione del valore atteso condizionato dalla conoscenza di un determinato valore della variabile condizionante.
+Ora si vuole ampliare e generalizzare tale concetto, trasformando quel valore atteso in una nuova variabile aleatoria, detta \emph{attesa condizionata}, dipendente appunto dal valore (questa volta \emph{non noto a priori}) della variabile condizionante.
+Per sviluppare la teoria in questa direzione sarà necessario introdurre la \emph{$\sigma$-algebra generata da una variabile aleatoria}, che non è altro che la rappresentazione formale dell'informazione fornita dalla variabile aleatoria stessa.
+L'attesa condizionata gode di una serie di utilissime proprietà e applicazioni in vari ambiti, dal calcolo di valori attesi e varianze complesse all'approssimazione di variabili aleatorie a partire da informazioni limitate.
+
+\subsection{Condizionamento data una variabile aleatoria}
+
+Ricapitoliamo quanto detto nelle pagine precedenti.
+Dato $(X, Y)$ vettore aleatorio in $E \times \RR^n$, con $Y$ limitata:
+\begin{itemize}
+  \item \textbf{a priori} è noto che $Y$ può assumere valori ``concentrati'' su $\EE[Y]$ (in quanto valore atteso);
+  \item \textbf{in medias res} se si scopre che $X=s$ (ovvero, l'esperimento aleatorio sulla VA $X$ produce il valore $s$), è noto che $Y$ può assumere valori ``concentrati'' su $m(s) = \EE[Y|X=s]$.
+\end{itemize}
+Guardiamo ora gli eventi da una diversa prospettiva:
+\begin{itemize}
+	\index{attesa condizionata!da una VA}
+  \item \textbf{a priori} quando scoprirò $X$, saprò che $Y$ può assumere valori ``concentrati'' su $m(X) = \EE[Y|X]$, che è a sua volta una VA e sarà chiamata \textbf{attesa condizionata}.
+\end{itemize}
+Il fatto che le previsioni riassunte da $m(X)$ siano effettuate \emph{a priori} (prima della conoscenza dell'evento $X = s$), e su tutti i possibili valori di $X$, è proprio quello che la rende una variabile aleatoria a tutti gli effetti, a differenza di $\Ex{Y|X=s}$, che invece è un normale valore atteso e dunque una quantità numerica ben definita.
+
+\medskip
+\begin{nb}
+  $Q(x,B) \to m(x) \to m(X) = \EE[Y|X]$:\\*
+  Dalla teoria precedente sappiamo già calcolare i valori attesi condizionati $\EE[Y|X = s] \ \, \forall s \in S_X$, e di conseguenza \emph{sappiamo già calcolare anche} $m(X)$: basta sostituire ogni istanza di $s$ con una $X$.
+  L'obiettivo di questo capitolo è però capire il significato e le proprietà di questo oggetto e svincolarlo da $Q$;
+  infatti $m(s)$ non è univocamente determinato a causa dell'arbitrarietà nella definizione di $Q(s,B)$, e ciò potrebbe causare problemi nello sviluppo della teoria.
+\end{nb}
+
+\medskip
+\begin{ese}\label{ese-dadi-monete-teste-2}
+  Riprendiamo l'esperimento del dado e della moneta di pagina \pageref{ese-dadi-monete-teste}, ma con le leggi condizionate. \\
+  Lanciato un dado ($D \sim U(\{1, \dots, 6\})$), lanciamo una moneta $n$ volte in base al numero sorteggiato:
+  $$T|D = n \sim Bi\left(n, \frac{1}{2}\right) \quad \forall n = 1, \dots, 6$$
+  $$ \EE[T|D=n] = \frac{n}{2} = m(n) \implies \EE[T|D] = m(D) = \frac{D}{2}$$
+  Come è evidente in questo caso la trattazione mediante il valore atteso condizionato è molto più semplice.
+\end{ese}
+
+\medskip
+\begin{nb}
+  Se la VA condizionante è discreta, l'attesa condizionata ha una semplice e ovvia formulazione:
+  $$\EE [Y|X] = \sum\limits_{s \in S_X} \EE\left[Y|X=s\right] \Ind_{(X = s)}$$
+  Ovvero, $\Ex{Y|X}$ assume il valore $\Ex{Y|X=s}$ solo nel caso in cui risulti che $X=s$, e questo per tutti gli $s$ del supporto.
+\end{nb}
+
+\medskip
+Scoprire che $X = X(\omega) = x$ equivale a scoprire che $\omega \in (X = x)$, cioè a scoprire che si verificano tutti gli eventi nella controimmagine.
+Più in generale, ricordiamo che $\omega \in (x \in B)$, dove $B$ è un evento contenuto nella $\sigma$-algebra $\Ec$, e $X(\omega) = (x \in B)$ sono sinonimi per definizione di controimmagine.
+
+\subsubsection{$\sigma$-algebra generata da una variabile}
+\begin{defn}
+  \index{$\sigma$-algebra!generata da una VA}
+  Siano $\Omega$ spazio campionario, $(E, \Ec)$ spazio misurabile e $X:\Omega \to E$ VA. \\*
+  Si dice \textbf{$\sigma$-algebra generata da $X$} la collezione così definita:
+  $$X^{-1}(\Ec) = \sigma(X) \coloneqq \{A \subseteq \Omega: A = (X \in B) = X^{-1}(B) \, \text{ per qualche } B \in \Ec\}$$
+\end{defn}
+
+$\sigma(X)$ è, insomma, la collezione degli eventi (del dominio) la cui immagine è un evento (del codominio). \\*
+Scoprire il valore di $X$ equivale allo scoprire se ciascuno degli eventi in $\sigma(X)$ si è verificato o meno: in altre parole, $\sigma(X)$ rappresenta l'\emph{informazione rivelata} da $X$.
+
+\medskip
+\begin{prop}[proprietà di $\sigma(X)$]
+  \Fixvmode
+  \begin{enumerate}
+    \item $\sigma(X)$ è una $\sigma$-algebra;
+    \item $\sigma(X)$ è la più piccola $\sigma$-algebra su cui $X$ è misurabile;
+    \item $X$ è $\Ac$-misurabile $\iff \sigma(X) \subseteq \Ac$.
+  \end{enumerate}
+\end{prop}
+
+\medskip
+\begin{ese}
+	Siano $\Omega = \{0,1\}^{\NN}, \enspace X_k: \Omega \to \RR$ successione di VA, $\enspace X_k (\omega) = \omega_k \; \forall k \in \NN$.
+	Consideriamo l'evento $(X_3 = 1) = \{\omega \in \Omega: \omega_3 = 1\} \eqqcolon E_3$. Si ha che $\sigma(X_3) = \{A \subseteq \Omega, A = (X \in B)$ tale che $ B \in \Bc\} = \{E_3, E_3^C, \Omega, \varnothing\}$. \\*
+  Consideriamo poi le VA $X_1, X_2$ e $X_3$: la $\sigma$-algebra generata dal vettore che le riunisce è $\sigma(X_1, X_2, X_3) = \{A \subseteq \Omega, A = ((X_1, X_2, X_3) \in B) $ tale che $ B \in \Bc^3\} = \sigma(E_1, E_2, E_3)$. Chiaramente nella costruzione di quest'ultima trascuriamo le combinazioni di eventi impossibili, come $E_1$ e $E_1^C$ contemporaneamente.
+\end{ese}
+
+\medskip
+\begin{lemma}[misurabilità di Doob \JPTh{23.2}]
+  \index{Doob, lemma di misurabilità di}
+  Siano $\Omega$, $(E, \Ec)$ spazio misurabile, e le VA $X:\Omega \to E$, $Y: \Omega \to \RR$. Allora:\\
+  $$Y \text{ è } \sigma(X)\text{-misurabile} \iff
+  \exists \, h: E \to \RR \text{ misurabile tale che } Y = h(X)$$
+\end{lemma}
+
+Abbozziamo la dimostrazione.
+Intuitivamente si nota che $Y$ $\sigma(X)$-misurabile $\iff \sigma(Y) \subseteq \sigma(X)$: acquisire informazioni su $\sigma(X)$ significa inevitabilmente acquisire informazioni su $\sigma(Y)$. In particolare, scoprire il valore di $X$ significa scoprire il valore di $Y$; in altre parole quindi $Y = h(X)$.
+
+\lezione{23}{31.05.2017}
+
+\subsubsection{Calcolo di valori attesi}
+
+\begin{prop}
+  Siano $\Dom$ spazio di probabilità, $(E, \Ec)$ spazio misurabile, $X: \Omega \to E$ e $Y: \Omega \to \RR$ variabili aleatorie con $Y$ limitata o positiva. Allora $Z = \Ex{Y|X} = m(X)$ è l'\emph{unica} VAR $\sigma(X)$-misurabile, a meno di eventi trascurabili\footnote{Questa precisazione è inevitabile in quanto gli eventi trascurabili non influiscono sul valore atteso, rendendo impossibile individuare la loro presenza o assenza nel caso generale.}, tale che:
+  $$ \int_A Y \, \dPP = \int_A Z \, \dPP \quad \forall A \in \sigma(X)
+  \quad \text{ovvero} \quad \Ex{\Ind_A Y} = \Ex{\Ind_A Z} \quad \forall A \in \sigma(X)
+  $$
+\end{prop}
+Si noti che la richiesta di limitatezza (che implica l'appartenenza a $L^1$) o di positività di $Y$ è necessaria per garantire l'esistenza del valore atteso a prescindere dal valore $s$ che sarà assunto da $X$.
+Inoltre, la $\sigma(X)$-misurabilità di $Z=m(X)$ è ovvia in quanto essa è composizione di una VA $\sigma(X)$-misurabile per definizione.
+%Non compare $X$ ma solo $\sigma(X)$ e quindi $Z$ non dipende da $X$ ma da $\sigma(X)$. Quindi potremmo scrivere $Z=\EE[Y | \sigma(X)]$ e generalizzare definendo $\EE[Y | \Gc]$. %Questa roba è già scritta in un nb (Br1)
+
+Scegliendo $A = \Omega \in \sigma(X)$, si ottiene il seguente importantissimo caso particolare: \label{formula-att-cond}
+$$ \Ex{Y} \overset{\textbf{!}}{=} \EE\big[ \Ex{Y|X} \big] =
+\begin{cases}
+\sum_{s \in S_X} \Ex{Y|X=s} p_X(s) & \text{se $X$ è discreto in } \RR^n \\
+\bigintsss_{\RR^n} \Ex{Y|X=s} f_X(s) \ \de s & \text{se $(X,Y)$ è continuo in } \RR^n
+\end{cases}$$
+La prima uguaglianza esprime in maniera formale un concetto intuitivo: il valore atteso, stabilito \emph{a priori}, di $Y$ dato un certo valore di $X$, \emph{non ancora noto a priori} e che dunque varia su tutto il dominio di $X$ senza fornire \emph{nessuna informazione aggiuntiva}, non può che essere il valore atteso di $Y$ stessa. La seconda parte dell'uguaglianza fornisce nuove e utilissime formule di calcolo per valori attesi particolarmente complessi, ora ridotti a un semplice integrale di leggi condizionate da un valore noto, le quali sono facilmente ricavabili attraverso i metodi precedentemente visti. (Un'altra applicazione di minore utilità pratica per questo corso è l'utilizzo di un generico $A \neq \Omega$ per il calcolo di leggi condizionate.)
+
+\medskip
+\begin{ese} \label{ese-dadi-monete-teste-3}
+  Riprendiamo una terza volta l'esempio delle pagine \pageref{ese-dadi-monete-teste} e \pageref{ese-dadi-monete-teste-2}. Lancio un dado che risulta in $n$, che è seguito dal lancio di $n$ monete, e conteggio le teste ottenute. \\
+  È già noto che $D \sim U( \{1,\dots,6\} ), \ T|D=n \sim Bi\left(n, \frac 1 2\right) \ $ e $\ \Ex{T|D} = \frac D 2$, dunque:
+  $$\Ex{T} = \EE \big[ \Ex{T|D} \big] = \Ex{\frac D 2} = \frac 1 2 \, \Ex D = \frac 1 2 \cdot \frac{1+6}2 = \frac 7 4$$
+\end{ese}
+
+\begin{ese}
+  Sia il vettore aleatorio $(X,Y) \sim \Nc$ con $\sigma_X, \sigma_Y > 0$. Allora:
+  $$\Ex{Y} = \EE \big[ \Ex{Y|X} \big] = \Ex{\mu_Y + \rho \frac{\sigma_X}{\sigma_Y}(X-\mu_X)} = \mu_Y$$
+  Si può infatti dimostrare che nel caso gaussiano la formula è valida nonostante le variabili gaussiane non siano limitate, a dimostrazione del fatto che positività e limitatezza siano solo condizioni sufficienti e non necessarie per la sua validità.
+\end{ese}
+
+\begin{nb}
+  $\Ex{Y|X}$ dipende da $Y$ e da $\sigma(X)$, ma non direttamente da $X$.
+  Per esempio, $\Ex{Y|X} = \Ex{Y|X^3} = \Ex{Y|h(X)}$ con $h$ generica funzione invertibile: infatti, poiché $\sigma(X)$ rappresenta l'informazione fornita conoscendo $X$, da $h(X)$ invertibile si può risalire a tutti e soli valori di $X$, da cui discende l'uguaglianza delle $\sigma$-algebre.
+  Inoltre, l'uguaglianza degli integrali di $Y$ e $Z$ non implica necessariamente l'uguaglianza delle VA stesse.
+  Infatti in generale $Y$ non è $\sigma(X)$-misurabile: questo succede solo nei (rari) casi in cui $Y = h(X)$.
+\end{nb}
+
+\esercitazione{15b}{30.05.17}
+\subsubsection{Formule applicative}
+In generale, date due VA continue:
+\begin{gather*}
+  Y|X = x \sim  f_{Y|X}(\bigcdot | x)  \\
+  f_{(X, Y)}(x,y) = f_{Y|X}(y|x) \cdot f_X (x) \\
+  \EE [Y|X = x] = m(x) = \int_{S_Y} y \, f_{Y|X}(y|x) \, \dy\\
+  Var(Y|X = x) = q^2(x) = \int_{S_Y} (y - m(x))^2 \, f_{Y|X}(y|x) \, \dy
+\end{gather*}
+Nel caso di VA discrete è sufficiente sostituire la densità discreta $p$ alla densità continua $f$ e svolgere gli integrali come sommatorie.
+
+\subsection{Condizionamento data una $\sigma$-algebra}
+
+\begin{teob}[\JPTh{23.4}]\label{teo-att-cond}
+	\index{sotto-$\sigma$-algebra}
+  Siano $\Dom$ spazio di probabilità, $Y: \Omega \to \RR$ VA tale che $Y \in L^1(\Ac)$,
+  e $\Gc$ una \emph{sotto-$\sigma$-algebra} di $\Ac$ (ovvero una $\sigma$-algebra tale che $\Gc \subseteq \Ac$). Allora $\exists \ Z: \Omega \to \RR$ VAR tale che:
+  \begin{enumerate}
+    \item $Z \in L^1$;
+    \item $Z$ è $\Gc$-misurabile;
+    \item $\int_G Z \, \dPP = \int_G Y \, \dPP \quad \forall G \in \Gc$;
+    \item[3'.] (condizione equivalente\footnote{Scegliendo $W = \Ind_A$ si vede immediatamente che (3') implica (3); l'opposto è vero per convergenza dominata.}
+    alla (3)) $\Ex{WZ} = \Ex{WY}, \ \forall W \ \Gc$-misurabile e limitata.
+  \end{enumerate}
+  Inoltre, se $\exists \ \widetilde Z: \Omega \to \RR$ che rispetta queste 3 proprietà, $Z \aceq \widetilde{Z}$: in altre parole $Z$ è \emph{unica} a meno (come al solito) di eventi trascurabili.
+  \index{attesa condizionata!da una $\sigma$-algebra}
+  $Z$ viene chiamata \textbf{attesa condizionata di $Y$ data $\Gc$} e denotata con $\Ex{Y|\Gc}$.
+\end{teob}
+Modellisticamente parlando, $\Ex{Y|\Gc}$ rappresenta la modifica di $\Ex Y$ in base alle nuovi informazioni ottenute \textit{in medias res}, che sono il verificarsi o meno degli eventi di $\Gc$, similmente a quanto detto precedentemente per $\Ex{Y|X}$, l'attesa condizionata da una VA.
+
+È bene evidenziare ulteriormente che, per quanto detto sopra, in realtà $\Ex{Y|\Gc}$ non è una VA in senso stretto, bensì una classe di equivalenza di tutte le VA che sono ad essa uguali quasi certamente. Ma questo non causa particolari problemi in quanto leggi, valori attesi, etc. sono invarianti di una classe di equivalenza di VA.
+\begin{nb}
+Scegliendo $\Gc = \sigma(X)$, si ottiene $\Ex{Y|\sigma(X)} = \Ex{Y|X}$.
+\end{nb}
+
+\begin{ese}
+  Sia $X \sim (0, \sigma^2)$. Quanto vale $\Ex{X|X^2}$? \\
+  Il vettore $(X,X^2)$ non è congiuntamente continuo, quindi non può essere calcolato mediante formule che coinvolgono la legge congiunta. Ma se si intuisce la possibile soluzione, si possono verificare le 3 proprietà richieste dal teorema \ref{teo-att-cond}; la soluzione così ricavata, come sappiamo, è unica. \\
+  La risposta è $\Ex{X|X^2} = 0$: si immagina notando che, conoscendo il valore al quadrato della VA, $X$ potrebbe essere una gaussiana centrata sulla radice positiva o sulla radice negativa del quadrato: il valore atteso diventa dunque il punto medio tra queste due gaussiane equiprobabili, ovvero $0$. La dimostrazione delle 3 proprietà è lasciata al lettore come esercizio.
+\end{ese}
+
+\begin{teo}[alcune proprietà di $\Ex{Y|\Gc}$ \footnote{Meglio note come 13 Reasons Why} \JPTh{23.3  e seguenti}]\label{13-reasons-why}  %👏 👏 (NdR: Se non rendera sono le manine che applaudono)
+	
+  Sia $Y \in L^1(\Ac)$ e $\Gc$ sotto-$\sigma$-algebra di $\Ac$. Allora valgono le seguenti proprietà:
+  \begin{enumerate}
+    \item $\Ex{\ \bigcdot \ | \Gc}: L^1(\Ac) \to L^1(\Gc)$ è una mappa \textbf{lineare},
+    ovvero $\Ex{a_1 Y_1 + a_2 Y_2 | \Gc} = a_1 \Ex{Y_1 | \Gc} + a_2 \Ex{Y_2 | \Gc}$.
+    \item $\Ex{\ \bigcdot \ | \Gc}: L^1(\Ac) \to L^1(\Gc)$ è una mappa \textbf{positiva},
+    ovvero $Y \geq 0 \text{ qc} \implies \Ex{Y|\Gc} \geq 0 \text{ qc}$. \\
+    Ovviamente, ottenere delle informazioni su $Y$ non può cambiare il fatto che $\Ex Y \geq 0$, che discende dall'ipotesi $Y \geq 0$.
+    \item $\EE \big[ \Ex{Y|\Gc} \big] = \Ex Y$. \\
+    Qui è particolarmente importante l'ipotesi $Y \in L^1(\Ac)$: in caso contrario, uno dei due membri dell'equazione potrebbe non esistere e la formula non reggerebbe. Questa proprietà è un'utile formula di calcolo per $\Ex Y$.
+    \item $Y$ è $\Gc$-misurabile $\implies \Ex{Y|\Gc} \aceq Y$. \\
+    Ricordiamo che $Y$ $\Gc$-misurabile significa che tutte le controimmagini di $Y$ appartengono alla $\sigma$-algebra $\Gc$. Pertanto, la $\Gc$-misurabilità fa sì che scoprendo se gli eventi di $\Gc$ sono avvenuti o meno, allora si possa risalire all'esatto valore di $Y$ cercando tra le immagini delle controimmagini note. Esempi di casi particolari di interesse sono  $ \Ex{Y | \Ac} = Y$ e $\Ex{Y | \varnothing} = \Ex Y, \ \forall Y \ \Ac$-misurabile.
+    \item $Y \indep \Gc \implies \Ex{Y|\Gc} \aceq \Ex Y$. \\
+    \index{indipendenza!tra una VA e una $\sigma$-algebra}
+    La definizione di \emph{indipendenza tra una VA e una $\sigma$-algebra} è la seguente:
+    $$ Y \indep \Gc \iff \PP(Y \in B, G) = \PP(Y \in B) \ \PP(Y \in G) \ \forall B \in \Bc, \ \forall G \in \Gc$$
+    In altre parole, l'intersezione di una qualsiasi controimmagine di $Y$ con un qualsiasi insieme di $\Gc$ ha probabilità fattorizzabile. La proprietà conferma l'intuizione che scoprire informazioni slegate da $Y$ non modifica in alcun modo la previsione su $Y$.
+    \item Se $\Hc$ è una $\sigma$-algebra tale che $\Hc \subseteq \Gc \subseteq \Ac$, allora
+    $\EE \big[ \Ex{Y|\Gc} | \Hc \big] \aceq \Ex{Y|\Hc}$. \\
+    Il membro sinistro rappresenta una situazione in cui acquisiamo informazioni in più passi: prima $\Hc$, poi $\Gc$. La proprietà evidenzia che questa acquisizione per passi corrisponde a una semplice acquisizione di informazione in un passo solo.
+    \item Se $W$ è $\Gc$-misurabile e tale che $WY \in L^1(\Ac)$, allora $\Ex{WY | \Gc} \aceq W \ \Ex{Y | \Gc}$. \\
+    Ovvero, le variabili $\Gc$-misurabili possono essere portate fuori da un'attesa condizionata, esattamente come le costanti possono essere portate fuori da un integrale. Un esempio di utile applicazione di questa proprietà è il calcolo di $\Ex{X^2 Y | X}$ con $(X,Y)$ congiuntamente gaussiane:
+    $$\Ex{X^2 Y | X} = X^2 \Ex{Y | X} = X^2 \left(\mu_Y + \rho \frac{\sigma_X}{\sigma_Y}(X-\mu_X) \right)$$
+    Il calcolo sarebbe risultato piuttosto complicato utilizzando la legge congiunta.
+    \item Se $Y_1 \aceq Y_2$, allora $\Ex{Y_1 | \Gc} \aceq \Ex{Y_2 | \Gc}$. \\
+    Le variabili uguali quasi certamente hanno la stessa legge e modellizzano lo stesso evento: è naturale che le rispettive attese condizionate siano uguali a parità di informazioni rivelate.
+    \item \textbf{(convergenza monotona)} Se $0 \leq Y_n \uparrow Y$ qc, allora $\Ex{Y_n | \Gc} \uparrow \Ex{Y | \Gc}$ qc.
+    \item \textbf{(lemma di Fatou)} Se $Y_n \geq 0$ qc, allora
+    $\Ex{\liminf\limits_n Y_n \Big| \Gc} \leq \liminf\limits_n \Ex{Y_n | \Gc}$.
+    \item \textbf{(convergenza dominata)} Se $Y_n \to Y$ qc e $|Y_n| \leq V$ qc per qualche $V \in L^1(\Ac)$, allora $\Ex{Y_n | \Gc} \to \Ex{Y | \Gc}$ qc. \\
+    Le 3 proprietà precedenti sono generalizzazioni delle già note proprietà di $\Ex Y$, formulate dal teorema \ref{teoremone-l1-lim}, al caso $\Ex{Y|\Gc}$.
+    \item Se $Y \in L^p(\Ac)$, allora $\Ex{Y | \Gc} \in L^p(\Ac)$.
+    \item Se $h: \RR \to \RR$ è misurabile e tale che $h(Y) \in L^1(\Ac)$, e $\Gc = \sigma(X)$, allora
+    $\Ex{h(Y) | \sigma(X)} = n(X)$, con $n(s) = \int_\RR h(t) P^{Y|X}(\de t|s)$. \\
+    Anche quest'ultima proprietà è una generalizzazione delle proprietà di $\Ex Y$ a $\Ex{Y|G}$.
+  \end{enumerate}
+\end{teo}
+Molte delle proprietà sopra elencate hanno funzione di utili formule di calcolo applicabili negli esercizi.
+Inoltre, il teorema mostra la grande somiglianza formale tra le funzioni valore atteso e attesa condizionata da una $\sigma$-algebra, che hanno molte proprietà simili o in comune. \\
+
+\begin{nb}
+  Le proprietà reggono anche se $Y$ è un vettore multidimensionale.
+  È sufficiente definire, con $Y: \Omega \to \RR^n$, l'attesa condizionata come:
+  $$\Ex{Y|\Gc} = \Ex{ \begin{bmatrix} Y_1 \\ \vdots \\ Y_n \end{bmatrix} | \Gc} \coloneqq \begin{bmatrix} \Ex{Y_1 | \Gc} \\ \vdots \\ \Ex{Y_n | \Gc} \end{bmatrix}$$
+\end{nb}
+
+\subsection{Approssimazione di variabili aleatorie}
+
+Siano $\Dom$ uno spazio di probabilità e $Y \in L^2(\Ac)$. Poiché sappiamo che $L^2 \subseteq L^1$, è vero che $\Ex{Y|\Gc} \in L^2$. \\
+Cerchiamo ora una $Z \in L^2(\Gc)$ per \emph{approssimare} $Y$. Qual è l'errore commesso?\\[-8pt]
+\begin{defn}
+  \index{errore quadratico medio (MSE)}
+  Date $Y, Z \in L^2$ VA e un esito $\omega \in \Omega$, $|Y(\omega)-Z(\omega)|$ si dice \textit{errore} (semplice). La funzione $|Y-Z|$ è detta \textit{errore casuale}. Il suo quadrato $|Y-Z|^2$ è detto \textit{errore quadratico casuale}. Infine, la quantità $\Ex{(Y-Z)^2}$ si chiama \textbf{errore quadratico medio}; esso rappresenta la bontà, giudicata \emph{a priori} rispetto all'esperimento aleatorio, dell'approssimazione rappresentata da $Z$.
+\end{defn}
+
+\medskip
+\begin{prop}
+  Data $Y \in L^1(\Ac)$ e $\Gc$ sotto-$\sigma$-algebra di $\Ac$, l'errore quadratico medio $\Ex{(Y-Z)^2}$, al variare di $Z \in L^2(\Gc)$, è \emph{minimizzato} con $Z = \Ex{Y|\Gc}$. In altre parole, l'attesa condizionata di $Y$ data $\Gc$ può anche essere definita come la migliore approssimazione di $Y$ tra le variabili $\Gc$-misurabili.
+\end{prop}
+\begin{dimo}
+  Si ponga $\widehat Y = \Ex{Y|\Gc}$ per semplicità di notazione. Sfruttando la linearità del valore atteso:
+  \begin{align*}
+    \Ex{(Y-Z)^2} &= \Ex{(Y-Z+\widehat Y-\widehat Y)^2} \\
+    &= \Ex{(Y-\widehat Y)^2} + 2 \Ex{(Y-\widehat Y)(\widehat Y - Z)} + \Ex{(\widehat Y-Z)^2}
+  \end{align*}
+  Ora, applicando in sequenza alcune proprietà dal teorema \ref{13-reasons-why} al doppio prodotto, esso diventa:
+  \begin{align*}
+	\Ex{(Y-\widehat Y)(\widehat Y-Z)}
+	&\overset{(3)}{=} \Ex{ \EE \big[{(Y-\widehat Y)(\widehat Y-Z)|\Gc}\big]} \\ &\overset{(7)}{=} \Ex{(\widehat Y-Z) \EE \big[ Y-\widehat Y|\Gc \big]} \\
+	&\overset{(1)}{=} \Ex{ (\widehat Y-Z) \Big( \Ex{Y|\Gc} - \EE [ \widehat Y|\Gc] \Big) } \\
+	&\overset{(7)}{=} \Ex{(\widehat Y-Z)(\widehat Y- \widehat Y \, \Ex{1|\Gc})} \\
+	&= \Ex{(\widehat Y-Z)(\widehat Y-\widehat Y)}
+  = 0
+  \end{align*}
+  Dunque:
+  $$\Ex{(Y-Z)^2} = \Ex{(Y-\widehat Y)^2} + \Ex{(\widehat Y-Z)^2}
+  \geq \Ex{(Y-\widehat Y)^2} \ \forall Z \in L^2(\Gc)$$
+  Inoltre l'uguaglianza vale se e solo se $Z = \widehat Y$. \qedhere
+\end{dimo}
+
+\subsection{Varianza condizionata}
+Se $Y \in L^2$, è noto che $Var(Y) \coloneqq \Ex{(Y-\Ex Y)^2} = \Ex{Y^2} - \EE^2[Y]$, e inoltre che $Var(Y|X=s) = \int_\RR (t-\Ex{Y|X=s})^2 P^{Y|X}(\de t|s) = q^2(s)$.
+\begin{defn}
+  \index{varianza!condizionata (VA)}
+  Data $Y \in L^2(\Ac)$ e $\Gc$ sotto-$\sigma$-algebra di $\Ac$, la \textbf{varianza condizionata di $Y$ data $\Gc$} è definita nel seguente modo:
+  $$Var(Y|\Gc) \coloneqq \EE \Big[ \big(Y-\Ex{Y|\Gc}\big)^2 | \Gc \Big]$$
+\end{defn}
+Essa ha le seguenti proprietà:
+\begin{enumerate}
+  \item $Var(Y|\Gc) \geq 0$ qc, grazie alla proprietà (2) dell'attesa condizionata.
+  \item $Var(Y|\Gc) = \Ex{Y^2|\Gc} - \left(\EE\left[ Y|\Gc \right]\right)^2 $. Infatti, definendo come prima $\widehat Y = \Ex{Y|\Gc}$, si ha:
+  \begin{align*}
+    Var(Y|\Gc) &= \Ex{(Y-\widehat Y)^2 | \Gc}\\
+    &= \Ex{Y^2|\Gc} - 2\Ex{Y\widehat Y|\Gc} + \Ex{\widehat Y^2 | \Gc}\\
+    &= \Ex{Y^2|\Gc} - 2\widehat Y^2 + \widehat Y^2 \\
+    &= \Ex{Y^2|\Gc}-\widehat Y^2
+  \end{align*}
+  \item Se $\Gc = \sigma(X)$, $Var(Y|\sigma(X)) = Var(Y|X) = q^2(X)$, grazie alla proprietà (13) dell'attesa condizionata.
+  \item È vera la seguente proposizione.
+\end{enumerate}
+
+\begin{prop}[formula di scomposizione della varianza]\label{scomp-var}
+  \index{scomposizione della varianza}
+  Sia $Y \in L^2(\Ac)$ e $\Gc \subseteq \Ac$ sotto-$\sigma$-algebra di $\Ac$. Allora:
+  $$Var(Y) = Var\big( \Ex{Y|\Gc} \big)+\EE \big[ Var(Y|\Gc) \big]$$
+\end{prop}
+Dalla formula discende immediatamente che $Var(Y) \geq Var \big( \Ex{Y|\Gc} \big)$: ottenendo nuove informazioni (rappresentate dalla $\sigma$-algebra condizionante $\Gc$) la varianza sui dati si riduce.
+\begin{dimo}
+  Come al solito si ponga $\widehat Y = \Ex{Y|\Gc}$. Allora:
+  \begin{align*}
+    Var(Y) &= \Ex{ (Y - \Ex Y + \widehat Y -\widehat Y)^2 } \\
+    &= \Ex{ (Y-\widehat Y)^2 } + 2\Ex{ (Y-\widehat Y)(\widehat Y - \Ex Y) } + \Ex{ (\widehat Y - \Ex Y)^2 }
+  \end{align*}
+  Il primo addendo, grazie alla proprietà (3) dell'attesa condizionata, è uguale a $\Ex{\EE[(Y-\widehat Y)^2| \Gc ]} \eqqcolon \Ex{Var(Y|\Gc)}$.
+  Il doppio prodotto è uguale a $0$, come visto nella dimostrazione precedente (prendendo $Z = \Ex Y$ che in quanto costante appartiene a $L^2$).
+  L'ultimo addendo è infine:
+	$$\Ex{ (\widehat Y - \EE [\widehat Y])^2 } = Var(\widehat Y) \eqqcolon Var(\Ex{Y|\Gc}) \qedhere$$
+\end{dimo}
+
+\medskip
+\begin{ese}
+  Riprendiamo il dado e le monete delle pagine precedenti. Date le VA $D \sim U({1,\dots,6})$ e $T|D=n \sim Bi\left(n, \frac 1 2\right)$, si può calcolare la varianza come:
+  \begin{align*}
+  Var(T) &= \EE \big[Var(T|D) \big] + Var \big( \Ex{T|D} \big) %\\[7pt]
+  \\%&
+  &= \Ex{\frac D 4} + Var\left(\frac D 2 \right) %\\[7pt]
+  %&
+  = \frac 1 4 \frac{(1+6)}{2} + \frac 1 4 \frac{(6^2-1^2)}{12} = \frac{71}{48}
+  \end{align*}
+\end{ese}
+
+\medskip
+\begin{ese}
+  Dato un vettore gaussiano $(X,Y) \sim \Nc$, la varianza risulta:
+  \begin{align*}
+  Var \big( \Ex{Y|X} \big) &+ \EE \big[ Var(Y|X) \big] =\\[7pt]
+  &= Var\left(\mu_Y + \rho \frac{\sigma_X}{\sigma_Y}(X-\mu_X)\right) + \Ex{ \sigma_Y^2(1-\rho^2) }\\[7pt]
+  &= \rho^2 \frac{\sigma_Y^2}{\sigma_X^2} \sigma_X^2 + \sigma_Y^2(1-\rho^2) = \sigma_Y^2
+  \end{align*}
+\end{ese}
+
+\cleardoublepage

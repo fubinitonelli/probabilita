@@ -1,0 +1,45 @@
+\section{Variabili aleatorie reali discrete}
+In questo capitolo svilupperemo la trattazione di un'importante famiglia di variabili aleatorie reali, quelle \emph{discrete}. Esse sono un'estensione delle variabili semplici, nel senso che la loro probabilità è concentrata su singoli punti, i quali, però, possono anche essere in quantità \emph{numerabile} (e quindi non finita).
+
+\smallskip
+\begin{teo}
+  \index{variabile aleatoria!reale discreta}
+  Dati $\Dom$ spazio di probabilità e $X:\Omega\to\RR$ variabile aleatoria reale, allora \textit{$X$ è una variabile aleatoria reale discreta} se e solo se:
+  \begin{itemize}
+    \item $P^{X}$ è una probabilità discreta, cioè al più concentrata su un insieme numerabile di punti; ovvero, esiste un insieme al più numerabile $\{x_{k}\}_{k}$ di numeri reali per cui esistono coefficienti $p_{k}$, con $p_{k}\geq0$ e $\sum_{k}p_{k} = 1$, tali che $P^{X}(B)=\sum_{X_{k}\in B}p_{k}$;
+    \item $F_{X}$ è costante a tratti, quindi troviamo in ogni $x_{k}$ un salto di valore pari a $p_{k}$;
+    \item $\PP(X\in \{x_{k}\}_{k})=P^{X}(\{x_{k}\})=\sum_{k}p_{k}=1$;
+    \item $\im(X)$ è l'insieme degli $x_{k}$ a meno degli insiemi di misura nulla;
+    \item $X\aceq\widetilde{X}$, dove $\im(\widetilde{X})=\{{x}_{k}\}_{k}$ e
+    $
+      \widetilde{X}(\omega)=
+      \begin{cases}
+      X(\omega)   &\text{se } X(\omega)\in \{{x}_{k}\}_{k}\\
+      x_{1}   & \text{altrimenti}
+      \end{cases}
+    $\\
+    $x_1$ può essere arbitrario in quanto non influisce sull'immagine.
+  \end{itemize}
+\end{teo}
+
+\medskip
+\begin{prop}[la regola del valore atteso colpisce ancora]
+  \index{valore atteso!per VAR discrete}
+  \index{regola del valore atteso}
+  Data $X$ VAR discreta con legge $P^{X} \leftrightarrow (\{{x}_{k}\}_{k},\{{p}_{k}\})$, allora $\forall h \geq 0$ e $\forall h\in L^{1}(P^{X})$ si ha che:
+  $$\int_{\Omega} h(X)\, \dPP=\int_{\RR}h\, \dPP^{X}= \sum_{k}h(x_{k})p_{k}$$
+\end{prop}
+Si lascia la dimostrazione per esercizio, suggerendo di usare convergenza monotona e dominata.
+
+\medskip
+\begin{oss}
+  Dalla regola del valore atteso si deducono le formule dell'attesa e della varianza per VAR discrete:
+  \begin{itemize}
+    \item $\mu = \EE[X]=\sum_{k}x_kp_k$ se $X \in L^1(\PP)$ oppure $X \geq 0$
+    \item $Var(X)=\sum_{k}(x_k-\mu)^2p_k$ se $X \in L^2(\PP)$
+  \end{itemize}
+  Si presti attenzione al fatto che per la varianza è richiesta l'appartenenza a $L^2$, non solo a $L^1$.
+\end{oss}
+
+% Parte AW
+\cleardoublepage
